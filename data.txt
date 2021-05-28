@@ -1,0 +1,204 @@
+Activite
+
+{ "activite": "Générateur des livrables BVH","id": null}
+{ "activite": "Générateur des livrables SILH","id": null}
+{ "activite": "Implantation SILH","id": null}
+{ "activite": "Implantation BVH","id": null}
+{ "activite": "Implantation SAPM","id": null}
+{ "activite": "Archi prestation","id": null}
+{ "activite": "Assistant technique d'homologation","id": null}
+{ "activite": "Pilote homologation","id": null}
+{ "activite": "Geo check activites","id": null}
+---------------------------------------------------------------------
+Area
+
+{ "areadesc": "Caisse Assemblee Peint","id": null}
+{ "areadesc": "GMP","id": null}
+{ "areadesc": "Zone Face AV et AR","id": null}
+{ "areadesc": "Zone Poste de Conduite","id": null}
+{ "areadesc": "Zone Interieure","id": null}
+{ "areadesc": "Base Roulante","id": null}
+{ "areadesc": "Liaison au Sol","id": null}
+{ "areadesc": "Integration Electronique","id": null}
+{ "areadesc": "Integration de Securite","id": null}
+{ "areadesc": "Base Véhicule","id": null}
+------------------------------------------------------------------------*
+
+Pole
+{ "pole": "DMA","id": null}
+
+
+---------------------------------------------------------------------------
+
+
+Type
+{ "type": "Culture technique automobile","id": null}
+{ "typedoc": "Retex & Capitalisation","id": null}
+{ "typedoc": "Manuels métier","id": null}
+{ "typedoc": "Essais et Plans de Validation","id": null}
+{ "typedoc": "Méthodologies","id": null}
+{ "typedoc": "Guide de connception","id": null}
+{ "typedoc": "Processus","id": null}
+{ "typedoc": "CDC","id": null}
+{ "typedoc": "Normes& Réglementations","id": null}
+{ "typedoc": "Tools","id": null}
+{ "typedoc": "Standards & RT","id": null}
+
+---------------------------------------------------------------------------
+
+Author
+{ "nom": "Yassine","id": null, "prenom":"Cheggar", "email":"cheggar13@gmail.com"}
+{ "nom": "Karim","id": null, "prenom":"Cheggar", "email":"kamich22@gmail.com"}
+{ "nom": "Nada","id": null, "prenom":"Lazrak", "email":"nadaL@gmail.com"}
+
+
+---------------------------------------------------------------------------
+
+Direction
+{ "directiondesc": "Voiture","id": null}
+
+---------------------------------------------------------------------------
+
+Delivrable
+
+{ "delivrable": "Remontage Numérique","id": null}
+{ "delivrable": "Robustesse","id": null}
+{ "delivrable": "Animation réunion RZ","id": null}
+{ "delivrable": "Animation réunion HH","id": null}
+{ "delivrable": "Analyse d'implantation ","id": null}
+{ "delivrable": "Création de volume de coffre","id": null}
+{ "delivrable": "Création de volume de coffre","id": null}
+{ "delivrable": "Création de volume de coffre","id": null}
+{ "delivrable": "Création de volume de coffre","id": null}
+{ "delivrable": "Analyse dedébattement","id": null}
+{ "delivrable": "Animation réunion MLG","id": null}
+{ "delivrable": "Préparation d'une scéne MLG","id": null}
+{ "delivrable": "Création des fichier pieces fixées","id": null}
+{ "delivrable": "Qualité MNU","id": null}
+{ "delivrable": "Fichier CCP BV","id": null}
+{ "delivrable": "plan d'homologation","id": null}
+{ "delivrable": "L02:SOLS","id": null}
+{ "delivrable": "L03:Limites bases conception","id": null}
+{ "delivrable": "L15:Roues positionnees","id": null}
+{ "delivrable": "L05:LC & VRD AV","id": null}
+{ "delivrable": "L06:LC & VRD AR","id": null}
+{ "delivrable": "L08:Envoloppes de Transmission","id": null}
+{ "delivrable": "L02:SOLS","id": null}
+
+---------------------------------------------------------------------------
+
+
+Perimetre:
+
+{"id": null,"perimetre": "SuperStructure","perimetreArea": {"id": 14,"areadesc": ""}}
+{"id": null,"perimetre": "Soubassement","perimetreArea": {"id": 14,"areadesc": ""}}
+{"id": null,"perimetre": "Peinture & Protection","perimetreArea": {"id": 14,"areadesc": ""}}
+{"id": null,"perimetre": "Tolerie Ouvrants","perimetreArea": {"id": 14,"areadesc": ""}}
+{"id": null,"perimetre": "Filte a Air","perimetreArea": {"id": 15,"areadesc": ""}}
+{"id": null,"perimetre": "Transmissions Mecanique","perimetreArea": {"id": 15,"areadesc": ""}}
+{"id": null,"perimetre": "Transmissions Automatique","perimetreArea": {"id": 15,"areadesc": ""}}
+{"id": null,"perimetre": "Moteur","perimetreArea": {"id": 15,"areadesc": ""}}
+
+{"id": null,"perimetre": "Accesiore Exterieurs","perimetreArea": {"id": 16,"areadesc": ""}}
+{"id": null,"perimetre": "Bouclier & Signalisation","perimetreArea": {"id": 16,"areadesc": ""}}
+{"id": null,"perimetre": "Essuyglace & lavage","perimetreArea": {"id": 16,"areadesc": ""}}
+
+
+
+---------------------------------------------------------------------------
+
+User
+
+{ "nom": "Yassine","id": null, "prenom":"Cheggar", "email":"cheggar13@gmail.com" ,"pwd": "&78544&","prev":"Admin"}
+{ "nom": "Zakaria","id": null, "prenom":"Essbai", "email":"zikaria@gmail.com" ,"pwd": "&78544&","prev":"user"}
+{ "nom": "karim","id": null, "prenom":"Quada", "email":"karim@gmail.com" ,"pwd": "&78544&","prev":"user"}
+{ "nom": "sara","id": null, "prenom":"Essbai", "email":"Sara@gmail.com" ,"pwd": "&78544&","prev":"user"}
+
+
+---------------------------------------------------------------------------
+Question
+
+
+{"id": null,"decsiption":"lola", "phase":"yyyy","problemType":"xxx","date":"2021-02-28","Status":"ok",
+"userQuest": { "id": 107},
+"delivrableQuest": {"id": 75},
+"activiteQuest": {"id": 3}
+}
+
+---------------------------------------------------------------------------
+
+FeedBack
+
+{"id": null,"feedback":"my feed", "phase":"yyyy","problemType":"xxx","date":"2021-02-28","validationDate":"2021-02-28",
+"userFeedback": { "id": 108},
+"delivrableFeed": {"id": 75},
+"activiteFeed": {"id": 3},
+ "questionFeed":{"id":115}
+}
+
+---------------------------------------------------------------------------
+
+BestPractice
+
+{"id": null,"description":"the best  practice", "phase":"yyyy","categorie":"xxx","date":"2021-02-28",
+"userBestPractice": { "id": 108},
+"delivrableBest": {"id": 75},
+"activiteBest": {"id": 3}
+}
+---------------------------------------------------------------------------
+
+Document
+
+{"id": null,"nom":"IOT2", "ref":"Om6064544","langue":"FR","pubDate":"2021-02-28","trainning":"NO","version":1,"status":"disponible","lien":"http//192.168.23.36","valideur":"Yassine Cheggar",
+"typeDocument": { "id": 36},
+"documentZon": {"id": 121},
+"documentPole": {"id": 24},
+"docummentauthor": {"id": 49},
+"documentdirection": {"id": 52},
+"documentPerimetre": {"id": 96},
+"documentArea": {"id": 14}
+}
+
+---------------------------------------------------------------------------
+
+Zone
+
+{ "zone": "Voiture","id": null}
+
+---------------------------------------------------------------------------
+
+Comment
+
+{"id": null,"comment":"the work is shit try to do  better nextime","dateComment":"2021-02-28",
+"userComment": { "id": 109},
+"documentComment": {"id":124}
+}
+
+---------------------------------------------------------------------------
+
+Comment
+
+{"id": null,"dateModification":"2021-02-28",
+"userMod": { "id": 109},
+"documentMod": {"id":124}
+}
+
+---------------------------------------------------------------------------
+
+Picture
+
+
+{"id": null,"description":"lola image","link":"https://www.figma.com/",
+
+"questionimage": {"id":115}
+
+}
+
+
+
+
+
+
+
+
+
