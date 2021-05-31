@@ -6,53 +6,26 @@ import Drawer from '@material-ui/core/Drawer';
 import Box from '@material-ui/core/Box';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
+
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
 import Dashboard from '../Dashboard/Dashboard'
-import { green } from '@material-ui/core/colors';
-
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import PeopleIcon from '@material-ui/icons/People';
-import BarChartIcon from '@material-ui/icons/BarChart';
-import LayersIcon from '@material-ui/icons/Layers';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import Collapse from '@material-ui/core/Collapse';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
-
-import SearchIcon from '@material-ui/icons/Search';
-import FeedbackIcon from '@material-ui/icons/Feedback';
-import NavigationIcon from '@material-ui/icons/Navigation';
-import InfoIcon from '@material-ui/icons/Info';
-import ContactSupportIcon from '@material-ui/icons/ContactSupport';
-import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
-import WbIncandescentIcon from '@material-ui/icons/WbIncandescent';
-import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import SignIn from '../account/SignIn'
-import CastForEducationIcon from '@material-ui/icons/CastForEducation';
-import UserMenu from './UserMenu';
+
+
 
 import {  BrowserRouter as Router, Route, Switch , useRouteMatch,NavLink,useParams } from 'react-router-dom';
 import AdminMenu from './AdminMenu';
 
-import IndexPage  from  '../IndexPage'
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -141,6 +114,10 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     height: '100vh',
+    background:
+    'linear-gradient(0deg, rgba(0,0,0,0.4), rgba(0,0,0,0.9)), url("images/home3.jpg");  ',
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "Center",
     overflow: 'auto',
   },
   container: {

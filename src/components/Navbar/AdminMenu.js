@@ -3,31 +3,15 @@ import React from 'react'
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { mainListItems, secondaryListItems } from './listItems';
 import List from '@material-ui/core/List';
-import DashboardIcon from '@material-ui/icons/Dashboard';
 import { makeStyles } from '@material-ui/core/styles';
-import SearchIcon from '@material-ui/icons/Search';
-import FeedbackIcon from '@material-ui/icons/Feedback';
-import NavigationIcon from '@material-ui/icons/Navigation';
-import InfoIcon from '@material-ui/icons/Info';
-import ContactSupportIcon from '@material-ui/icons/ContactSupport';
-import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
-import WbIncandescentIcon from '@material-ui/icons/WbIncandescent';
-import GroupWorkIcon from '@material-ui/icons/GroupWork';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import Collapse from '@material-ui/core/Collapse';
-import CastForEducationIcon from '@material-ui/icons/CastForEducation';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
-import { BrowserRouter, Route, Switch, useRouteMatch,useParams } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 
 
 
-const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
     nested: {
       paddingLeft: theme.spacing(4),
