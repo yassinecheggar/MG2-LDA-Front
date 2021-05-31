@@ -37,6 +37,22 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
 
+import SearchIcon from '@material-ui/icons/Search';
+import FeedbackIcon from '@material-ui/icons/Feedback';
+import NavigationIcon from '@material-ui/icons/Navigation';
+import InfoIcon from '@material-ui/icons/Info';
+import ContactSupportIcon from '@material-ui/icons/ContactSupport';
+import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
+import WbIncandescentIcon from '@material-ui/icons/WbIncandescent';
+import GroupWorkIcon from '@material-ui/icons/GroupWork';
+import SignIn from '../account/SignIn'
+import CastForEducationIcon from '@material-ui/icons/CastForEducation';
+import UserMenu from './UserMenu';
+
+import {  BrowserRouter as Router, Route, Switch , useRouteMatch,NavLink,useParams } from 'react-router-dom';
+import AdminMenu from './AdminMenu';
+
+import IndexPage  from  '../IndexPage'
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -147,13 +163,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Navbar() {
+
+
+  let match = useRouteMatch();
+
+
+  const {url , path} = useRouteMatch();
+
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
-  const [openl, setOpenl] = React.useState(true);
+  const [openl, setOpenl] = React.useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-  
+  /*neasted list  to  do  *------------------------------------------------------------------------ multi  neasted list */
   const handleDrawerClose = () => {
     setOpen(false);
   };
@@ -202,8 +226,12 @@ export default function Navbar() {
           </IconButton>
         </div>
         <Divider />
+
+           <AdminMenu url={url}/>
+
+        {/* 
         <List  component="nav" >
-    <ListItem button  onClick={handleClick}>
+    <ListItem button  >
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
@@ -211,51 +239,97 @@ export default function Navbar() {
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <ShoppingCartIcon />
+        <SearchIcon />
       </ListItemIcon>
-      <ListItemText primary="Orders" />
+      <ListItemText primary="Search" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <PeopleIcon />
+        <NavigationIcon />
       </ListItemIcon>
-      <ListItemText primary="Customers" />
+      <ListItemText primary="Navigation" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <BarChartIcon />
+        <CastForEducationIcon />
       </ListItemIcon>
-      <ListItemText primary="Reports" />
+      <ListItemText primary="Training" />
     </ListItem>
-    <ListItem button>
+    <ListItem button onClick={handleClick}>
       <ListItemIcon>
-        <LayersIcon />
+        <GroupWorkIcon />
       </ListItemIcon>
-      <ListItemText primary="Integrations" onClick={handleClick}/>
+      <ListItemText primary="Feedback" />
       {openl ? <ExpandLess /> : <ExpandMore />}
     </ListItem>
+
+
 
     <Collapse in={openl} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <ListItem button className={classes.nested}>
             <ListItemIcon>
-              <StarBorder />
+              <ContactSupportIcon />
             </ListItemIcon>
-            <ListItemText primary="Test" />
+            <ListItemText primary="Question" />
           </ListItem>
+
+
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <QuestionAnswerIcon />
+            </ListItemIcon>
+            <ListItemText primary="FeedBack" />
+          </ListItem>
+
+
+
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <WbIncandescentIcon />
+            </ListItemIcon>
+            <ListItemText primary="Best Practice" />
+          </ListItem>
+
         </List>
       </Collapse>
 
-      
- 
-
-     
-
-        </List>
+    </List>
         <Divider />
-        <List>{secondaryListItems}</List>
+        <List>{secondaryListItems}</List>*/}
+
+  
       </Drawer>
-      <Dashboard/>
+
+
+
+      <main className={classes.content}>
+      <div className={classes.appBarSpacer} />
+      <Container maxWidth="lg" className={classes.container}>
+        <Grid container spacing={3}>
+
+          
+        <Switch>
+        <Route path={`${path}/Dashboard`}>
+          <Dashboard />
+        </Route>
+        <Route path={`${path}/SignIn`}>
+          <SignIn />
+        </Route>
+        
+        
+      </Switch>
+
+        </Grid>
+        <Box pt={4}>
+          <Copyright />
+        </Box>
+      </Container>
+    </main>
+     
+   
+    
     </div>
   );
 }
+

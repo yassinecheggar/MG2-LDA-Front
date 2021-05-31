@@ -19,7 +19,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import { mainListItems, secondaryListItems } from "./listItems";
-
+import { BrowserRouter, Route, Switch, useRouteMatch,useParams } from 'react-router-dom';
 import Deposits from "./Deposits";
 import Orders from "./Orders";
 import { lightBlue } from "@material-ui/core/colors";
@@ -123,6 +123,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Dashboard() {
+
+  let { topicId } = useParams();
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {

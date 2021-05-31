@@ -3,22 +3,22 @@ import './App.css';
 import SignIn from './components/account/SignIn'
 import Dashboard from './components/Dashboard/Dashboard'
 
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import {  BrowserRouter as Router, Route, Switch  } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
     <>
    
-    <Switch>
+    
     <Route path="/" component={SignIn} exact/>
-    <Route path="/Home" component={Navbar} exact/>
-    </Switch>
+    <Route path="/Home" component={Navbar} />
+    
     
     </>
 
-    </BrowserRouter>
+    </Router>
   );
 }
 
