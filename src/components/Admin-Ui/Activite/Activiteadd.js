@@ -1,17 +1,19 @@
-import React from 'react'
+import React  ,{ useState } from 'react'
 
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
-
+import Alert from '@material-ui/lab/Alert';
 import { Form, Field } from 'react-final-form';
 import { TextField, Checkbox, Radio, Select } from 'final-form-material-ui';
-import Hidden from '@material-ui/core/Hidden';
+
+import axios from 'axios';
 
 import {
     Paper,
     Grid,
     Button,
     CssBaseline,
+    Hidden,
   } from '@material-ui/core';
 
 import DateFnsUtils from '@date-io/date-fns';
@@ -22,7 +24,12 @@ import {
 } from '@material-ui/pickers';
 
 const useStyles = makeStyles((theme) => ({
-
+    root: {
+        width: '100%',
+        '& > * + *': {
+          marginTop: theme.spacing(2),
+        },
+      },
     paper: {
       backgroundColor: theme.palette.background.paper,
       boxShadow: theme.shadows[5],
@@ -34,12 +41,17 @@ const useStyles = makeStyles((theme) => ({
   
 
  
-  const onSubmit = async values => {
+  const onSubmit =  async values   => {
+     
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
     await sleep(300);
-    values.id = "null";
+    values.id = 0;
+    //axios.post(`http://localhost:8080/Activite/Add`, values)
     window.alert(JSON.stringify(values, 0, 2));
+   
   };
+
+  
 
 
   const validate = values => {
@@ -50,13 +62,39 @@ const useStyles = makeStyles((theme) => ({
     }
     return errors;
   };
-function Activiteadd() {
+
+  
+
+function Activiteadd(props) {
     const classes = useStyles();
+    const [myState, setMyState] = useState(props);
+
+    const [success, setsuccess] = useState(false);
+    const [error, seterror] = useState(false);
+
+    function Notfication() {
+        if(success)
+            return (<Alert severity="success" >Ajouté avec success</Alert>);
+
+        if(error)
+         return ( <Alert severity="error">Erreur</Alert>);
+    
+            }
+
+            function clearState() {
+                setMyState.activite("")
+              
+            }
     return (
         
         <div style={{ padding: 16, margin: 'auto', maxWidth: 600 }}>
         <CssBaseline />
         
+        
+        {Notfication()}
+     
+       
+     
         <Form
           onSubmit={onSubmit}
           
@@ -74,7 +112,9 @@ function Activiteadd() {
                       component={TextField}
                       type="text"
                       label="Activite"
+                      value={myState.activite}
                     />
+                  
                   </Grid>
                 
                 
@@ -82,7 +122,7 @@ function Activiteadd() {
                     <Button
                       type="button"
                       variant="contained"
-                      onClick={reset}
+                      onClick = {values.activite=""}
                       disabled={submitting || pristine}
                     >
                       Reset
@@ -93,6 +133,7 @@ function Activiteadd() {
                       variant="contained"
                       color="primary"
                       type="submit"
+            
                       disabled={submitting}
                     >
                       Submit
