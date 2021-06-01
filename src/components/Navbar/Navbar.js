@@ -20,11 +20,9 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import Dashboard from '../Dashboard/Dashboard'
 import SignIn from '../account/SignIn'
 
-
-
 import {  BrowserRouter as Router, Route, Switch , useRouteMatch,NavLink,useParams } from 'react-router-dom';
 import AdminMenu from './AdminMenu';
-
+import  CompActivite from  '../Admin-Ui/Activite/CompActivite'
 
 function Copyright() {
   return (
@@ -286,13 +284,15 @@ export default function Navbar() {
         <Grid container spacing={3}>
 
           
-        <Switch>
+        <Switch> 
+          
+          <Route path={`${path}/CompActivite`}>
+        <CompActivite />
+        </Route>
         <Route path={`${path}/Dashboard`}>
           <Dashboard />
         </Route>
-        <Route path={`${path}/SignIn`}>
-          <SignIn />
-        </Route>
+       
         
         
       </Switch>

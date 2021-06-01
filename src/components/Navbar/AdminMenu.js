@@ -33,7 +33,7 @@ function AdminMenu(props) {
             <List  component="nav" >
             <ListSubheader inset>Admin Menu</ListSubheader>
 
-<ListItem button component={NavLink} to={`${props.url}/SignIn`}>
+<ListItem button component={NavLink} to={`${props.url}/CompActivite`}>
   <ListItemIcon>
     <AssignmentIcon />
   </ListItemIcon>
