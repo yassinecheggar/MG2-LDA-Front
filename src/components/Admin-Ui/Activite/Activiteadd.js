@@ -22,6 +22,7 @@ import {
   TimePicker,
   DatePicker,
 } from '@material-ui/pickers';
+import { set } from 'date-fns';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -41,16 +42,14 @@ const useStyles = makeStyles((theme) => ({
   
 
  
-  const onSubmit =  async values   => {
-     
-    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-    await sleep(300);
-    values.id = 0;
-    //axios.post(`http://localhost:8080/Activite/Add`, values)
-    window.alert(JSON.stringify(values, 0, 2));
-   
-  };
 
+  var Status = false ;
+
+  function ResetValues(Values) {
+        Values.activite=""
+      Status= true;
+  }
+  
   
 
 
@@ -67,41 +66,53 @@ const useStyles = makeStyles((theme) => ({
 
 function Activiteadd(props) {
     const classes = useStyles();
-    const [myState, setMyState] = useState(props);
-
-    const [success, setsuccess] = useState(false);
-    const [error, seterror] = useState(false);
-
-    function Notfication() {
-        if(success)
-            return (<Alert severity="success" >Ajouté avec success</Alert>);
-
-        if(error)
-         return ( <Alert severity="error">Erreur</Alert>);
     
-            }
+   
+    const [success, setsuccess] = useState(Status);
+    const [error, seterror] = useState(Status);
 
-            function clearState() {
-                setMyState.activite("")
-              
-            }
+    
+  const onSubmit =  async values   => {
+     
+    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+    await sleep(300);
+    values.id = 0;
+    var x =  axios.post(`http://localhost:8080/Activite/Add`, values);
+     if(x== 200){
+       ResetValues(values);
+       setsuccess(false);
+     }
+     else seterror(true);
+      
+     
+     
+    //  console.log((await x).status)
+
+  };
+
+           function Onseccess() {
+            setTimeout(function() {setsuccess(false) }, 3000);
+             return (<Alert severity="success" >Ajouté avec success</Alert>);  
+          }
+
+          function OnError() {
+            setTimeout(function() {seterror(false) }, 3000);
+             return (<Alert severity="error" >Erreur</Alert>);  
+          }
+            
     return (
         
         <div style={{ padding: 16, margin: 'auto', maxWidth: 600 }}>
         <CssBaseline />
-        
-        
-        {Notfication()}
-     
-       
-     
+         
         <Form
           onSubmit={onSubmit}
-          
           validate={validate}
           render={({ handleSubmit, reset, submitting, pristine, values }) => (
             <form onSubmit={handleSubmit} noValidate>
               <Paper style={{ padding: 16 }}> 
+              { success ? <Onseccess /> : null }
+          { error ? <OnError /> : null }
                 <Grid container alignItems="flex-start" spacing={2}>
                 
                   <Grid item xs={12}>
@@ -112,7 +123,7 @@ function Activiteadd(props) {
                       component={TextField}
                       type="text"
                       label="Activite"
-                      value={myState.activite}
+                   
                     />
                   
                   </Grid>
@@ -122,7 +133,7 @@ function Activiteadd(props) {
                     <Button
                       type="button"
                       variant="contained"
-                      onClick = {values.activite=""}
+                      onClick = {reset}
                       disabled={submitting || pristine}
                     >
                       Reset
@@ -134,7 +145,7 @@ function Activiteadd(props) {
                       color="primary"
                       type="submit"
             
-                      disabled={submitting}
+                      disabled={submitting || pristine}
                     >
                       Submit
                     </Button>
