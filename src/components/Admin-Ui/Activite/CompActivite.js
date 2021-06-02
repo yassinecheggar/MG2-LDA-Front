@@ -16,6 +16,15 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import Activiteadd from './Activiteadd';
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';  
+import Slide from '@material-ui/core/Slide';
+
+
 const useStyles = makeStyles((theme) => ({
     root: {
       display: "flex",
@@ -68,17 +77,11 @@ const useStyles = makeStyles((theme) => ({
        flex:0.2,
       renderCell: () => (
         <>
-        <IconButton style={{ color: '#e81e32'}}
-          
-         
-          
-        >
-         <DeleteIcon/>
+        <IconButton style={{ color: '#e81e32'}} onClick={function(){Delete()}}>
+         <DeleteIcon />
         </IconButton>
-        <IconButton  style={{ color: '#0091ff'}}
-         
-        >
-         <EditIcon/>
+        <IconButton  style={{ color: '#0091ff'}}onClick={function(){Edit()}} >
+         <EditIcon />
         </IconButton>
       </>
       )
@@ -108,20 +111,25 @@ const useStyles = makeStyles((theme) => ({
     }
   }
   
+  const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
+
   generateRows();
-  
-  function btnMouseOver(event) {
-    event.target.style.opacity = 0.2;
+  var IDselected = null;
+
+  function Edit() {
+    console.log("Edit", IDselected)
   }
   
-  function btnMouseOut(event) {
-    event.target.style.opacity = 1.0;
+  function Delete() {
+    console.log("delete", IDselected)
   }
 
 function CompActivite() {
     const [open, setOpen] = React.useState(false);
     const classes = useStyles();
-    const [selection, setSelection] = useState([]);
+    const [selectionModel, setSelectionModel] = useState([]);
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     const handleOpen = () => {
         setOpen(true);
@@ -130,6 +138,16 @@ function CompActivite() {
       const handleClose = () => {
         setOpen(false);
       };
+
+     const [openDialog, setOpenDialog] = React.useState(false);
+
+  const handleClickOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
     
     return (
         <>
@@ -144,12 +162,24 @@ function CompActivite() {
         rows={rows}
         columns={columns}
         pageSize={10}
-        checkboxSelection
-        onSelectionChange={(newSelection) => {
-          setSelection(newSelection.rows);
-        }}
+
+        onSelectionModelChange={(newSelection) => {
+          setSelectionModel(newSelection.selectionModel);
+      }}
+      onRowSelected={(e) => {IDselected = e.data.fname }}
+      
+      onSelectionModelChange ={(e) => {
+        const selectedIDs = new Set(e.selectionModel);
+        const selectedRowData = rows.filter((row) =>
+          selectedIDs.has(row.id)
+        );
+        //console.log("selected rowData:", selectedRowData.id);
+      }}
+    
       />
               </Paper>
+
+             
             </Grid>
 
 
@@ -171,13 +201,37 @@ function CompActivite() {
         </Fade>
       </Modal>
 
-            
-            
 
+      <Dialog
+    open={openDialog}
+    TransitionComponent={Transition}
+    keepMounted
+    onClose={handleCloseDialog}
+    aria-labelledby="alert-dialog-slide-title"
+    aria-describedby="alert-dialog-slide-description"
+  >
+    <DialogTitle id="alert-dialog-slide-title">{"Use Google's location service?"}</DialogTitle>
+    <DialogContent>
+      <DialogContentText id="alert-dialog-slide-description">
+        Let Google help apps determine location. This means sending anonymous location data to
+        Google, even when no apps are running.
+      </DialogContentText>
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={handleCloseDialog} color="primary">
+        Disagree
+      </Button>
+      <Button onClick={handleCloseDialog} color="primary">
+        Agree
+      </Button>
+    </DialogActions>
+  </Dialog>
 
         </>
     )
 }
+
+
 
 export default CompActivite
 
