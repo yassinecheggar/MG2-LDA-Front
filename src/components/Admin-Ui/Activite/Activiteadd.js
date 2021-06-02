@@ -66,45 +66,35 @@ const useStyles = makeStyles((theme) => ({
 
 function Activiteadd(props) {
     const classes = useStyles();
-    
-   
     const [success, setsuccess] = useState(Status);
     const [error, seterror] = useState(Status);
-
     
-  const onSubmit =  async values   => {
-     
+    const onSubmit =  async values   => {
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-    await sleep(300);
-    values.id = 0;
-    var x =  axios.post(`http://localhost:8080/Activite/Add`, values);
-     if(x== 200){
-       ResetValues(values);
-       setsuccess(false);
-     }
-     else seterror(true);
-      
-     
-     
+      await sleep(300);
+      values.id = 0;
+      var x =  axios.post(`http://localhost:8080/Activite/Add`, values);
+        if(x== 200){
+          ResetValues(values);
+          setsuccess(false);
+        }
+        else seterror(true);
     //  console.log((await x).status)
-
   };
 
-           function Onseccess() {
-            setTimeout(function() {setsuccess(false) }, 3000);
-             return (<Alert severity="success" >Ajouté avec success</Alert>);  
-          }
+    function Onseccess() {
+      setTimeout(function() {setsuccess(false) }, 3000);
+      return (<Alert severity="success" >Ajouté avec success</Alert>);  
+    }
 
-          function OnError() {
-            setTimeout(function() {seterror(false) }, 3000);
-             return (<Alert severity="error" >Erreur</Alert>);  
-          }
+    function OnError() {
+      setTimeout(function() {seterror(false) }, 3000);
+      return (<Alert severity="error" >Erreur</Alert>);  
+    }
             
     return (
-        
         <div style={{ padding: 16, margin: 'auto', maxWidth: 600 }}>
         <CssBaseline />
-         
         <Form
           onSubmit={onSubmit}
           validate={validate}
@@ -123,12 +113,9 @@ function Activiteadd(props) {
                       component={TextField}
                       type="text"
                       label="Activite"
-                   
                     />
-                  
                   </Grid>
-                
-                
+                    
                   <Grid item style={{ marginTop: 16 }}>
                     <Button
                       type="button"
@@ -139,26 +126,27 @@ function Activiteadd(props) {
                       Reset
                     </Button>
                   </Grid>
+
                   <Grid item style={{ marginTop: 16 }}>
                     <Button
                       variant="contained"
                       color="primary"
                       type="submit"
-            
                       disabled={submitting || pristine}
                     >
                       Submit
                     </Button>
                   </Grid>
+
                 </Grid>
               </Paper>
-             {/* <pre>{JSON.stringify(values, 0, 2)}</pre> */} 
+
             </form>
           )}
         />
       </div>
         
     )
-}
+  }
 
 export default Activiteadd
