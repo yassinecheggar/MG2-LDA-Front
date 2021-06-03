@@ -74,12 +74,26 @@ const useStyles = makeStyles((theme) => ({
       const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
         await sleep(300);
         values.id = 0;
+
+        if(appStore.edit==false){
         var x =  axios.post(`http://localhost:8080/Activite/Add`, values);
           if(x== 200){
             ResetValues(values);
-            setsuccess(false);
+            setsuccess(true);
           }
           else seterror(true);
+        }
+        if(appStore.edit==true){
+        
+          var y =  axios.put(`http://localhost:8080/Activite/Update/`+appStore.data[0].id, values);
+          if(y== 200){
+           
+            ResetValues(values);
+            setsuccess(true);
+            appStore.edit=false;
+          }
+          else seterror(true);
+        }
       //  console.log((await x).status)
     };
   
@@ -113,7 +127,7 @@ const useStyles = makeStyles((theme) => ({
                       component={TextField}
                       type="text"
                       label="Activite"
-                      initialValue={appStore.data[0].id}
+                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].activite : ""}
                     />
                   </Grid>
                     

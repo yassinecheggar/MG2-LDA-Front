@@ -24,11 +24,12 @@ const appActions = {
   },
   handleClose: () => {
     appStore.open = false;
+    appStore.data=[] ;
   },
 
   handleCloseDialog: () => {
     appStore.dialog = false;
-  },
+     },
 
   handlOpenDialog: () => {
     appStore.dialog = true;

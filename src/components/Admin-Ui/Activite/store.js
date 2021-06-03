@@ -9,6 +9,9 @@ const appStore = store({
   data: [],
   success:false,
   error: false,
+  GridData:[],
+  rows: [],
+  edit: false
 
 });
 

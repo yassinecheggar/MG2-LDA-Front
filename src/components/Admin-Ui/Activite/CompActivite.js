@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,Component  } from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import clsx from "clsx";
@@ -27,6 +27,7 @@ import appStore from "./store";
 import appActions from "./Action";
 import { store, view } from "@risingstack/react-easy-state";
 import axios from 'axios';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -69,11 +70,8 @@ const useStyles = makeStyles((theme) => ({
 
 const columns = [
   { field: "id", headerName: "Id", flex: 0.1 },
-  { field: "fname", headerName: "Nome", flex: 0.2 },
-  { field: "lname", headerName: "Cognome", flex: 0.2 },
-  { field: "address", headerName: "Indirizzo", flex: 0.2 },
-  { field: "email", headerName: "Email", flex: 0.2 },
-  { field: "phone", headerName: "Telefono", flex: 0.1 },
+  { field: "activite", headerName: "Nome", flex: 0.2 },
+  { field: "link", headerName: "Lien Image", flex: 0.2 },
   {
     field: "color",
     headerName: "X",
@@ -101,38 +99,42 @@ const columns = [
   },
 ];
 
-const rows = [];
-
-function generateRows() {
-  for (var i = 0; i < 20; i++) {
-    var fName = faker.name.firstName();
-    var lName = faker.name.lastName();
-    var address = faker.address.city();
-    var email = faker.internet.exampleEmail();
-    var phone = faker.phone.phoneNumber();
-    //var color = faker.commerce.color();
-
-    rows.push({
-      id: i,
-      fname: fName,
-      lname: lName,
-      address: address,
-      email: email,
-      phone: phone,
-      //color: ""
-    });
-  }
+//var rows = [];
+async function  getdata(){
+   const lola = await axios.get('http://localhost:8080/Activite/GetAll');
+   appStore.GridData = lola.data;
+   console.log(appStore.GridData)
+   
 }
+
+/*function generateRows(data) {
+  
+    data.forEach(element => {
+      var idP  = element.id
+      var nameP  = element.activite
+ 
+      rows.push({
+       id: idP,
+       activite: nameP
+       //color: ""
+     });
+    });
+  
+}
+  
+  */
+  
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-generateRows();
+//generateRows(appStore.DataGrid);
 var IDselected = null;
 
 function Edit() {
   console.log("Edit", IDselected);
+  appStore.edit=true;
   appStore.open=true;
 
 }
@@ -142,7 +144,7 @@ function Delete() {
   appStore.dialog=true;
 }
 
-const App = view(() => {
+const App = view(()  => {
   
   const classes = useStyles();
   const [selectionModel, setSelectionModel] = useState([]);
@@ -186,7 +188,7 @@ const App = view(() => {
             </IconButton>
           </div>
           <DataGrid
-            rows={rows}
+            rows={appStore.rows}
             columns={columns}
             pageSize={10}
             onSelectionModelChange={(newSelection) => {
@@ -197,7 +199,7 @@ const App = view(() => {
             }}
             onSelectionModelChange={(e) => {
               const selectedIDs = new Set(e.selectionModel);
-              const selectedRowData = rows.filter((row) =>
+              const selectedRowData = appStore.rows.filter((row) =>
                 selectedIDs.has(row.id)
               );
 
@@ -250,12 +252,45 @@ const App = view(() => {
           </Button>
         </DialogActions>
       </Dialog>
+      <MyView/>
     </>
   );
 });
 
 function CompActivite() {
   return <App />;
+}
+
+
+class MyView extends Component {
+  componentWillUnmount() {
+    
+  }
+
+  componentDidMount(){
+     axios.get('http://localhost:8080/Activite/GetAll').then(response  =>{
+
+          if(response.data){
+              
+              appStore.rows = response.data;
+            
+          }
+     });
+     
+  }
+
+
+  saveState() {
+    alert("exiting")
+  }
+  render() {
+
+    return (
+        <>
+          
+        </>
+    )
+}
 }
 
 export default CompActivite;
