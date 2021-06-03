@@ -5,6 +5,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Alert from '@material-ui/lab/Alert';
 import { Form, Field } from 'react-final-form';
 import { TextField, Checkbox, Radio, Select } from 'final-form-material-ui';
+import appStore from "./store";
+import appActions from "./Action";
+import { store, view } from "@risingstack/react-easy-state";
 
 import axios from 'axios';
 
@@ -62,37 +65,34 @@ const useStyles = makeStyles((theme) => ({
     return errors;
   };
 
-  
-
-function Activiteadd(props) {
+  const App = view(() => {
     const classes = useStyles();
     const [success, setsuccess] = useState(Status);
     const [error, seterror] = useState(Status);
-    
+  
     const onSubmit =  async values   => {
-    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-      await sleep(300);
-      values.id = 0;
-      var x =  axios.post(`http://localhost:8080/Activite/Add`, values);
-        if(x== 200){
-          ResetValues(values);
-          setsuccess(false);
-        }
-        else seterror(true);
-    //  console.log((await x).status)
-  };
-
-    function Onseccess() {
-      setTimeout(function() {setsuccess(false) }, 3000);
-      return (<Alert severity="success" >Ajouté avec success</Alert>);  
-    }
-
-    function OnError() {
-      setTimeout(function() {seterror(false) }, 3000);
-      return (<Alert severity="error" >Erreur</Alert>);  
-    }
-            
-    return (
+      const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+        await sleep(300);
+        values.id = 0;
+        var x =  axios.post(`http://localhost:8080/Activite/Add`, values);
+          if(x== 200){
+            ResetValues(values);
+            setsuccess(false);
+          }
+          else seterror(true);
+      //  console.log((await x).status)
+    };
+  
+      function Onseccess() {
+        setTimeout(function() {setsuccess(false) }, 3000);
+        return (<Alert severity="success" >Ajouté avec success</Alert>);  
+      }
+  
+      function OnError() {
+        setTimeout(function() {seterror(false) }, 3000);
+        return (<Alert severity="error" >Erreur</Alert>);  
+      }
+      return (
         <div style={{ padding: 16, margin: 'auto', maxWidth: 600 }}>
         <CssBaseline />
         <Form
@@ -113,6 +113,7 @@ function Activiteadd(props) {
                       component={TextField}
                       type="text"
                       label="Activite"
+                      initialValue={appStore.data[0].id}
                     />
                   </Grid>
                     
@@ -146,7 +147,17 @@ function Activiteadd(props) {
         />
       </div>
         
-    )
+        );
+      });
+
+function Activiteadd(props) {
+    
+    
+   
+       return(
+         <App/>
+       );     
+   
   }
 
 export default Activiteadd
