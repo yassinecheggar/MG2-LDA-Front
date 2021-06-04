@@ -1,7 +1,7 @@
 import appStore from "./store";
 
 const appActions = {
-
+  
   handleOpen: () => {
     appStore.data=[]
     appStore.open = true;

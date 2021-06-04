@@ -13,7 +13,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
-import AreaAdd from "./AreaAdd";
+import DirectionAdd from "./DirectionAdd";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
 
 const columns = [
   { field: "id", headerName: "Id", flex: 0.1 },
-  { field: "areadesc", headerName: "Area", flex: 0.8 },
+  { field: "directiondesc", headerName: "Nome", flex: 0.8 },
  
   {
     field: "color",
@@ -118,7 +118,7 @@ function Delete() {
 
 async  function DeleteRequest(){
 
-  var status =  ( await axios.delete(AppConfig.API+`Area/Delete/`+appStore.data[0].id) ).status;
+  var status =  ( await axios.delete(AppConfig.API+`Direction/Delete/`+appStore.data[0].id) ).status;
   console.log("delete Status" , status);
   appStore.dialog= false;
 
@@ -127,7 +127,7 @@ async  function DeleteRequest(){
 }
 
 function GetData() {
-  axios.get( AppConfig.API +'Area/GetAll').then(response  =>{
+  axios.get( AppConfig.API +'Direction/GetAll').then(response  =>{
 
     if(response.data){     
         appStore.rows = response.data;   
@@ -151,8 +151,7 @@ const App = view(()  => {
             variant="h3"
             className={classes.TitleMargine}
           >
-          
-            Area
+           Direction
           </Typography>
        
       </Grid>
@@ -169,7 +168,7 @@ const App = view(()  => {
           >
             {" "}
             <IconButton
-              aria-label="add Area"
+              aria-label="add Direction"
               style={{ color: "#039632" }}
               onClick={appActions.handleOpen}
             >
@@ -213,7 +212,7 @@ const App = view(()  => {
         }}
       >
         <Fade in={appStore.open}>
-          <AreaAdd />
+          <DirectionAdd />
         </Fade>
       </Modal>
 
@@ -247,7 +246,7 @@ const App = view(()  => {
   );
 });
 
-function Area() {
+function Direction() {
   return <App />;
 }
 
@@ -274,4 +273,4 @@ class MyView extends Component {
 }
 }
 
-export default Area;
+export default Direction;

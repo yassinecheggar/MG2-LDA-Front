@@ -1,10 +1,28 @@
 import appStore from "./store";
 
 const appActions = {
+  incrementCount: () => {
+    appStore.count++;
+  },
 
+  decrementCount: () => {
+    appStore.count--;
+  },
+
+  toggleWord: () => {
+    const { word } = appStore;
+
+    appStore.word = word === "irasshaimase" ? "youkoso" : "irasshaimasu";
+  },
+
+  changeTestWord: () => {
+    console.log("change test word");
+    appStore.testWord = "irasshaimase";
+  },
   handleOpen: () => {
     appStore.data=[]
     appStore.open = true;
+    
   },
   handleClose: () => {
     appStore.open = false;

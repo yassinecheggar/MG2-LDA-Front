@@ -17,8 +17,10 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import Dashboard from '../Dashboard/Dashboard'
-import SignIn from '../account/SignIn'
+import Dashboard from '../Dashboard/Dashboard';
+import Delivrable from '../Admin-Ui/Delivrable/Delivrable';
+import Area from '../Admin-Ui/Area/Area';
+import Direction  from '../Admin-Ui/Direction/Direction';
 
 import {  BrowserRouter as Router, Route, Switch , useRouteMatch,NavLink,useParams } from 'react-router-dom';
 import AdminMenu from './AdminMenu';
@@ -292,6 +294,18 @@ export default function Navbar() {
         <Route path={`${path}/Dashboard`}>
           <Dashboard />
         </Route>
+        <Route path={`${path}/Delivrable`}>
+          <Delivrable />
+        </Route>
+
+        <Route path={`${path}/Area`}>
+          <Area />
+        </Route>
+
+        <Route path={`${path}/Direction`}>
+          <Direction />
+        </Route>
+       
        
         
         

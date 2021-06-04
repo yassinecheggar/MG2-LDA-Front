@@ -40,7 +40,7 @@ function AdminMenu(props) {
   <ListItemText primary="Activité" />
 </ListItem>
 
-<ListItem button component={NavLink} to={`${props.url}/Dashboard`}>
+<ListItem button component={NavLink} to={`${props.url}/Area`}>
 
   <ListItemIcon>
     <AssignmentIcon />
@@ -73,11 +73,18 @@ function AdminMenu(props) {
 
 
 
-<ListItem button>
+<ListItem button component={NavLink} to={`${props.url}/Delivrable`}>
   <ListItemIcon>
     <AssignmentIcon />
   </ListItemIcon>
   <ListItemText primary="Delivrable" />
+</ListItem>
+
+<ListItem button component={NavLink} to={`${props.url}/Direction`}>
+  <ListItemIcon>
+    <AssignmentIcon />
+  </ListItemIcon>
+  <ListItemText primary="Direction" />
 </ListItem>
 
 
@@ -161,12 +168,6 @@ function AdminMenu(props) {
 
 
 
-<ListItem button>
-  <ListItemIcon>
-    <AssignmentIcon />
-  </ListItemIcon>
-  <ListItemText primary="Zone" />
-</ListItem>
 
 
       

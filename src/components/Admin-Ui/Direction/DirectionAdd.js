@@ -31,22 +31,22 @@ const useStyles = makeStyles((theme) => ({
   var Status = false ;
 
   function ResetValues(Values) {
-        Values.activite=""
+        Values.directiondesc=""
       Status= true;
   }
   
   const validate = values => {
     const errors = {};
     
-    if (!values.activite) {
-      errors.activite = 'Required';
+    if (!values.directiondesc) {
+      errors.directiondesc = 'Required';
     }
     return errors;
   };
 
 
   function GetData() {
-    axios.get( AppConfig.API +'Activite/GetAll').then(response  =>{
+    axios.get( AppConfig.API +'Direction/GetAll').then(response  =>{
   
       if(response.data){     
           appStore.rows = response.data;   
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 
         if(!appStore.edit){
 
-        var x =  (await axios.post(AppConfig.API+`Activite/Add`, values)).status;
+        var x =  (await axios.post(AppConfig.API+`Direction/Add`, values)).status;
         
           if(x == 200){
             ResetValues(values);
@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
         }
         if(appStore.edit){
         
-          var y =  (await axios.put(AppConfig.API+`Activite/Update/`+appStore.data[0].id, values)).status;
+          var y =  (await axios.put(AppConfig.API+`Direction/Update/`+appStore.data[0].id, values)).status;
           if(y == 200){
             
             ResetValues(values);
@@ -115,13 +115,13 @@ const useStyles = makeStyles((theme) => ({
                 
                   <Grid item xs={12}>
                     <Field
-                      name="activite"
+                      name="directiondesc"
                       fullWidth
                       required
                       component={TextField}
                       type="text"
-                      label="Activite"
-                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].activite : ""}
+                      label="Direction"
+                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].directiondesc : ""}
                     />
                   </Grid>
                     
@@ -160,7 +160,7 @@ const useStyles = makeStyles((theme) => ({
 
       
 
-function Activiteadd() {
+function DirectionAdd() {
     
     
    
@@ -170,4 +170,4 @@ function Activiteadd() {
    
   }
 
-export default Activiteadd
+export default DirectionAdd
