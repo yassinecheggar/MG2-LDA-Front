@@ -1,5 +1,4 @@
 import React  ,{ useState } from 'react'
-
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Alert from '@material-ui/lab/Alert';
@@ -8,24 +7,11 @@ import { TextField, Checkbox, Radio, Select } from 'final-form-material-ui';
 import appStore from "./store";
 import appActions from "./Action";
 import { store, view } from "@risingstack/react-easy-state";
-
+import AppConfig from '../../Global';
 import axios from 'axios';
+import { Paper,Grid,Button, CssBaseline,} from '@material-ui/core';
 
-import {
-    Paper,
-    Grid,
-    Button,
-    CssBaseline,
-    Hidden,
-  } from '@material-ui/core';
 
-import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  TimePicker,
-  DatePicker,
-} from '@material-ui/pickers';
-import { set } from 'date-fns';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,9 +29,6 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
   
-
- 
-
   var Status = false ;
 
   function ResetValues(Values) {
@@ -53,9 +36,6 @@ const useStyles = makeStyles((theme) => ({
       Status= true;
   }
   
-  
-
-
   const validate = values => {
     const errors = {};
     
@@ -76,8 +56,10 @@ const useStyles = makeStyles((theme) => ({
         values.id = 0;
 
         if(appStore.edit==false){
-        var x =  axios.post(`http://localhost:8080/Activite/Add`, values);
-          if(x== 200){
+
+        var x =  (await axios.post(AppConfig.API+`Activite/Add`, values)).status;
+        console.log("value  of x  =" , x)
+          if(x == 200){
             ResetValues(values);
             setsuccess(true);
           }
@@ -85,9 +67,9 @@ const useStyles = makeStyles((theme) => ({
         }
         if(appStore.edit==true){
         
-          var y =  axios.put(`http://localhost:8080/Activite/Update/`+appStore.data[0].id, values);
+          var y =  (await axios.put(AppConfig.API+`Activite/Update/`+appStore.data[0].id, values)).status;
           if(y== 200){
-           
+            console.log("value  of x  =" , x)
             ResetValues(values);
             setsuccess(true);
             appStore.edit=false;
@@ -164,7 +146,7 @@ const useStyles = makeStyles((theme) => ({
         );
       });
 
-function Activiteadd(props) {
+function Activiteadd() {
     
     
    

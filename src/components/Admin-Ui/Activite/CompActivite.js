@@ -5,11 +5,9 @@ import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import { DataGrid } from "@material-ui/data-grid";
 import Button from "@material-ui/core/Button";
-import faker from "faker";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import Typography from "@material-ui/core/Typography";
-import { Height } from "@material-ui/icons";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import IconButton from "@material-ui/core/IconButton";
 import Modal from "@material-ui/core/Modal";
@@ -25,9 +23,9 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import appStore from "./store";
 import appActions from "./Action";
-import { store, view } from "@risingstack/react-easy-state";
+import { view } from "@risingstack/react-easy-state";
 import axios from 'axios';
-
+import AppConfig from '../../Global';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -101,7 +99,7 @@ const columns = [
 
 //var rows = [];
 async function  getdata(){
-   const lola = await axios.get('http://localhost:8080/Activite/GetAll');
+   const lola = await axios.get(AppConfig.API+'Activite/GetAll');
    appStore.GridData = lola.data;
    console.log(appStore.GridData)
    
@@ -140,8 +138,16 @@ function Edit() {
 }
 
 function Delete() {
-  console.log("delete", IDselected);
+  //console.log("delete", appStore.data[0].id);
   appStore.dialog=true;
+}
+
+async  function DeleteRequest(){
+
+  var status =  ( await axios.delete(AppConfig.API+`Activite/Delete/`+appStore.data[0].id) ).status;
+  console.log("delete Status" , status);
+
+
 }
 
 const App = view(()  => {
@@ -247,7 +253,7 @@ const App = view(()  => {
           <Button onClick={appActions.handleCloseDialog} color="primary">
             non
           </Button>
-          <Button onClick={appActions.handleCloseDialog} color="secondary">
+          <Button onClick={DeleteRequest} color="secondary">
             oui
           </Button>
         </DialogActions>
@@ -268,17 +274,14 @@ class MyView extends Component {
   }
 
   componentDidMount(){
-     axios.get('http://localhost:8080/Activite/GetAll').then(response  =>{
+     axios.get( AppConfig.API +'Activite/GetAll').then(response  =>{
 
-          if(response.data){
-              
-              appStore.rows = response.data;
-            
+          if(response.data){     
+              appStore.rows = response.data;   
           }
      });
      
   }
-
 
   saveState() {
     alert("exiting")

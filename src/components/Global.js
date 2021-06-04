@@ -1,11 +1,10 @@
 
 
-import React from 'react'
+const AppConfig = {
+    
+    API: 'http://localhost:8080/',
+    
+  };
 
-export default function Global() {
-    return (
-        <div>
-            
-        </div>
-    )
-}
+
+  export default AppConfig;
