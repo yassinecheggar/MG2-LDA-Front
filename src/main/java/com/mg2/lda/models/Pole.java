@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Pole implements Serializable{
 
@@ -16,7 +18,7 @@ public class Pole implements Serializable{
 	private  Integer id;
 	private  String  pole;
 	
-	
+	@JsonIgnore
 	@OneToMany(mappedBy="documentPole",fetch=FetchType.LAZY)
 	private List<Document > documentsList;
 	

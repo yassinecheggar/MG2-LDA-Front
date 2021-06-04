@@ -9,19 +9,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Direction implements Serializable{
 
 	@Id @GeneratedValue
 	private  Integer id;
+	
 	private  String  directiondesc;
 	
 	
 
+	@JsonIgnore
 	@OneToMany(mappedBy="Documentdirection",fetch=FetchType.LAZY)
 	private List<Document> documentsList;
-	
-	
 	
 	
 	public Direction() {

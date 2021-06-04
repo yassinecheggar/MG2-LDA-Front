@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Type implements Serializable{
 
@@ -18,6 +20,7 @@ public class Type implements Serializable{
 	
 	
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="typeDocument",fetch=FetchType.LAZY)
 	private List<Document > documentsList;
 	
