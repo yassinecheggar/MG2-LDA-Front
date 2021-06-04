@@ -21,10 +21,13 @@ import Dashboard from '../Dashboard/Dashboard';
 import Delivrable from '../Admin-Ui/Delivrable/Delivrable';
 import Area from '../Admin-Ui/Area/Area';
 import Direction  from '../Admin-Ui/Direction/Direction';
+import Pole  from '../Admin-Ui/Pole/Pole';
+import  Type   from '../Admin-Ui/Type/Type';
+import  User from '../Admin-Ui/User/User';
 
 import {  BrowserRouter as Router, Route, Switch , useRouteMatch,NavLink,useParams } from 'react-router-dom';
 import AdminMenu from './AdminMenu';
-import  CompActivite from  '../Admin-Ui/Activite/CompActivite'
+import  CompActivite from  '../Admin-Ui/Activite/CompActivite';
 
 function Copyright() {
   return (
@@ -304,6 +307,19 @@ export default function Navbar() {
 
         <Route path={`${path}/Direction`}>
           <Direction />
+        </Route>
+
+        <Route path={`${path}/pole`}>
+          <Pole />
+        </Route>
+       
+
+        <Route path={`${path}/Type`}>
+          <Type />
+        </Route>
+
+        <Route path={`${path}/User`}>
+          <User />
         </Route>
        
        

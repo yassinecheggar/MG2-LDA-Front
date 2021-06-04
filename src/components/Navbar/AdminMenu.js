@@ -97,7 +97,7 @@ function AdminMenu(props) {
 
 
 
-<ListItem button>
+<ListItem button component={NavLink} to={`${props.url}/Type`}> 
   <ListItemIcon>
     <AssignmentIcon />
   </ListItemIcon>
@@ -140,7 +140,7 @@ function AdminMenu(props) {
 
 
 
-<ListItem button>
+<ListItem button  component={NavLink} to={`${props.url}/Pole`}>
   <ListItemIcon>
     <AssignmentIcon />
   </ListItemIcon>
@@ -159,7 +159,7 @@ function AdminMenu(props) {
 
 
 
-<ListItem button>
+<ListItem button component={NavLink} to={`${props.url}/user`}>
   <ListItemIcon>
     <AssignmentIcon />
   </ListItemIcon>
