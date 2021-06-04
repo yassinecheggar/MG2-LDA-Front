@@ -3,10 +3,9 @@ import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Alert from '@material-ui/lab/Alert';
 import { Form, Field } from 'react-final-form';
-import { TextField, Checkbox, Radio, Select } from 'final-form-material-ui';
+import { TextField } from 'final-form-material-ui';
 import appStore from "./store";
-import appActions from "./Action";
-import { store, view } from "@risingstack/react-easy-state";
+import {  view } from "@risingstack/react-easy-state";
 import AppConfig from '../../Global';
 import axios from 'axios';
 import { Paper,Grid,Button, CssBaseline,} from '@material-ui/core';
@@ -45,34 +44,47 @@ const useStyles = makeStyles((theme) => ({
     return errors;
   };
 
+
+  function GetData() {
+    axios.get( AppConfig.API +'Activite/GetAll').then(response  =>{
+  
+      if(response.data){     
+          appStore.rows = response.data;   
+      }
+  });
+  }
+
   const App = view(() => {
-    const classes = useStyles();
-    const [success, setsuccess] = useState(Status);
-    const [error, seterror] = useState(Status);
+    
+    const [success, setsuccess] = useState(false);
+    const [error, seterror] = useState(false);
   
     const onSubmit =  async values   => {
       const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
         await sleep(300);
         values.id = 0;
 
-        if(appStore.edit==false){
+        if(!appStore.edit){
 
         var x =  (await axios.post(AppConfig.API+`Activite/Add`, values)).status;
-        console.log("value  of x  =" , x)
+        
           if(x == 200){
             ResetValues(values);
             setsuccess(true);
+            GetData();
+            
           }
           else seterror(true);
         }
-        if(appStore.edit==true){
+        if(appStore.edit){
         
           var y =  (await axios.put(AppConfig.API+`Activite/Update/`+appStore.data[0].id, values)).status;
-          if(y== 200){
-            console.log("value  of x  =" , x)
+          if(y == 200){
+            
             ResetValues(values);
             setsuccess(true);
             appStore.edit=false;
+            GetData();
           }
           else seterror(true);
         }
@@ -145,6 +157,8 @@ const useStyles = makeStyles((theme) => ({
         
         );
       });
+
+      
 
 function Activiteadd() {
     

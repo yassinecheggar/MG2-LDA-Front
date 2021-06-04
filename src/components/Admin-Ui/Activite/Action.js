@@ -25,6 +25,7 @@ const appActions = {
   handleClose: () => {
     appStore.open = false;
     appStore.data=[] ;
+    
   },
 
   handleCloseDialog: () => {

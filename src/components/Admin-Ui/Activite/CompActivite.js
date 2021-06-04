@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
   },
   fixedHeight: {
-    height: 500,
+    height: 600,
   },
 
   TitleHeight: {
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   TitleMargine: {
     marginTopap: 0,
     textAlign: "center",
-    color: "#474747",
+    color: "#00d4bb",
   },
   button: {
     marginLeft: 5,
@@ -72,7 +72,7 @@ const columns = [
   { field: "link", headerName: "Lien Image", flex: 0.2 },
   {
     field: "color",
-    headerName: "X",
+    headerName: "Action",
     flex: 0.2,
     renderCell: () => (
       <>
@@ -97,32 +97,6 @@ const columns = [
   },
 ];
 
-//var rows = [];
-async function  getdata(){
-   const lola = await axios.get(AppConfig.API+'Activite/GetAll');
-   appStore.GridData = lola.data;
-   console.log(appStore.GridData)
-   
-}
-
-/*function generateRows(data) {
-  
-    data.forEach(element => {
-      var idP  = element.id
-      var nameP  = element.activite
- 
-      rows.push({
-       id: idP,
-       activite: nameP
-       //color: ""
-     });
-    });
-  
-}
-  
-  */
-  
-
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -146,8 +120,19 @@ async  function DeleteRequest(){
 
   var status =  ( await axios.delete(AppConfig.API+`Activite/Delete/`+appStore.data[0].id) ).status;
   console.log("delete Status" , status);
+  appStore.dialog= false;
 
+  GetData();
 
+}
+
+function GetData() {
+  axios.get( AppConfig.API +'Activite/GetAll').then(response  =>{
+
+    if(response.data){     
+        appStore.rows = response.data;   
+    }
+});
 }
 
 const App = view(()  => {
@@ -155,13 +140,12 @@ const App = view(()  => {
   const classes = useStyles();
   const [selectionModel, setSelectionModel] = useState([]);
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-  const [openDialog, setOpenDialog] = React.useState(false);
+  
 
   return (
     <>
       <Grid item xs={12} md={12} lg={12}>
-        <Paper className={classes.TitleHeight}>
-          {" "}
+        
           <Typography
             component="h3"
             variant="h3"
@@ -170,7 +154,7 @@ const App = view(()  => {
             {" "}
             Activité{" "}
           </Typography>
-        </Paper>
+       
       </Grid>
 
       <Grid item xs={12} md={12} lg={12}>
@@ -274,13 +258,7 @@ class MyView extends Component {
   }
 
   componentDidMount(){
-     axios.get( AppConfig.API +'Activite/GetAll').then(response  =>{
-
-          if(response.data){     
-              appStore.rows = response.data;   
-          }
-     });
-     
+    GetData();
   }
 
   saveState() {
