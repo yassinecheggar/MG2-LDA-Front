@@ -122,7 +122,7 @@ function AdminMenu(props) {
 
 
 
-<ListItem button>
+<ListItem button component={NavLink} to={`${props.url}/Perimetre`}>
   <ListItemIcon>
     <AssignmentIcon />
   </ListItemIcon>

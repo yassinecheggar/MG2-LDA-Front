@@ -24,6 +24,7 @@ import Direction  from '../Admin-Ui/Direction/Direction';
 import Pole  from '../Admin-Ui/Pole/Pole';
 import  Type   from '../Admin-Ui/Type/Type';
 import  User from '../Admin-Ui/User/User';
+import  Perimetre from  '../Admin-Ui/Perimetre/Perimetre';
 
 import {  BrowserRouter as Router, Route, Switch , useRouteMatch,NavLink,useParams } from 'react-router-dom';
 import AdminMenu from './AdminMenu';
@@ -320,6 +321,10 @@ export default function Navbar() {
 
         <Route path={`${path}/User`}>
           <User />
+        </Route>
+       
+        <Route path={`${path}/Perimetre`}>
+          <Perimetre />
         </Route>
        
        
