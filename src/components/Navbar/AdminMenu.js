@@ -150,7 +150,7 @@ function AdminMenu(props) {
 
 
 
-<ListItem button>
+<ListItem button component={NavLink} to={`${props.url}/Question`}>
   <ListItemIcon>
     <AssignmentIcon />
   </ListItemIcon>

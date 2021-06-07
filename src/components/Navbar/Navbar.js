@@ -27,7 +27,7 @@ import  User from '../Admin-Ui/User/User';
 import  Perimetre from  '../Admin-Ui/Perimetre/Perimetre';
 import  Author from  '../Admin-Ui/Author/Authore';
 import  Image from  '../Admin-Ui/Image/Image';
-
+import  Question from  '../Admin-Ui/Question/Question';
 import {  BrowserRouter as Router, Route, Switch , useRouteMatch,NavLink,useParams } from 'react-router-dom';
 import AdminMenu from './AdminMenu';
 import  CompActivite from  '../Admin-Ui/Activite/CompActivite';
@@ -288,7 +288,7 @@ export default function Navbar() {
 
       <main className={classes.content}>
       <div className={classes.appBarSpacer} />
-      <Container maxWidth="lg" className={classes.container}>
+      <Container maxWidth="xl" className={classes.container}>
         <Grid container spacing={3}>
 
           
@@ -336,6 +336,10 @@ export default function Navbar() {
 
         <Route path={`${path}/Picture`}>
           <Image />
+        </Route>
+
+        <Route path={`${path}/Question`}>
+          <Question />
         </Route>
        
        
