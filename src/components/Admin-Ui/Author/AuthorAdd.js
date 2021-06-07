@@ -31,22 +31,34 @@ const useStyles = makeStyles((theme) => ({
   var Status = false ;
 
   function ResetValues(Values) {
-        Values.activite=""
-      Status= true;
+        Values.nom="";
+        Values.prenom="";
+        Values.email="";
+        Status= true;
   }
   
   const validate = values => {
     const errors = {};
     
-    if (!values.activite) {
-      errors.activite = 'Required';
+    if (!values.nom) {
+      errors.nom = 'Required';
     }
+
+     
+    if (!values.prenom) {
+        errors.prenom = 'Required';
+      }
+
+       
+    if (!values.email) {
+        errors.email = 'Required';
+      }
     return errors;
   };
 
 
   function GetData() {
-    axios.get( AppConfig.API +'Activite/GetAll').then(response  =>{
+    axios.get( AppConfig.API +'Author/GetAll').then(response  =>{
   
       if(response.data){     
           appStore.rows = response.data;   
@@ -66,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
 
         if(!appStore.edit){
 
-        var x =  (await axios.post(AppConfig.API+`Activite/Add`, values)).status;
+        var x =  (await axios.post(AppConfig.API+`Author/Add`, values)).status;
         
           if(x == 200){
             ResetValues(values);
@@ -77,8 +89,9 @@ const useStyles = makeStyles((theme) => ({
           else seterror(true);
         }
         if(appStore.edit){
-        
-          var y =  (await axios.put(AppConfig.API+`Activite/Update/`+appStore.data[0].id, values)).status;
+            
+            try {
+                var y =  (await axios.put(AppConfig.API+`Author/Update/`+appStore.data[0].id, values)).status;
           if(y == 200){
             
             ResetValues(values);
@@ -87,6 +100,10 @@ const useStyles = makeStyles((theme) => ({
             GetData();
           }
           else seterror(true);
+            } catch (error) {
+                
+            }
+          
         }
       //  console.log((await x).status)
     };
@@ -113,15 +130,39 @@ const useStyles = makeStyles((theme) => ({
           { error ? <OnError /> : null }
                 <Grid container alignItems="flex-start" spacing={2}>
                 
-                  <Grid item xs={12}>
+                  <Grid item xs={6}>
                     <Field
-                      name="activite"
+                      name="nom"
                       fullWidth
                       required
                       component={TextField}
                       type="text"
-                      label="Activite"
-                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].activite : ""}
+                      label="Nom"
+                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].nom : ""}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <Field
+                      name="prenom"
+                      fullWidth
+                      required
+                      component={TextField}
+                      type="text"
+                      label="Prenom"
+                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].prenom : ""}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <Field
+                      name="email"
+                      fullWidth
+                      required
+                      component={TextField}
+                      type="text"
+                      label="E-mail"
+                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].email : ""}
                     />
                   </Grid>
                     
@@ -160,7 +201,7 @@ const useStyles = makeStyles((theme) => ({
 
       
 
-function Activiteadd() {
+function AuthorAdd() {
     
     
    
@@ -170,4 +211,4 @@ function Activiteadd() {
    
   }
 
-export default Activiteadd
+export default AuthorAdd

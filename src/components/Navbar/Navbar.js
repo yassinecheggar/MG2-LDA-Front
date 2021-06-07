@@ -25,6 +25,7 @@ import Pole  from '../Admin-Ui/Pole/Pole';
 import  Type   from '../Admin-Ui/Type/Type';
 import  User from '../Admin-Ui/User/User';
 import  Perimetre from  '../Admin-Ui/Perimetre/Perimetre';
+import  Author from  '../Admin-Ui/Author/Authore';
 
 import {  BrowserRouter as Router, Route, Switch , useRouteMatch,NavLink,useParams } from 'react-router-dom';
 import AdminMenu from './AdminMenu';
@@ -325,6 +326,11 @@ export default function Navbar() {
        
         <Route path={`${path}/Perimetre`}>
           <Perimetre />
+        </Route>
+       
+
+        <Route path={`${path}/Author`}>
+          <Author />
         </Route>
        
        

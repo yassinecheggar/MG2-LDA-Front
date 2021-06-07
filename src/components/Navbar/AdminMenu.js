@@ -48,7 +48,7 @@ function AdminMenu(props) {
   <ListItemText primary="Area" />
 </ListItem>
 
-<ListItem button>
+<ListItem button component={NavLink} to={`${props.url}/Author`}>
   <ListItemIcon>
     <AssignmentIcon />
   </ListItemIcon>
