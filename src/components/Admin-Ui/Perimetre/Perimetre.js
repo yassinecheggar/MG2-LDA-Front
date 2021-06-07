@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
 const columns = [
   { field: "id", headerName: "Id", flex: 0.1 },
   { field: "perimetre", headerName: "Perimetre", flex: 0.2 },
-  { field: "perimetreArea", headerName: "Area", flex: 0.2 },
+  { field: `perimetreArea` , headerName: "Area", flex: 0.2  , valueFormatter: ({ value }) => value.areadesc },
   {
     field: "color",
     headerName: "Action",

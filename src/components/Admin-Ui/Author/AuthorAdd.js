@@ -1,14 +1,14 @@
-import React  ,{ useState ,Component } from 'react'
+import React  ,{ useState } from 'react'
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Alert from '@material-ui/lab/Alert';
 import { Form, Field } from 'react-final-form';
-import { TextField ,Select } from 'final-form-material-ui';
+import { TextField } from 'final-form-material-ui';
 import appStore from "./store";
 import {  view } from "@risingstack/react-easy-state";
 import AppConfig from '../../Global';
 import axios from 'axios';
-import { Paper,Grid,Button, CssBaseline,MenuItem} from '@material-ui/core';
+import { Paper,Grid,Button, CssBaseline,} from '@material-ui/core';
 
 
 
@@ -31,35 +31,25 @@ const useStyles = makeStyles((theme) => ({
   var Status = false ;
 
   function ResetValues(Values) {
-        Values.perimetre="";
-        
+        Values.activite=""
       Status= true;
   }
   
   const validate = values => {
     const errors = {};
     
-    if (!values.perimetre) {
-      errors.perimetre = 'Required';
+    if (!values.activite) {
+      errors.activite = 'Required';
     }
     return errors;
   };
 
 
   function GetData() {
-    axios.get( AppConfig.API +'Perimetre/GetAll').then(response  =>{
+    axios.get( AppConfig.API +'Activite/GetAll').then(response  =>{
   
       if(response.data){     
           appStore.rows = response.data;   
-      }
-  });
-  }
-
-  function GetArea() {
-    axios.get( AppConfig.API +'Area/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.areas = response.data;   
       }
   });
   }
@@ -73,10 +63,10 @@ const useStyles = makeStyles((theme) => ({
       const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
         await sleep(300);
         values.id = 0;
-       
+
         if(!appStore.edit){
 
-      var x =  (await axios.post(AppConfig.API+`Perimetre/Add`, values)).status;
+        var x =  (await axios.post(AppConfig.API+`Activite/Add`, values)).status;
         
           if(x == 200){
             ResetValues(values);
@@ -87,9 +77,8 @@ const useStyles = makeStyles((theme) => ({
           else seterror(true);
         }
         if(appStore.edit){
-
-       
-          var y =  (await axios.put(AppConfig.API+`Perimetre/Update/`+appStore.data[0].id, values)).status;
+        
+          var y =  (await axios.put(AppConfig.API+`Activite/Update/`+appStore.data[0].id, values)).status;
           if(y == 200){
             
             ResetValues(values);
@@ -98,9 +87,8 @@ const useStyles = makeStyles((theme) => ({
             GetData();
           }
           else seterror(true);
-         // console.log((values));
         }
-       
+      //  console.log((await x).status)
     };
   
       function Onseccess() {
@@ -127,33 +115,14 @@ const useStyles = makeStyles((theme) => ({
                 
                   <Grid item xs={12}>
                     <Field
-                      name="perimetre"
+                      name="activite"
                       fullWidth
                       required
                       component={TextField}
                       type="text"
-                      label="Perimetre"
-                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].perimetre : ""}
+                      label="Activite"
+                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].activite : ""}
                     />
-                  </Grid>
-
-                  <Grid item xs={12}>
-                    <Field
-                      name="perimetreArea.id"
-                      fullWidth
-                      required
-                      component={Select}
-                      type="Text"
-                      label="Area"
-                      formControlProps={{ fullWidth: true }}
-                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].perimetreArea.id : ""}>
-
-             {appStore.areas ? appStore.areas.map(area => <MenuItem key={area.id} value={area.id}>{area.areadesc}</MenuItem>) : <MenuItem key="default" value="default">Select an Area</MenuItem>}
-
-               
-                               
-                                
-                    </Field>
                   </Grid>
                     
                   <Grid item style={{ marginTop: 16 }}>
@@ -166,9 +135,6 @@ const useStyles = makeStyles((theme) => ({
                       Reset
                     </Button>
                   </Grid>
-
-
-                  
 
                   <Grid item style={{ marginTop: 16 }}>
                     <Button
@@ -183,11 +149,10 @@ const useStyles = makeStyles((theme) => ({
 
                 </Grid>
               </Paper>
-              
+
             </form>
           )}
         />
-        <MyView/>
       </div>
         
         );
@@ -195,7 +160,7 @@ const useStyles = makeStyles((theme) => ({
 
       
 
-function PerimetreAdd() {
+function Activiteadd() {
     
     
    
@@ -205,28 +170,4 @@ function PerimetreAdd() {
    
   }
 
-
-  class MyView extends Component {
-    componentWillUnmount() {
-      
-    }
-  
-    componentDidMount(){
-      const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-       sleep(300);
-      GetArea();
-      
-    }
-  
- 
-    render() {
-  
-      return (
-          <>
-            
-          </>
-      )
-  }
-  }
-
-export default PerimetreAdd
+export default Activiteadd

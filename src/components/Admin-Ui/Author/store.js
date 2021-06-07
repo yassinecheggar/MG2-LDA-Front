@@ -8,8 +8,7 @@ const appStore = store({
   error: false,
   GridData:[],
   rows: [],
-  edit: false,
-  areas : [],
+  edit: false
 
 });
 
