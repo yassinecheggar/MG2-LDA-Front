@@ -26,6 +26,7 @@ import  Type   from '../Admin-Ui/Type/Type';
 import  User from '../Admin-Ui/User/User';
 import  Perimetre from  '../Admin-Ui/Perimetre/Perimetre';
 import  Author from  '../Admin-Ui/Author/Authore';
+import  Image from  '../Admin-Ui/Image/Image';
 
 import {  BrowserRouter as Router, Route, Switch , useRouteMatch,NavLink,useParams } from 'react-router-dom';
 import AdminMenu from './AdminMenu';
@@ -331,6 +332,10 @@ export default function Navbar() {
 
         <Route path={`${path}/Author`}>
           <Author />
+        </Route>
+
+        <Route path={`${path}/Picture`}>
+          <Image />
         </Route>
        
        
