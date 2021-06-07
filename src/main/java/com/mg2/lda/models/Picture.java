@@ -11,8 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Entity
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+@Entity
 public class Picture implements Serializable{
 
 	@Id @GeneratedValue
@@ -22,15 +23,16 @@ public class Picture implements Serializable{
 	private String   link;
 	private String description;
 	
+	
 	@ManyToOne
 	@JoinColumn
 	private  BestPractice bestPracticeimage;
 
-	
 	@ManyToOne
 	@JoinColumn
 	private Question questionimage;
 	
+
 	@ManyToOne
 	@JoinColumn
 	private  Feedback feedbackImage;

@@ -9,17 +9,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Author implements Serializable{
 
 	@Id @GeneratedValue
 	 private  Integer id;
+	
 	 private String nom;
 	 private String prenom;
-	 
 	 private String  email;
 	 
-	 
+		
+	@JsonIgnore
 	@OneToMany(mappedBy="Docummentauthor",fetch=FetchType.LAZY)
 	 private List<Document>DocumentList;
 	 
@@ -27,7 +30,7 @@ public class Author implements Serializable{
 	
 	
 	public Author() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 

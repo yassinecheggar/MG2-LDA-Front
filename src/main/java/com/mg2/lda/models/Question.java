@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Question implements Serializable{
 
@@ -33,10 +34,11 @@ public class Question implements Serializable{
 	@JoinColumn
 	private Activite  activiteQuest ;
 	
-	
+	@JsonIgnore
 	@OneToMany(mappedBy="questionimage",fetch=FetchType.LAZY)
 	private List<Picture> pictureList;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="questionFeed",fetch=FetchType.LAZY)
 	private List<Feedback> feedbacksList;
 	
@@ -115,16 +117,7 @@ public class Question implements Serializable{
 	}
 
 
-	public List<Picture> getImagesList() {
-		return pictureList;
-	}
-
-
-	public void setImagesList(List<Picture> imagesList) {
-		this.pictureList = imagesList;
-	}
-
-
+	
 	public String getProblemType() {
 		return ProblemType;
 	}

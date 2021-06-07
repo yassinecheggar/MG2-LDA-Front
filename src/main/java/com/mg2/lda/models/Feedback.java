@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public class Feedback implements Serializable{
@@ -41,7 +43,7 @@ public class Feedback implements Serializable{
 	private Question questionFeed;
 	
 	
-	
+	@JsonIgnore
 	@OneToMany(mappedBy="feedbackImage",fetch=FetchType.LAZY)
 	private List<Picture> imagesList;
 	

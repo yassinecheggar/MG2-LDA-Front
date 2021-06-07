@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class BestPractice implements Serializable{
 
@@ -39,7 +41,7 @@ public class BestPractice implements Serializable{
 	
 	
 	
-
+	@JsonIgnore
 	@OneToMany(mappedBy="bestPracticeimage",fetch=FetchType.LAZY)
 	private List<Picture> PictureList;
 	
