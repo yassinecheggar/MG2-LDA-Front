@@ -54,5 +54,12 @@ public class FeedbackRestService {
 		return false;
 	}
 	
+	@DeleteMapping("/Delete/{id}")
+	public void delete(@PathVariable Integer id) {
+
+		repo.deleteById(id) ;
+
+
+	}
 	
 }

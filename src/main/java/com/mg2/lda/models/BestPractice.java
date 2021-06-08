@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
 @Entity
 public class BestPractice implements Serializable{
 
@@ -24,6 +25,9 @@ public class BestPractice implements Serializable{
 	private String  categorie;
 	private  Date date;
 	
+	@JsonIgnore
+	@OneToMany(mappedBy="bestPracticeimage",fetch=FetchType.LAZY)
+	private List<Picture> pictureList;
 	
 	@ManyToOne
 	@JoinColumn
@@ -41,39 +45,13 @@ public class BestPractice implements Serializable{
 	
 	
 	
-	@JsonIgnore
-	@OneToMany(mappedBy="bestPracticeimage",fetch=FetchType.LAZY)
-	private List<Picture> PictureList;
-	
-	
 
 	
-	public User getUserBestPractice() {
-		return userBestPractice;
-	}
 
 
-
-
-	public void setUserBestPractice(User userBestPractice) {
-		this.userBestPractice = userBestPractice;
-	}
-
-
-
-
-	public Delivrable getDelivrableBest() {
-		return delivrableBest;
-	}
-
-
-
-
-	public void setDelivrableBest(Delivrable delivrableBest) {
-		this.delivrableBest = delivrableBest;
-	}
-
-
+public BestPractice() {
+	// TODO Auto-generated constructor stub
+}
 
 	public Integer getId() {
 		return id;
@@ -117,9 +95,6 @@ public class BestPractice implements Serializable{
 
 
 
-	
-
-
 	public String getCategorie() {
 		return categorie;
 	}
@@ -129,39 +104,6 @@ public class BestPractice implements Serializable{
 
 	public void setCategorie(String categorie) {
 		this.categorie = categorie;
-	}
-
-
-
-
-
-
-
-	
-
-	public Activite getActiviteBest() {
-		return activiteBest;
-	}
-
-
-
-
-	public void setActiviteBest(Activite activiteBest) {
-		this.activiteBest = activiteBest;
-	}
-
-
-
-
-	public List<Picture> getPictureList() {
-		return PictureList;
-	}
-
-
-
-
-	public void setPictureList(List<Picture> pictureList) {
-		PictureList = pictureList;
 	}
 
 
@@ -181,21 +123,70 @@ public class BestPractice implements Serializable{
 
 
 
+	public User getUserBestPractice() {
+		return userBestPractice;
+	}
 
 
+
+
+	public void setUserBestPractice(User userBestPractice) {
+		this.userBestPractice = userBestPractice;
+	}
+
+
+
+
+	public Delivrable getDelivrableBest() {
+		return delivrableBest;
+	}
+
+
+
+
+	public void setDelivrableBest(Delivrable delivrableBest) {
+		this.delivrableBest = delivrableBest;
+	}
+
+
+
+
+	public Activite getActiviteBest() {
+		return activiteBest;
+	}
+
+
+
+
+	public void setActiviteBest(Activite activiteBest) {
+		this.activiteBest = activiteBest;
+	}
+
+	public List<Picture> getPictureList() {
+		return pictureList;
+	}
+
+	public void setPictureList(List<Picture> pictureList) {
+		this.pictureList = pictureList;
+	}
 
 	@Override
 	public String toString() {
 		return "BestPractice [id=" + id + ", description=" + description + ", phase=" + phase + ", categorie="
-				+ categorie + ", date=" + date + ", userBestPractice=" + userBestPractice + ", delivrableBest="
-				+ delivrableBest + ", activiteBest=" + activiteBest + ", PictureList=" + PictureList + "]";
+				+ categorie + ", date=" + date + ", pictureList=" + pictureList + ", userBestPractice="
+				+ userBestPractice + ", delivrableBest=" + delivrableBest + ", activiteBest=" + activiteBest + "]";
 	}
 
 
 
 
-	public BestPractice() {
-		// TODO Auto-generated constructor stub
-	}
 
+	
+	
+	
+
+
+
+
+	
 }

@@ -77,14 +77,7 @@ public class Feedback implements Serializable{
 		this.userFeedback = userFeedback;
 	}
 	
-	public Activite getActivite() {
-		return activiteFeed;
-	}
-
-
-	public void setActivite(Activite activite) {
-		this.activiteFeed = activite;
-	}
+	
 
 	public Delivrable getDelivrableFeed() {
 		return delivrableFeed;

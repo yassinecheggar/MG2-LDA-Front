@@ -23,8 +23,8 @@ public class Author implements Serializable{
 	 
 		
 	@JsonIgnore
-	@OneToMany(mappedBy="Docummentauthor",fetch=FetchType.LAZY)
-	 private List<Document>DocumentList;
+	@OneToMany(mappedBy="docummentauthor",fetch=FetchType.LAZY)
+	 private List<Document>documentList;
 	 
 	
 	
@@ -93,25 +93,18 @@ public class Author implements Serializable{
 
 
 	public List<Document> getDocumentList() {
-		return DocumentList;
+		return documentList;
 	}
 
 
 
 
 	public void setDocumentList(List<Document> documentList) {
-		DocumentList = documentList;
+		this.documentList = documentList;
 	}
 
 
 
 
-	@Override
-	public String toString() {
-		return "Author [id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", email=" + email + ", DocumentList="
-				+ DocumentList + "]";
-	}
-
-	
 	
 }

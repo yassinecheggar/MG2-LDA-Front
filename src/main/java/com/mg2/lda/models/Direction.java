@@ -22,7 +22,7 @@ public class Direction implements Serializable{
 	
 
 	@JsonIgnore
-	@OneToMany(mappedBy="Documentdirection",fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="documentdirection",fetch=FetchType.LAZY)
 	private List<Document> documentsList;
 	
 	
