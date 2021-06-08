@@ -1,4 +1,5 @@
 import React  ,{ useState ,Component } from 'react'
+import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Alert from '@material-ui/lab/Alert';
 import { Form, Field } from 'react-final-form';
@@ -8,12 +9,13 @@ import {  view } from "@risingstack/react-easy-state";
 import AppConfig from '../../Global';
 import axios from 'axios';
 import { Paper,Grid,Button, CssBaseline,MenuItem} from '@material-ui/core';
+
 import DateFnsUtils from '@date-io/date-fns';
 import { format } from 'date-fns';
 
 
 import {  KeyboardDatePicker,MuiPickersUtilsProvider,} from '@material-ui/pickers';
-import { date } from 'faker';
+import { Apps, ControlCameraSharp } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,36 +36,31 @@ const useStyles = makeStyles((theme) => ({
   var Status = false ;
 
   function ResetValues(Values) {
-        Values.decsiption="";
+        Values.feedback="";
+        Values.activiteFeed="";
         Values.date="";
+        Values.validationDate="";
         Values.phase="";
-        Values.status="";
+
         Values.problemType="";
+  
 
-        Values.delivrableQuest.id="";
 
-        Values.activiteQuest.id="";
-
-        Status= true;
-
+      Status= true;
   }
   
   const validate = values => {
     const errors = {};
     
-    if (!values.decsiption) {
-      errors.decsiption = 'Required';
-      errors.date = 'Required';
-      errors.phase = 'Required';
-      errors.status = 'Required';
-      errors.problemType = 'Required';
+    if (!values.feedback) {
+      errors.feedback = 'Required';
     }
     return errors;
   };
 
 
   function GetData() {
-    axios.get( AppConfig.API +'Question/GetAll').then(response  =>{
+    axios.get( AppConfig.API +'Feedback/GetAll').then(response  =>{
   
       if(response.data){     
           appStore.rows = response.data;   
@@ -106,25 +103,28 @@ const useStyles = makeStyles((theme) => ({
       const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
         await sleep(300);
         values.id = 0;
-        values.date = format(appStore.date, "yyyy-MM-dd") ;
-            try {
-              
-            
-        if(!appStore.edit){
+        
+       
+     
 
-        var x =  (await axios.post(AppConfig.API+`Question/Add`, values)).status;
+        if(!appStore.edit){
+        values.date =  format(new Date(), "yyyy-MM-dd") ;
+        
+        var x =  (await axios.post(AppConfig.API+`Feedback/Add`, values)).status;
         
           if(x == 200){
             ResetValues(values);
             setsuccess(true);
             GetData();
+          
             
           }
           else seterror(true);
         }
         if(appStore.edit){
-        
-          var y =  (await axios.put(AppConfig.API+`Question/Update/`+appStore.data[0].id, values)).status;
+            if(appStore.date){values.validationDate = format(appStore.date, "yyyy-MM-dd")  }else values.validationDate="";
+            values.date=appStore.data[0].date; 
+          var y =  (await axios.put(AppConfig.API+`Feedback/Update/`+appStore.data[0].id, values)).status;
           if(y == 200){
             
             ResetValues(values);
@@ -134,12 +134,8 @@ const useStyles = makeStyles((theme) => ({
           }
           else seterror(true);
         }
-
-      } catch (error) {
-              console.log(error)
-      }
       //  console.log((await x).status)
-     
+      console.log(values)
     };
   
       function Onseccess() {
@@ -164,18 +160,43 @@ const useStyles = makeStyles((theme) => ({
           { error ? <OnError /> : null }
                 <Grid container alignItems="flex-start" spacing={2}>
                 
-                  <Grid item xs={12}>
+
+                <Grid item xs={12}>
                     <Field
-                      name="decsiption"
+                      name="problemType"
                       fullWidth
                       required
                       component={TextField}
                       type="text"
-                      label="Decsiption"
-                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].decsiption : ""}
+                      label="ProblemType"
+                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].problemType : ""}
                     />
                   </Grid>
 
+                  <Grid item xs={12}>
+                    <Field
+                      name="feedback"
+                      fullWidth
+                      required
+                      component={TextField}
+                      type="text"
+                      label="Feedback"
+                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].feedback : ""}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <Field
+                      name="phase"
+                      fullWidth
+                      required
+                      component={TextField}
+                      type="text"
+                      label="Phase"
+                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].phase : ""}
+                    />
+                  </Grid>
+                 
                   <Grid item xs={12}>
                     <Field 
                     name="date"
@@ -191,53 +212,20 @@ const useStyles = makeStyles((theme) => ({
                       format="yyyy-MM-dd"
                       
                       value={selectedDate}
-              onChange={handleDateChange}
-              disableOpenOnEnter
-              animateYearScrolling={false}
-              autoOk={true}
-              clearable
+                      onChange={handleDateChange}
+                        disableOpenOnEnter
+                        animateYearScrolling={false}
+                        autoOk={true}
+                        clearable
                     /></MuiPickersUtilsProvider>;
                     }} />
                       
                       
-                  </Grid>
+                  </Grid> 
 
-                  <Grid item xs={12}>
-                    <Field
-                      name="phase"
-                      fullWidth
-                      required
-                      component={TextField}
-                      type="text"
-                      label="Phase"
-                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].phase : ""}
-                    />
-                  </Grid>
+                
 
-                  <Grid item xs={12}>
-                    <Field
-                      name="problemType"
-                      fullWidth
-                      required
-                      component={TextField}
-                      type="text"
-                      label="ProblemType"
-                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].problemType : ""}
-                    />
-                  </Grid>
-
-                  <Grid item xs={6}>
-                    <Field
-                      name="status"
-                      fullWidth
-                      required
-                      component={TextField}
-                      type="text"
-                      label="statut"
-                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].status : ""}
-                    />
-                  </Grid>
-
+                 
                   <MyView/>
                     
                   <Grid item style={{ marginTop: 16 }}>
@@ -268,15 +256,14 @@ const useStyles = makeStyles((theme) => ({
             </form>
           )}
         />
-      
       </div>
         
         );
       });
 
-   
+      
 
-function QuestionAdd() {
+function FeedBackAdd() {
     
     
    
@@ -286,16 +273,20 @@ function QuestionAdd() {
    
   }
 
+
+  
   class MyView extends Component {
     componentWillUnmount() {
        
     }
   
     componentDidMount(){
+    
+
     if(appStore.data[0]){
-     initDate = new Date(appStore.data[0].date);
+     initDate = new Date(appStore.data[0].validationDate);
      appStore.date= initDate;
-    }
+    }else initDate = null;
       
       GetActivite();
       GetDelivrable();
@@ -311,14 +302,14 @@ function QuestionAdd() {
                 
                 <Grid item xs={12}>
                     <Field
-                      name="activiteQuest.id"
+                      name="activiteFeed.id"
                       fullWidth
                       required
                       component={Select}
                       type="Text"
                       label="Activité"
                       formControlProps={{ fullWidth: true }}
-                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].activiteQuest.id : ""}>
+                      initialValue={  appStore.data.length!=0 ? (appStore.data[0].activiteFeed? appStore.data[0].activiteFeed.id : "") : ""}>
 
              {appStore.acitivite ? appStore.acitivite.map(act => <MenuItem key={act.id} value={act.id}>{act.activite}</MenuItem>) : <MenuItem key="default" value="default">Select an Area</MenuItem>}
 
@@ -331,14 +322,14 @@ function QuestionAdd() {
                   
                   <Grid item xs={12}>
                     <Field
-                      name="delivrableQuest.id"
+                      name="delivrableFeed.id"
                       fullWidth
                       required
                       component={Select}
                       type="Text"
                       label="Perimetre"
                       formControlProps={{ fullWidth: true }}
-                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].delivrableQuest.id : ""}>
+                      initialValue={  appStore.data.length!=0 ? (appStore.data[0].delivrableFeed ? appStore.data[0].delivrableFeed.id : ""):""}>
 
              {appStore.delivrable ? appStore.delivrable.map(del => <MenuItem key={del.id} value={del.id}>{del.delivrable}</MenuItem>) : <MenuItem key="default" value="default">Select an Area</MenuItem>}
 
@@ -351,7 +342,6 @@ function QuestionAdd() {
       )
   }
   }
+  
 
- 
-
-export default QuestionAdd
+export default FeedBackAdd

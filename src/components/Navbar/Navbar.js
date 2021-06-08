@@ -28,6 +28,8 @@ import  Perimetre from  '../Admin-Ui/Perimetre/Perimetre';
 import  Author from  '../Admin-Ui/Author/Authore';
 import  Image from  '../Admin-Ui/Image/Image';
 import  Question from  '../Admin-Ui/Question/Question';
+import  FeedBack from  '../Admin-Ui/FeedBack/FeadBack';
+
 import {  BrowserRouter as Router, Route, Switch , useRouteMatch,NavLink,useParams } from 'react-router-dom';
 import AdminMenu from './AdminMenu';
 import  CompActivite from  '../Admin-Ui/Activite/CompActivite';
@@ -340,6 +342,10 @@ export default function Navbar() {
 
         <Route path={`${path}/Question`}>
           <Question />
+        </Route>
+
+        <Route path={`${path}/FeedBack`}>
+          <FeedBack />
         </Route>
        
        
