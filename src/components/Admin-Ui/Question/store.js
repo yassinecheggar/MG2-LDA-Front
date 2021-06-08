@@ -11,6 +11,7 @@ const appStore = store({
   edit: false,
   activite: [],
   delivrable: [],
+  date: null,
 
 });
 

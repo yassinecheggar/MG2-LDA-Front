@@ -1,5 +1,4 @@
 import React  ,{ useState ,Component } from 'react'
-import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Alert from '@material-ui/lab/Alert';
 import { Form, Field } from 'react-final-form';
@@ -10,15 +9,11 @@ import AppConfig from '../../Global';
 import axios from 'axios';
 import { Paper,Grid,Button, CssBaseline,MenuItem} from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
-import {
-    
-    DatePicker,
-   
-  } from 'mui-rff';
-import {
-  
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
+import { format } from 'date-fns';
+
+
+import {  KeyboardDatePicker,MuiPickersUtilsProvider,} from '@material-ui/pickers';
+import { date } from 'faker';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -92,17 +87,24 @@ const useStyles = makeStyles((theme) => ({
   GetActivite();
   GetDelivrable();
     
-  
-  
+  var initDate ; 
   const App = view(() => {
     
     const [success, setsuccess] = useState(false);
     const [error, seterror] = useState(false);
-  
+    const [selectedDate, setSelectedDate] = React.useState(initDate);
+    const handleDateChange = (date) => {
+      setSelectedDate(date);
+      appStore.date= date;
+      //console.log(appStore.date);
+    };
     const onSubmit =  async values   => {
       const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
         await sleep(300);
         values.id = 0;
+        values.date = format(appStore.date, "yyyy-MM-dd") ;
+            try {
+              
             
         if(!appStore.edit){
 
@@ -128,7 +130,12 @@ const useStyles = makeStyles((theme) => ({
           }
           else seterror(true);
         }
+
+      } catch (error) {
+              console.log(error)
+      }
       //  console.log((await x).status)
+     
     };
   
       function Onseccess() {
@@ -169,12 +176,26 @@ const useStyles = makeStyles((theme) => ({
                     <Field 
                     name="date"
                     name="rendez-vous"
-                     margin="normal"
-                        label="Rendez-vous"
-                    dateFunsUtils={DateFnsUtils}
-                    component={TextField}>
+                 
+                    render={props => {
+                     // console.log(props); /* input and meta objects */
                       
-                       </Field>
+                      return  <MuiPickersUtilsProvider utils={DateFnsUtils}> <KeyboardDatePicker
+                      margin="normal"
+                      id="date-picker-dialog"
+                      label="Date picker dialog"
+                      format="yyyy-MM-dd"
+                      
+                      value={selectedDate}
+              onChange={handleDateChange}
+              disableOpenOnEnter
+              animateYearScrolling={false}
+              autoOk={true}
+              clearable
+                    /></MuiPickersUtilsProvider>;
+                    }} />
+                      
+                      
                   </Grid>
 
                   <Grid item xs={12}>
@@ -263,13 +284,18 @@ function QuestionAdd() {
 
   class MyView extends Component {
     componentWillUnmount() {
-        
+       
     }
   
     componentDidMount(){
-    
+    if(appStore.data[0]){
+     initDate = new Date(appStore.data[0].date)
+    }
+      
       GetActivite();
-        GetDelivrable();
+      GetDelivrable();
+
+      //  console.log( appStore.data[0].date)
     }
   
  
