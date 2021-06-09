@@ -41,6 +41,10 @@ const useStyles = makeStyles((theme) => ({
     if (!values.activite) {
       errors.activite = 'Required';
     }
+
+    if (!values.abreviation) {
+      errors.abreviation = 'Required';
+    }
     return errors;
   };
 
@@ -122,6 +126,18 @@ const useStyles = makeStyles((theme) => ({
                       type="text"
                       label="Activite"
                       initialValue={  appStore.data.length!=0 ?  appStore.data[0].activite : ""}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <Field
+                      name="abreviation"
+                      fullWidth
+                      required
+                      component={TextField}
+                      type="text"
+                      label="Abreviation"
+                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].abreviation : ""}
                     />
                   </Grid>
                     

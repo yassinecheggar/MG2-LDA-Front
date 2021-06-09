@@ -13,7 +13,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
-import Activiteadd from "./Activiteadd";
+import DocumentAdd from "./DocumentAdd";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
   },
   fixedHeight: {
-    height: 600,
+    height: 700,
   },
 
   TitleHeight: {
@@ -68,8 +68,20 @@ const useStyles = makeStyles((theme) => ({
 
 const columns = [
   { field: "id", headerName: "Id", flex: 0.1 },
-  { field: "activite", headerName: "Nome", flex: 0.4 },
-  { field: "abreviation", headerName: "Abreviation", flex: 0.4 },
+  { field: "ref", headerName: "Ref", flex: 0.2 },
+  { field: "nom", headerName: "Nom", flex: 0.2 },
+  { field: "langue", headerName: "Langue", flex: 0.1 },
+  { field: "typeDocument", headerName: "Type", flex: 0.1 ,valueGetter : ({ value }) => value.typedoc },
+  { field: "documentPole", headerName: "Pole", flex: 0.1,valueGetter : ({ value }) => value.pole },
+  { field: "documentPerimetre", headerName: "Perimetre", flex: 0.1 ,valueGetter : ({ value }) => value.perimetre +"  "+ value.perimetreArea.areadesc },
+  
+  { field: "docummentauthor", headerName: "Author", flex: 0.1 ,valueGetter : ({ value }) => value.nom + value.prenom},
+  { field: "documentdirection", headerName: "Direction", flex: 0.1,valueGetter : ({ value }) => value.directiondesc },
+  
+  { field: `trainning` , headerName: "Trainning", flex: 0.1  },
+  { field: `pubDate` , headerName: "PubDate", flex: 0.1  },
+  { field: "valideur", headerName: "Valideur", flex: 0.1 },
+ 
   {
     field: "color",
     headerName: "Action",
@@ -97,6 +109,7 @@ const columns = [
   },
 ];
 
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -104,8 +117,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 //generateRows(appStore.DataGrid);
 var IDselected = null;
 
-function Edit() {
-  console.log("Edit", IDselected);
+ function Edit() {
+ 
   appStore.edit=true;
   appStore.open=true;
 
@@ -118,7 +131,7 @@ function Delete() {
 
 async  function DeleteRequest(){
 
-  var status =  ( await axios.delete(AppConfig.API+`Activite/Delete/`+appStore.data[0].id) ).status;
+  var status =  ( await axios.delete(AppConfig.API+`Document/Delete/`+appStore.data[0].id) ).status;
   console.log("delete Status" , status);
   appStore.dialog= false;
 
@@ -127,7 +140,7 @@ async  function DeleteRequest(){
 }
 
 function GetData() {
-  axios.get( AppConfig.API +'Activite/GetAll').then(response  =>{
+  axios.get( AppConfig.API +'Document/GetAll').then(response  =>{
 
     if(response.data){     
         appStore.rows = response.data;   
@@ -152,7 +165,7 @@ const App = view(()  => {
             className={classes.TitleMargine}
           >
             {" "}
-            Activité{" "}
+            Document{" "}
           </Typography>
        
       </Grid>
@@ -169,7 +182,7 @@ const App = view(()  => {
           >
             {" "}
             <IconButton
-              aria-label="add activite"
+              aria-label="add Document"
               style={{ color: "#039632" }}
               onClick={appActions.handleOpen}
             >
@@ -200,6 +213,8 @@ const App = view(()  => {
         </Paper>
       </Grid>
 
+      
+
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -213,7 +228,7 @@ const App = view(()  => {
         }}
       >
         <Fade in={appStore.open}>
-          <Activiteadd />
+          <DocumentAdd />
         </Fade>
       </Modal>
 
@@ -247,7 +262,7 @@ const App = view(()  => {
   );
 });
 
-function CompActivite() {
+function Document() {
   return <App />;
 }
 
@@ -274,4 +289,5 @@ class MyView extends Component {
 }
 }
 
-export default CompActivite;
+export default Document;
+ 
