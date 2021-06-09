@@ -33,6 +33,12 @@ public class UserRestService {
 			return repo.findAll();
 		}
 
+	 
+	 @GetMapping("/GetUsersByPrev")
+		public List<User> getUserByPrev(){
+			return repo.findAllByPrevilege("admin");
+		}
+
 
 		@PostMapping("/Add")
 		public boolean addActivite(@RequestBody User user) {

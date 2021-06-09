@@ -18,6 +18,7 @@ public class Activite implements Serializable{
 	@Id @GeneratedValue
 	private  Integer id;
 	private  String  activite;
+	private  String abreviation;
 	
 	
 	
@@ -37,6 +38,10 @@ public class Activite implements Serializable{
 	private  List< Question> questionsList; 
 	
 	
+
+	@JsonIgnore
+	@OneToMany(mappedBy="documentActivite",fetch=FetchType.LAZY)
+	private  List<Document> documentList; 
 	
 
 	
@@ -122,6 +127,33 @@ public class Activite implements Serializable{
 		this.feedbacksList = feedbacksList;
 	}
 
+
+
+
+	public String getAbreviation() {
+		return abreviation;
+	}
+
+
+
+
+	public void setAbreviation(String abreviation) {
+		this.abreviation = abreviation;
+	}
+
+
+
+
+	public List<Document> getDocumentList() {
+		return documentList;
+	}
+
+
+
+
+	public void setDocumentList(List<Document> documentList) {
+		this.documentList = documentList;
+	}
 
 
 

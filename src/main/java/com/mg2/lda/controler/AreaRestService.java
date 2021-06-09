@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mg2.lda.models.Activite;
 import com.mg2.lda.models.Area;
+import com.mg2.lda.models.Perimetre;
 import com.mg2.lda.repository.ActiviteRepository;
 import com.mg2.lda.repository.AreaRepository;
 
@@ -32,6 +33,18 @@ public class AreaRestService {
 	 @GetMapping("/GetAll")
 		public List<Area> getAll(){
 			return repo.findAll();
+		}
+	 
+	 @GetMapping("/GetPerimetre/{id}")
+		public List<Perimetre> getperimetre(@PathVariable Integer id){
+		 
+		 
+		 	Area A=  repo.findById(id).get();
+		 	if(A!=null) {
+		 		return A.getPerimetresList();
+		 	}
+		 		
+			return null ;
 		}
 
 

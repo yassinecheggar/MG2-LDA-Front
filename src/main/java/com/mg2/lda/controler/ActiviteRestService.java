@@ -32,6 +32,11 @@ public class ActiviteRestService {
 	public List<Activite> getAllBesoinPC(){
 		return repo.findAll();
 	}
+    
+    @GetMapping("/GetById/{id}")
+   	public Activite getById(@PathVariable Integer id){
+   		return repo.findById(id).get();
+   	}
 
 
 	@PostMapping("/Add")

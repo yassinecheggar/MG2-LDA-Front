@@ -88,6 +88,18 @@ public class Area implements Serializable{
 
 
 
+	public List<Perimetre> getPerimetresList() {
+		return perimetresList;
+	}
+
+
+
+	public void setPerimetresList(List<Perimetre> perimetresList) {
+		this.perimetresList = perimetresList;
+	}
+
+
+
 
 
 

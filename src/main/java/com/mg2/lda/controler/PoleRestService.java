@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mg2.lda.models.Activite;
 import com.mg2.lda.models.Pole;
 import com.mg2.lda.models.Zone;
 import com.mg2.lda.repository.ActiviteRepository;
@@ -32,6 +33,17 @@ public class PoleRestService {
 	public List<Pole> getAll(){
 		return repo.findAll();
 	}
+
+	
+	 
+    @GetMapping("/GetById/{id}")
+   	public Pole getById(@PathVariable Integer id){
+    	
+    Pole p =repo.findById(id).get();
+    	if(p!=null) {
+   		return repo.findById(id).get();}
+    	return null;
+   	}
 
 
 	@PostMapping("/Add")

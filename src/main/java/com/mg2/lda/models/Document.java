@@ -72,7 +72,9 @@ public class Document implements Serializable{
 	@ManyToOne
 	@JoinColumn
 	private Perimetre DocumentPerimetre;
-
+	@ManyToOne
+	@JoinColumn
+	private Activite documentActivite;
 
 
 	@ManyToOne
@@ -213,9 +215,17 @@ public class Document implements Serializable{
 
 
 
-	
 
 
+	public Activite getDocumentActivite() {
+		return documentActivite;
+	}
+
+
+
+	public void setDocumentActivite(Activite documentActivite) {
+		this.documentActivite = documentActivite;
+	}
 
 
 
