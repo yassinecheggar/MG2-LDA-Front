@@ -45,7 +45,8 @@ const useStyles = makeStyles((theme) => ({
         Values.lien= "";
         Values.ref= "";
         Values.pubDate= null;
-        Values.valideur= "";
+        Values.documentPole.id= "";
+      
       
       
         Status= true;
@@ -54,23 +55,35 @@ const useStyles = makeStyles((theme) => ({
   
   const validate = values => {
     const errors = {};
-    /*
-    if (!values.description) {
-      errors.description = 'Required';
+    
+    if (!values.nom) {
+      errors.nom = 'Required';
     }
+    if (!values.langue) {
+        errors.phase = 'langue';
+      }
+  
+    if (!values.trainning) {
+        errors.trainning = 'Required';
+      }
 
+      if (!values.version) {
+        errors.version = 'Required';
+      }
+      if (!values.status) {
+        errors.status = 'Required';
+      }
+      if (!values.lien) {
+        errors.lien = 'Required';
+      }
+      if (!values.valideur) {
+        errors.valideur = 'Required';
+      }
       
-    if (!values.phase) {
-        errors.phase = 'Required';
-      }
-
+    
+    
         
-    if (!values.categorie) {
-        errors.categorie = 'Required';
-      }
-
-        
-   */
+   
     return errors;
   };
 
@@ -160,7 +173,7 @@ const useStyles = makeStyles((theme) => ({
   
       if(response.data){     
           appStore.ActiviteById = response.data;
-      
+        
       }
   });}
 
@@ -170,7 +183,7 @@ const useStyles = makeStyles((theme) => ({
   
       if(response.data){     
           appStore.PoleById = response.data;
-      
+       
       }
   });}
 
@@ -200,7 +213,7 @@ const useStyles = makeStyles((theme) => ({
        
      
         
-          // try {
+          try {
                  
         if(!appStore.edit){
           values.ref = appStore.PoleById.pole+"-"+appStore.ActiviteById.abreviation+"-"+values.version ;
@@ -216,9 +229,9 @@ const useStyles = makeStyles((theme) => ({
           else seterror(true);
         }
         if(appStore.edit){
-              GetActiviteById(appStore.data[0].documentActivite.id);
-              GetPoleById(appStore.data[0].documentPole.id);
-            values.ref = appStore.PoleById.pole+"-"+appStore.ActiviteById.abreviation+"-"+values.version ;
+              GetActiviteById(values.documentActivite.id);
+              GetPoleById(values.documentPole.id.toString());
+              values.ref = appStore.PoleById.pole+"-"+appStore.ActiviteById.abreviation+"-"+values.version ;
             values.pubDate = appStore.date;
           var y =  (await axios.put(AppConfig.API+`Document/Update/`+appStore.data[0].id, values)).status;
           if(y == 200){
@@ -231,12 +244,12 @@ const useStyles = makeStyles((theme) => ({
           else seterror(true);
         }
 
-    // } catch (error) {
-          //   console.log(error)
-      //}
+     } catch (error) {
+            console.log(error)
+      }
       
       //  console.log((await x).status)
-     console.log(values);
+     //console.log(values);
     };
   
       function Onseccess() {
@@ -444,7 +457,7 @@ function DocumentAdd() {
       
      initDate = new Date(appStore.data[0].date);
      appStore.date= initDate;
-     
+     GetPoleById(appStore.data[0].documentPole.id);
     }else{ initDate = null;}
       
     GetType();
@@ -454,7 +467,7 @@ function DocumentAdd() {
     GetValidator();
     GetArea();
     GetActivite();
-
+  
 
         //console.log( appStore.data[0].appStore.documentPole)
     }
@@ -529,7 +542,6 @@ function DocumentAdd() {
                     <OnChange name="documentPole.id">
                         {(value, previous) => {
                          
-                         GetPoleById(value);
                           }}
                      </OnChange>
                   </Grid>
