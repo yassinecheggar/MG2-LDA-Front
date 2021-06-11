@@ -18,7 +18,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Dashboard from '../Dashboard/Dashboard';
-
+import Search  from '../User-ui/Search/Search';
 
 
 import {  BrowserRouter as Router, Route, Switch , useRouteMatch,NavLink,useParams } from 'react-router-dom';
@@ -38,7 +38,7 @@ function Copyright() {
   );
 }
 
-const drawerWidth = 220;
+const drawerWidth = 230;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -218,8 +218,8 @@ export default function NavbarUser() {
           
         <Switch> 
           
-          <Route path={`${path}/CompActivite`}>
-        <CompActivite />
+          <Route path={`${path}/Search`}>
+        <Search />
         </Route>
         <Route path={`${path}/Dashboard`}>
           <Dashboard />

@@ -169,17 +169,16 @@ const useStyles = makeStyles((theme) => ({
   
   function GetActiviteById(id) {
      
-    axios.get( AppConfig.API +'Activite/GetById/'+parseInt(id)).then(response  =>{
+    axios.get( AppConfig.API +'Activite/GetById/'+id).then(response  =>{
   
       if(response.data){     
           appStore.ActiviteById = response.data;
-        
       }
   });}
 
   function GetPoleById(id) {
      
-    axios.get( AppConfig.API +'Pole/GetById/'+parseInt(id)).then(response  =>{
+    axios.get( AppConfig.API +'Pole/GetById/'+id).then(response  =>{
   
       if(response.data){     
           appStore.PoleById = response.data;
@@ -229,8 +228,8 @@ const useStyles = makeStyles((theme) => ({
           else seterror(true);
         }
         if(appStore.edit){
-              GetActiviteById(values.documentActivite.id);
-              GetPoleById(values.documentPole.id.toString());
+             
+             
               values.ref = appStore.PoleById.pole+"-"+appStore.ActiviteById.abreviation+"-"+values.version ;
             values.pubDate = appStore.date;
           var y =  (await axios.put(AppConfig.API+`Document/Update/`+appStore.data[0].id, values)).status;
@@ -496,8 +495,12 @@ function DocumentAdd() {
 
                     <OnChange name="documentActivite.id">
                         {(value, previous) => {
+                         try {
+                           GetActiviteById(value);
+                         } catch (error) {
+                           console.log(error );
+                         }
                          
-                         GetActiviteById(value);
                           }}
                      </OnChange>
                   </Grid>
@@ -531,6 +534,7 @@ function DocumentAdd() {
                       type="Text"
                       label="Pole"
                       formControlProps={{ fullWidth: true }}
+                  
                       initialValue={  appStore.data.length!=0 ? (appStore.data[0].documentPole? appStore.data[0].documentPole.id : "") : ""}>
 
                       {appStore.documentPole ? appStore.documentPole.map(pl => <MenuItem key={pl.id} value={pl.id}>{pl.pole}</MenuItem>) : <MenuItem key="default" value="default">Select an Area</MenuItem>}
@@ -541,7 +545,11 @@ function DocumentAdd() {
 
                     <OnChange name="documentPole.id">
                         {(value, previous) => {
-                         
+                         try {
+                          GetPoleById(value);
+                         } catch (error) {
+                          console.log(error );
+                         }
                           }}
                      </OnChange>
                   </Grid>

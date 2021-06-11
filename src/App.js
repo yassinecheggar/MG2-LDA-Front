@@ -12,7 +12,7 @@ function App() {
     <Router>
     <>
     <Route path="/" component={SignIn} exact/>
-    <Route path="/admin" component={Navbar} />
+    <Route path="/Home2" component={Navbar} />
     <Route path="/Home" component={NavbarUser} />
     
     </>

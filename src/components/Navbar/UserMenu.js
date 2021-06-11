@@ -20,15 +20,15 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Collapse from '@material-ui/core/Collapse';
 import CastForEducationIcon from '@material-ui/icons/CastForEducation';
+import { NavLink } from 'react-router-dom';
 
-const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
     nested: {
       paddingLeft: theme.spacing(4),
     },
   }));
 
-function UserMenu() {
+function UserMenu(props) {
 
     const [openl, setOpenl] = React.useState(false);
     const classes = useStyles();
@@ -39,25 +39,29 @@ function UserMenu() {
         <>
 
 
-            <List  component="nav" >
+      <List  component="nav" >
+
     <ListItem button  >
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItem>
-    <ListItem button>
+
+    <ListItem button component={NavLink} to={`${props.url}/Search`}>
       <ListItemIcon>
         <SearchIcon />
       </ListItemIcon>
       <ListItemText primary="Search" />
     </ListItem>
+
     <ListItem button>
       <ListItemIcon>
         <NavigationIcon />
       </ListItemIcon>
       <ListItemText primary="Navigation" />
     </ListItem>
+
     <ListItem button>
       <ListItemIcon>
         <CastForEducationIcon />
@@ -65,6 +69,7 @@ function UserMenu() {
       <ListItemText primary="Training" />
     </ListItem>
     <ListItem button onClick={handleClick}>
+
       <ListItemIcon>
         <GroupWorkIcon />
       </ListItemIcon>
