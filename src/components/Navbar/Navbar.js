@@ -32,6 +32,8 @@ import  FeedBack from  '../Admin-Ui/FeedBack/FeadBack';
 import  BestPractice from  '../Admin-Ui/BestPractice/BestPractice';
 import  Document from  '../Admin-Ui/Document/Document';
 import  Comment from  '../Admin-Ui/Comment/Comment';
+import Modififcation from  '../Admin-Ui/Modification/Modification';
+
 
 import {  BrowserRouter as Router, Route, Switch , useRouteMatch,NavLink,useParams } from 'react-router-dom';
 import AdminMenu from './AdminMenu';
@@ -362,6 +364,11 @@ export default function Navbar() {
 
         <Route path={`${path}/Comment`}>
           <Comment />
+        </Route>
+       
+
+        <Route path={`${path}/Modification`}>
+          <Modififcation />
         </Route>
        
        
