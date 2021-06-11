@@ -90,7 +90,7 @@ Delivrable
 
 Perimetre:
 
-{"id": null,"perimetre": "SuperStructure","perimetreArea": {"id": 14,"areadesc": ""}}
+{"id": null,"perimetre": "SuperStructure","perimetreArea": {"id":213,"areadesc": ""}}
 {"id": null,"perimetre": "Soubassement","perimetreArea": {"id": 14,"areadesc": ""}}
 {"id": null,"perimetre": "Peinture & Protection","perimetreArea": {"id": 14,"areadesc": ""}}
 {"id": null,"perimetre": "Tolerie Ouvrants","perimetreArea": {"id": 14,"areadesc": ""}}
