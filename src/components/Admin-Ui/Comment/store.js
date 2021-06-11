@@ -8,8 +8,8 @@ const appStore = store({
   error: false,
   GridData:[],
   rows: [],
-  edit: false
-
+  edit: false,
+  date: null,
 });
 
 export default appStore;
