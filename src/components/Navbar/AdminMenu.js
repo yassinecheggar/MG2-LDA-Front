@@ -7,7 +7,7 @@ import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import ListSubheader from '@material-ui/core/ListSubheader';
-
+import SettingsIcon from '@material-ui/icons/Settings';
 import { NavLink } from 'react-router-dom';
 
 
@@ -35,7 +35,7 @@ function AdminMenu(props) {
 
 <ListItem button component={NavLink} to={`${props.url}/CompActivite`}>
   <ListItemIcon>
-    <AssignmentIcon />
+    <SettingsIcon />
   </ListItemIcon>
   <ListItemText primary="Activité" />
 </ListItem>
@@ -43,14 +43,14 @@ function AdminMenu(props) {
 <ListItem button component={NavLink} to={`${props.url}/Area`}>
 
   <ListItemIcon>
-    <AssignmentIcon />
+    <SettingsIcon />
   </ListItemIcon>
   <ListItemText primary="Area" />
 </ListItem>
 
 <ListItem button component={NavLink} to={`${props.url}/Author`}>
   <ListItemIcon>
-    <AssignmentIcon />
+    <SettingsIcon />
   </ListItemIcon>
   <ListItemText primary="Author" />
 </ListItem>
@@ -58,7 +58,7 @@ function AdminMenu(props) {
 
 <ListItem button component={NavLink} to={`${props.url}/BestPractice`}>
   <ListItemIcon>
-    <AssignmentIcon />
+    <SettingsIcon />
   </ListItemIcon>
   <ListItemText primary="BestPractice" />
 </ListItem>
@@ -66,7 +66,7 @@ function AdminMenu(props) {
 
 <ListItem button component={NavLink} to={`${props.url}/Comment`}>
   <ListItemIcon>
-    <AssignmentIcon />
+    <SettingsIcon />
   </ListItemIcon>
   <ListItemText primary="Comment" />
 </ListItem>
@@ -75,14 +75,14 @@ function AdminMenu(props) {
 
 <ListItem button component={NavLink} to={`${props.url}/Delivrable`}>
   <ListItemIcon>
-    <AssignmentIcon />
+    <SettingsIcon />
   </ListItemIcon>
   <ListItemText primary="Delivrable" />
 </ListItem>
 
 <ListItem button component={NavLink} to={`${props.url}/Direction`}>
   <ListItemIcon>
-    <AssignmentIcon />
+    <SettingsIcon />
   </ListItemIcon>
   <ListItemText primary="Direction" />
 </ListItem>
@@ -90,7 +90,7 @@ function AdminMenu(props) {
 
 <ListItem button component={NavLink} to={`${props.url}/Document`}>
   <ListItemIcon>
-    <AssignmentIcon />
+    <SettingsIcon />
   </ListItemIcon>
   <ListItemText primary="Document" />
 </ListItem>
@@ -99,7 +99,7 @@ function AdminMenu(props) {
 
 <ListItem button component={NavLink} to={`${props.url}/Type`}> 
   <ListItemIcon>
-    <AssignmentIcon />
+    <SettingsIcon />
   </ListItemIcon>
   <ListItemText primary="Doc Type" />
 </ListItem>
@@ -107,7 +107,7 @@ function AdminMenu(props) {
 
 <ListItem button component={NavLink} to={`${props.url}/FeedBack`}>
   <ListItemIcon>
-    <AssignmentIcon />
+    <SettingsIcon />
   </ListItemIcon>
   <ListItemText primary="Feedback" />
 </ListItem>
@@ -115,7 +115,7 @@ function AdminMenu(props) {
 
 <ListItem button component={NavLink} to={`${props.url}/Modification`}>
   <ListItemIcon>
-    <AssignmentIcon />
+    <SettingsIcon />
   </ListItemIcon>
   <ListItemText primary="Modif" />
 </ListItem>
@@ -124,7 +124,7 @@ function AdminMenu(props) {
 
 <ListItem button component={NavLink} to={`${props.url}/Perimetre`}>
   <ListItemIcon>
-    <AssignmentIcon />
+    <SettingsIcon />
   </ListItemIcon>
   <ListItemText primary="Perimetre" />
 </ListItem>
@@ -133,7 +133,7 @@ function AdminMenu(props) {
 
 <ListItem button component={NavLink} to={`${props.url}/Picture`}>
   <ListItemIcon>
-    <AssignmentIcon />
+    <SettingsIcon />
   </ListItemIcon>
   <ListItemText primary="Picture" />
 </ListItem>
@@ -142,7 +142,7 @@ function AdminMenu(props) {
 
 <ListItem button  component={NavLink} to={`${props.url}/Pole`}>
   <ListItemIcon>
-    <AssignmentIcon />
+    <SettingsIcon />
   </ListItemIcon>
   <ListItemText primary="Pole" />
 </ListItem>
@@ -152,7 +152,7 @@ function AdminMenu(props) {
 
 <ListItem button component={NavLink} to={`${props.url}/Question`}>
   <ListItemIcon>
-    <AssignmentIcon />
+    <SettingsIcon />
   </ListItemIcon>
   <ListItemText primary="Question" />
 </ListItem>
@@ -161,7 +161,7 @@ function AdminMenu(props) {
 
 <ListItem button component={NavLink} to={`${props.url}/user`}>
   <ListItemIcon>
-    <AssignmentIcon />
+    <SettingsIcon />
   </ListItemIcon>
   <ListItemText primary="User" />
 </ListItem>

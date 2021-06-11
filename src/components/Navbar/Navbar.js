@@ -52,7 +52,7 @@ function Copyright() {
   );
 }
 
-const drawerWidth = 240;
+const drawerWidth = 230;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: '0 8px',
-    background: 'linear-gradient(0deg, rgba(0,0,0,0.0), rgba(0,0,0,0.0)), url("images/LogoMG2.png");  ',
+    
   
     ...theme.mixins.toolbar,
   },
@@ -164,6 +164,7 @@ export default function Navbar() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const [openl, setOpenl] = React.useState(false);
+  const [image, setimage] = React.useState(true);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -173,7 +174,13 @@ export default function Navbar() {
   };
   const handleClick = () => {
     setOpenl(!openl);
-  };  
+  }; 
+  
+  const handleImage = () => {
+    setimage(true);
+  }; 
+
+
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   /** Nested  list  */
@@ -210,7 +217,7 @@ export default function Navbar() {
         }}
         open={open}
       >
-        <div className={classes.toolbarIcon}>
+        <div className={classes.toolbarIcon} style={{   backgroundImage: "url(images/LogoMG2.png)"}}>
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
           </IconButton>
