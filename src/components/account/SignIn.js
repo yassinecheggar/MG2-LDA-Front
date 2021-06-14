@@ -96,7 +96,7 @@ export default function SignIn() {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link  variant="body2"component={NavLink} to="/Home2">
                 Forgot password?
               </Link>
             </Grid>

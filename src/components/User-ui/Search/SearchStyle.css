@@ -6,7 +6,7 @@
 
 .docInfoField{
     margin-left :10px;
-    color: white;
+    color:lavender ;
 }
 
 .image{
@@ -16,4 +16,9 @@
 }
 .image:hover{
     cursor: pointer;
+}
+.DocTypoField{
+    color:white;
+    overflow-wrap: break-word;
+    font-weight:700;
 }

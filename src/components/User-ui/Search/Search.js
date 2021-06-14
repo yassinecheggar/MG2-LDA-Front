@@ -14,7 +14,7 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 //import DocumentAdd from "./DocumentAdd";
-
+import  Comment from  './Comment';
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -128,13 +128,34 @@ function GetData() {
 });
 }
 
+
+ async function GetComment(id) {
+  axios.get( AppConfig.API +'Document/GetCommentBydoc/'+id).then(response  =>{
+
+    if(response.data){     
+        appStore.comment = response.data;   
+    }
+});
+}
+
+async function GetUpdate(id) {
+  appStore.update=null;
+  axios.get( AppConfig.API +'Document/GetLastModBydoc/'+id).then(response  =>{
+
+    if(response.data){  
+      
+        appStore.update = response.data;   
+    }
+});
+}
+
 const App = view(()  => {
   
   const classes = useStyles();
   const [selectionModel, setSelectionModel] = useState([]);
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-  
-
+  const [selection, setSelection] = useState();
+  const [Updater, setUpdater] = useState();
   return (
     <>
     
@@ -169,6 +190,7 @@ const App = view(()  => {
               }}
             onSelectionModelChange={(newSelection) => {
               setSelectionModel(newSelection.selectionModel);
+              
             }}
             onRowSelected={(e) => {
               IDselected = e.data.fname;
@@ -178,15 +200,21 @@ const App = view(()  => {
               const selectedRowData = appStore.rows.filter((row) =>
                 selectedIDs.has(row.id)
               );
-
+              GetComment(selectedRowData[0].id);
+              GetUpdate(selectedRowData[0].id);
               appStore.data = selectedRowData;
-              console.log("selected rowData:",  appStore.data);
+              setSelection( selectedRowData[0]);
+
+              //console.log("selected rowData:",  selection);
+              //console.log("selected rowData Store:",  appStore.data[0]);
+              
             }}
           />
         </Paper>
       </Grid>
 
 {/**---------------------------------------------------------------------------------------------------------------------------------------------------- */}
+
       <Grid item xs={12} md={12} lg={8}  >
            
                 
@@ -194,6 +222,7 @@ const App = view(()  => {
                 <p className='docInfoTitle'>Document Informations </p>
                 <Grid
                         container
+                        wrap="nowrap"
                         direction="row"
                          justify="center"
                         alignItems="center"
@@ -202,27 +231,29 @@ const App = view(()  => {
                 >
                 <Grid item xs={6} md={6} lg={6} >
                         
-                        <p className='docInfoField'> ID : </p>
-                        <p className='docInfoField'> Reference : </p>
-                        <p className='docInfoField'> Nom : </p>
-                        <p className='docInfoField'> Direction : </p>
-                        <p className='docInfoField'> Version : </p>
-                        <p className='docInfoField'> Statut : </p>
-                        <p className='docInfoField'> Doc Type : </p>
-                        <p className='docInfoField'> Langue : </p>
+                        
+                        <p className='docInfoField'> ID :  <span className='DocTypoField'>{selection ? selection.id : ""} </span> </p> 
+                        <p className='docInfoField'> Reference : <span className='DocTypoField'>{selection ? selection.ref : ""} </span> </p>
+                        <p className='docInfoField'> Nom : <span className='DocTypoField'>{selection ? selection.nom : ""}</span> </p>
+                        <p className='docInfoField'> Direction : <span className='DocTypoField'>{selection ? (selection.documentdirection? selection.documentdirection.directiondesc :"") : ""}</span> </p>
+                        <p className='docInfoField'> Version : <span className='DocTypoField'>{selection ? selection.version : ""}</span> </p>
+                        <p className='docInfoField'> Statut : <span className='DocTypoField'>{selection ? selection.status : ""} </span></p>
+                        <p className='docInfoField'> Doc Type : <span className='DocTypoField'>{selection ? (selection.typeDocument? selection.typeDocument.typedoc :"") : ""}</span> </p>
+                        <p className='docInfoField'> Langue :<span className='DocTypoField' >{selection ? selection.langue : ""} </span> </p>
                        
                         
                 </Grid>
 
                 <Grid item xs={6} md={6} lg={6} >
-                        <p className='docInfoField'> Area : </p>
-                        <p className='docInfoField'> Perimetre : </p>
-                        <p className='docInfoField'> Autheur : </p>
-                        <p className='docInfoField'> Date Publication : </p>
-                        <p className='docInfoField'> Direction : </p>
-                        <p className='docInfoField'> Last Updater : </p>
-                        <p className='docInfoField'> Activity : </p>
-                        <p className='docInfoField'> Valideur : </p>
+                        <p className='docInfoField'> Area : <span className='DocTypoField' >{selection ? (selection.documentPerimetre?(selection.documentPerimetre.perimetreArea ? selection.documentPerimetre.perimetreArea.areadesc :"") :"") : ""} </span> </p>
+                        <p className='docInfoField'> Perimetre :<span className='DocTypoField' > {selection ? (selection.documentPerimetre? selection.documentPerimetre.perimetre :"") : ""}</span></p>
+                        <p className='docInfoField'> Autheur : <span className='DocTypoField' >{selection ? (selection.docummentauthor? selection.docummentauthor.nom +" "+ selection.docummentauthor.prenom :"") : ""}</span></p>
+                        <p className='docInfoField'> Date Publication :<span className='DocTypoField' >{selection ? selection.pubDate : ""} </span></p>
+                        <p className='docInfoField'> Pole :<span className='DocTypoField' >{selection ? (selection.typeDocument? selection.typeDocument.typedoc :"") : ""}</span> </p>
+                        <p className='docInfoField'> Last Update :  <span className='DocTypoField' >{appStore.update ? appStore.update.dateModification : ""} </span> <span className='DocTypoField' >{appStore.update ? ( appStore.update.userMod?  appStore.update.userMod.nom +' '+ appStore.update.userMod.prenom   :"") : ""} </span> </p>
+                       
+                        <p className='docInfoField'> Activity :<span className='DocTypoField' >{selection ? (selection.documentActivite? selection.documentActivite.activite :"") : ""} </span></p>
+                        <p className='docInfoField'> Valideur :<span className='DocTypoField' >{selection ? selection.valideur : ""}</span></p>
                         
                 </Grid>
                 </Grid>
@@ -245,8 +276,7 @@ const App = view(()  => {
            
                 <Paper className={fixedHeightPaper}>
 
-
-
+                <Comment />
 
                 </Paper>
             

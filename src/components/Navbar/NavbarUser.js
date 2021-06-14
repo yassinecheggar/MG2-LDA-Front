@@ -202,7 +202,7 @@ export default function NavbarUser() {
         </div>
         <Divider />
 
-            <div style={{margin: 0 , position:'absolute', top:'20%',transform :'translateY(-20%)' }}>
+            <div >
            <UserMenu url={url}  />
            </div>
         
