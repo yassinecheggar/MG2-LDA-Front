@@ -11,6 +11,7 @@ const appStore = store({
   edit: false,
   comment:[],
   update: [],
+  selected : null,
 });
 
 export default appStore;

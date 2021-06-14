@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { DataGrid , GridToolbar} from "@material-ui/data-grid";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
+import AddIcon from "@material-ui/icons/Add";
 import Typography from "@material-ui/core/Typography";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import IconButton from "@material-ui/core/IconButton";
@@ -14,6 +14,7 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 //import DocumentAdd from "./DocumentAdd";
+import AddComment  from "./AddComment"
 import  Comment from  './Comment';
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -27,6 +28,7 @@ import { view } from "@risingstack/react-easy-state";
 import axios from 'axios';
 import AppConfig from '../../Global';
 import './SearchStyle.css';
+import Fab from '@material-ui/core/Fab';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -155,7 +157,7 @@ const App = view(()  => {
   const [selectionModel, setSelectionModel] = useState([]);
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const [selection, setSelection] = useState();
-  const [Updater, setUpdater] = useState();
+  const [enable, setEnable] = useState(true);
   return (
     <>
     
@@ -200,11 +202,13 @@ const App = view(()  => {
               const selectedRowData = appStore.rows.filter((row) =>
                 selectedIDs.has(row.id)
               );
+              appStore.data = selectedRowData;
+              appStore.selected = selectedRowData[0];
               GetComment(selectedRowData[0].id);
               GetUpdate(selectedRowData[0].id);
-              appStore.data = selectedRowData;
+              
               setSelection( selectedRowData[0]);
-
+              setEnable(false);
               //console.log("selected rowData:",  selection);
               //console.log("selected rowData Store:",  appStore.data[0]);
               
@@ -257,9 +261,8 @@ const App = view(()  => {
                         
                 </Grid>
                 </Grid>
-                <IconButton
-              
-              style={{ position: 'absolute', right: '10px',  bottom: '10px' }}
+              <IconButton
+                style={{ position: 'absolute', right: '10px',  bottom: '10px' }}
              
             >
              <img className='image' src='images/pdfIcon.png'/>
@@ -272,11 +275,17 @@ const App = view(()  => {
       </Grid>
 
 
-      <Grid item xs={12} md={12} lg={4}  >
+      <Grid item xs={12} md={12} lg={4}   >
            
-                <Paper className={fixedHeightPaper}>
+                <Paper className={fixedHeightPaper}  style={{position:'relative'}} >
 
                 <Comment />
+                   <div style={{position:'sticky' ,right:0 ,bottom:0 ,  display:"flex" ,flexDirection:'row-reverse'}} >
+                      <Fab  color="secondary"  onClick={appActions.handleOpen}  disabled={enable} >
+                    <AddIcon />
+                      </Fab>
+                    </div>
+                
 
                 </Paper>
             
@@ -300,7 +309,7 @@ const App = view(()  => {
         }}
       >
         <Fade in={appStore.open}>
-         
+         <AddComment/>
         </Fade>
       </Modal>
 
