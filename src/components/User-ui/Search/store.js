@@ -12,6 +12,9 @@ const appStore = store({
   comment:[],
   update: [],
   selected : null,
+  openModal :  false , 
+  openModal :  false , 
+  linktoImage : '',
 });
 
 export default appStore;

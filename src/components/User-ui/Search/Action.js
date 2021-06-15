@@ -11,6 +11,17 @@ const appActions = {
     appStore.data=[] ;
     
   },
+  handleOpenModal: () => {
+    appStore.data=[]
+    appStore.openModal = true;
+  },
+  handleCloseModal: () => {
+    appStore.openModal = false;
+    appStore.data=[] ;
+    appStore.linktoImage="";
+    
+  },
+  
 
   handleCloseDialog: () => {
     appStore.dialog = false;

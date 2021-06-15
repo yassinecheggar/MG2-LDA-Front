@@ -16,11 +16,7 @@ import Fade from "@material-ui/core/Fade";
 //import DocumentAdd from "./DocumentAdd";
 import AddComment  from "./AddComment"
 import  Comment from  './Comment';
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
+import  DocumentAdd  from  './DocumentAdd';
 import Slide from "@material-ui/core/Slide";
 import appStore from "./store";
 import appActions from "./Action";
@@ -171,8 +167,8 @@ const App = view(()  => {
           
             Looking for a document? 
           </Typography>
-
-        <Button variant="contained" color="primary" style={{float: 'right'}} onClick={appActions.handleOpen}>
+    
+        <Button variant="contained" color="primary" style={{float: 'right'}} onClick={appActions.handleOpenModal}>
         Add Document
       </Button>
 
@@ -306,38 +302,32 @@ const App = view(()  => {
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 2000,
-        }}
-      >
+        }} >
+
         <Fade in={appStore.open}>
          <AddComment/>
         </Fade>
       </Modal>
 
-      <Dialog
-        open={appStore.dialog}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={appActions.handleCloseDialog}
-        aria-labelledby="alert-dialog-slide-title"
-        aria-describedby="alert-dialog-slide-description"
-      >
-        <DialogTitle id="alert-dialog-slide-title">
-          {"Supprimer ?"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-          voulez vous vraiment le supprimer de façon permanente
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={appActions.handleCloseDialog} color="primary">
-            non
-          </Button>
-          <Button onClick={DeleteRequest} color="secondary">
-            oui
-          </Button>
-        </DialogActions>
-      </Dialog>
+
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.modal}
+        open={appStore.openModal}
+        onClose={appActions.handleCloseModal }
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 2000,
+        }} >
+          
+        <Fade in={appStore.open}>
+         <DocumentAdd/>
+        </Fade>
+      </Modal>
+
+      
       <MyView/>
     </>
   );
