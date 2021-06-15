@@ -19,6 +19,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Dashboard from '../Dashboard/Dashboard';
 import Search  from '../User-ui/Search/Search';
+import  Navigation  from  '../User-ui/Navigation/Navigation';
 
 
 import {  BrowserRouter as Router, Route, Switch , useRouteMatch,NavLink,useParams } from 'react-router-dom';
@@ -224,11 +225,13 @@ export default function NavbarUser() {
         <Route path={`${path}/Dashboard`}>
           <Dashboard />
         </Route>
+
+        <Route path={`${path}/Navigation`}>
+          <Navigation />
+        </Route>
        
        
-       
-        
-        
+  
       </Switch>
 
         </Grid>

@@ -1,0 +1,31 @@
+.SerachContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.SearchBox{
+
+    max-width: 500px;
+}
+.clickable{
+    height: 100%;
+    width: 100%;
+    display: flex;
+
+    align-items: center;
+   justify-content: space-evenly;
+    text-align: center;
+}
+
+.paper{
+    height: 200px;
+    transition-delay: 1s ease;
+    }
+.paper:hover {
+        cursor: pointer;
+        -webkit-transform: scale(0.8);
+        -ms-transform: scale(0.8);
+        transform: scale(0.8);
+      transition: 1s ease;
+    }
