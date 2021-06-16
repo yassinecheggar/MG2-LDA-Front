@@ -247,7 +247,7 @@ const App = view(()  => {
                 <Grid item xs={6} md={6} lg={6} >
                         <p className='docInfoField'> Area : <span className='DocTypoField' >{selection ? (selection.documentPerimetre?(selection.documentPerimetre.perimetreArea ? selection.documentPerimetre.perimetreArea.areadesc :"") :"") : ""} </span> </p>
                         <p className='docInfoField'> Perimetre :<span className='DocTypoField' > {selection ? (selection.documentPerimetre? selection.documentPerimetre.perimetre :"") : ""}</span></p>
-                        <p className='docInfoField'> Autheur : <span className='DocTypoField' >{selection ? (selection.docummentauthor? selection.docummentauthor.nom +" "+ selection.docummentauthor.prenom :"") : ""}</span></p>
+                        <p className='docInfoField'> Auteur : <span className='DocTypoField' >{selection ? (selection.docummentauthor? selection.docummentauthor.nom +" "+ selection.docummentauthor.prenom :"") : ""}</span></p>
                         <p className='docInfoField'> Date Publication :<span className='DocTypoField' >{selection ? selection.pubDate : ""} </span></p>
                         <p className='docInfoField'> Pole :<span className='DocTypoField' >{selection ? (selection.typeDocument? selection.typeDocument.typedoc :"") : ""}</span> </p>
                         <p className='docInfoField'> Last Update :  <span className='DocTypoField' >{appStore.update ? appStore.update.dateModification : ""} </span> <span className='DocTypoField' >{appStore.update ? ( appStore.update.userMod?  appStore.update.userMod.nom +' '+ appStore.update.userMod.prenom   :"") : ""} </span> </p>

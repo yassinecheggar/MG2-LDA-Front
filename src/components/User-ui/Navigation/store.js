@@ -26,6 +26,8 @@ const appStore = store({
   isActiviteSelected:true,
   isTypeSelected:false,
   isDocSelected:false,
+
+  colFilter :'' ,
   
 
 });
