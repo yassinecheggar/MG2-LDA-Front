@@ -7,9 +7,26 @@ const appStore = store({
   success:false,
   error: false,
   GridData:[],
+  
   rows: [],
-  edit: false,
   Res:[],
+
+  Typerows: [],
+  Typeres: [],
+
+  Docrows: [],
+  Docres: [],
+
+  edit: false,
+
+  hasResult:false,
+  TypehasResult:false,
+  DochasReslut:false,
+
+  isActiviteSelected:true,
+  isTypeSelected:false,
+  isDocSelected:false,
+  
 
 });
 

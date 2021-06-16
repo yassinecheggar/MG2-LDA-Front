@@ -26,6 +26,23 @@ const appActions = {
   handlClick: (event) => {
     appStore.selectOne = event.target.value;
   },
+
+  NextStepT: () => {
+    appStore.isActiviteSelected = false;
+    appStore.isTypeSelected = true;
+    appStore.isDocSelected=false;
+  },
+
+  previousStepA: () => {
+    appStore.isTypeSelected = false;
+    appStore.isActiviteSelected = true;
+    appStore.isDocSelected=false;
+  },
+  previousStepD: () => {
+    appStore.isTypeSelected = false;
+    appStore.isActiviteSelected = false;
+    appStore.isDocSelected=true;
+  },
   
 };
 
