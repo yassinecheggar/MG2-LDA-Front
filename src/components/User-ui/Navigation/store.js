@@ -27,7 +27,7 @@ const appStore = store({
   isTypeSelected:false,
   isDocSelected:false,
 
-  colFilter :'' ,
+  colFilter : 'nom',
   
 
 });

@@ -53,18 +53,33 @@
     height: 100%;
 
 }
+
+.dataCardContainer{
+    position: relative;
+    max-height: 200px;
+    max-width: fit-content;
+   margin-top: 60px;
+   overflow:hidden;
+}
+
 .CardText{
     margin:0;
     margin-left: 10px;
     font-size: medium;
-    color: rgb(48, 103, 117);
-    font-weight: 600;
+    color: white;
+    
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+   -webkit-line-clamp: 1; 
+   -webkit-box-orient: vertical;
     
 }
 .CardText>span{
-    color: black;
+    color: rgb(189, 189, 189);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;; 
-    font-weight: 500;
+   
 }
+

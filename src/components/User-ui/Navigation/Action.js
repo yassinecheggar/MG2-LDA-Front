@@ -43,6 +43,10 @@ const appActions = {
     appStore.isActiviteSelected = false;
     appStore.isDocSelected=true;
   },
+
+  handlchnageSelect: (event) => {
+    appStore.colFilter = event.target.value;
+  },
   
 };
 

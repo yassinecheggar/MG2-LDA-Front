@@ -35,9 +35,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   select: {
-    "&:before": {
-      borderColor: "wight",
+    "& .MuiInputBase-input": {
+      color: "green",
     },
+
   },
   paper: {
     padding: theme.spacing(2),
@@ -77,6 +78,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   cardPage: {
+    backgroundColor: '#000000',
+    backgroundImage: 'linear-gradient(147deg, #000000 0%, #2c3e50 74%)',
     transition: "1s ease",
     height: 250,
     "&:hover": {
@@ -85,16 +88,77 @@ const useStyles = makeStyles((theme) => ({
       transition: "1s ease",
     },
   },
+  cardPage2: {
+    height: 200,
+    backgroundColor: '#000000',
+    backgroundImage: 'linear-gradient(160deg, #000000 10%, #7f8c8d 140%)',
+
+    transition: "1s ease",
+    "&:hover": {
+      cursor: "pointer",
+      transform: "scale(0.8)",
+      transition: "1s ease",
+    },
+  },
+
+  cardPage3: {
+    height: 200,
+    backgroundColor: '#f8002f',
+    backgroundImage: ' linear-gradient(320deg, #f8002f 0%, #000c14 80%)',
+
+    transition: "1s ease",
+    "&:hover": {
+      cursor: "pointer",
+      transform: "scale(0.8)",
+      transition: "1s ease",
+    },
+  },
+
 
   modal: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
   },
+
+  select: {
+    // color: "red",
+    
+  },
+   icon: {
+    fill: "#ffffff",
+    color: '#ffffff',
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+   
+    
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2)
+  }
 }));
-const MyStyle = makeStyles({
- 
-});
+
+
+const useOutlinedInputStyles = makeStyles(theme => ({
+  root: {
+    "& $notchedOutline": {
+      borderColor: "red"
+    },
+    "&:hover $notchedOutline": {
+      borderColor: "blue"
+    },
+    "&$focused $notchedOutline": {
+      borderColor: "green"
+    }
+  },
+  focused: {},
+  notchedOutline: {}
+}));
+
+
+
 
 function GetActivite() {
   axios.get(AppConfig.API + "Activite/GetAll").then((response) => {
@@ -166,14 +230,42 @@ function filterByValueDoc(array, string, col) {
   }
 }
 
-function filterByValueDocNested(array, string, col, col2) {
-  try {
-    return array.filter((o) =>
-      o[col][col2].toLowerCase().includes(string.toLowerCase())
-    );
-  } catch (error) {
-    return [];
+function filterByValueDocNested(array, string, col) {
+  const x =[ {main: 'documentPole', sub: 'pole' },
+    {main: 'documentdirection', sub: 'directiondesc'},
+    {main: 'nom', sub: null},
+    {main: 'pubDate', sub: null},
+    {main: 'langue', sub: null},
+    {main: 'ref', sub: null},
+    {main: 'typeDocument', sub: 'typedoc'}];
+
+    var y =  x.filter(function(it) {
+      return it.main == col;
+  });
+
+  
+  if(y[0].sub!=null){
+    let x1 =y[0].main;
+    let x2 =y[0].sub;
+    try {
+      return array.filter((o) =>
+        o[x1][x2].toLowerCase().includes(string.toLowerCase())
+      );
+    } catch (error) {
+      return [];
+    }
+  }else{
+    let x1 =y[0].main;
+    try {
+      return array.filter((o) =>
+        o[x1].toLowerCase().includes(string.toLowerCase())
+      );
+    } catch (error) {
+      return [];
+    }
+
   }
+ 
 }
 
 const Activite = view(() => {
@@ -195,9 +287,9 @@ const Activite = view(() => {
         ? appStore.res.map((value, index) => {
             return (
               <Grid item xs={6} md={4} lg={3}>
-                <Paper className={fixedHeightPaper}>
+                <Paper className={classes.cardPage3}>
                   <div className="clickable" onClick={appActions.NextStepT}>
-                    <h2>{value.activite}</h2>
+                    <h2 style={{color:'white'}} >{value.activite}</h2>
                   </div>
                 </Paper>
               </Grid>
@@ -234,9 +326,9 @@ const DocType = view(() => {
         ? appStore.Typeres.map((value, index) => {
             return (
               <Grid item xs={6} md={4} lg={3}>
-                <Paper className={fixedHeightPaper}>
+                <Paper className={classes.cardPage2} >
                   <div className="clickable" onClick={appActions.previousStepD}>
-                    <h2>{value.typedoc}</h2>
+                    <h2 style={{color:"white"}}>{value.typedoc}</h2>
                   </div>
                 </Paper>
               </Grid>
@@ -248,7 +340,7 @@ const DocType = view(() => {
 });
 
 const DocList = view(() => {
-  const Myclasses = MyStyle();
+  const outlinedInputClasses = useOutlinedInputStyles();
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   return (
@@ -263,7 +355,7 @@ const DocList = view(() => {
         <div className="SerachContainer">
           <SearchBar
             onChange={(newValue) => {
-              appStore.Docres = filterByValueDoc(
+              appStore.Docres = filterByValueDocNested(
                 appStore.Docrows,
                 newValue,
                 appStore.colFilter
@@ -271,21 +363,44 @@ const DocList = view(() => {
             }}
             //onRequestSearch={() => console.log(``, )}
           />
-          <Select
-          classes={{ root: classes.root }}
+
+        <div style={{marginLeft:20}}>
+        <FormControl variant="outlined" className={classes.formControl}>
+        <InputLabel id="demo-simple-select-outlined-label" style={{color:'white'}}>critère</InputLabel>
+           <Select
+            className={classes.select}
             labelId="demo-simple-select-outlined-label"
+            style={{color:'white' ,width:150}}
+            placeholder='search by..'
+            
             id="demo-simple-select-outlined"
-            //value={age}
-            // onChange={handleChange}
+            value={appStore.colFilter}
+             onChange={appActions.handlchnageSelect}
             label="Select"
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenkkty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
+            inputProps={{
+              name: "Filter",
+              classes: {
+                icon: classes.icon,
+                borderColor: "green"
+              }
+             
+            }}  ><MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value={'nom'}>Nom</MenuItem>
+          <MenuItem value={'ref'}>Ref</MenuItem>
+          <MenuItem value={'pubDate'}>date</MenuItem>
+          <MenuItem value={'langue'}>auteur</MenuItem>
+          <MenuItem value={'documentPole'}>pole</MenuItem>
+          <MenuItem value={'documentdirection'}>direction</MenuItem>
+          <MenuItem value={'typeDocument'}>Typedocument</MenuItem>
+         
+        </Select>
+        </FormControl>
+        </div>
+         
+        
+            
         </div>
       </Grid>
       {appStore.Docres
@@ -305,15 +420,10 @@ const DocList = view(() => {
                     </IconButton>
 
                     <div
-                      style={{
-                        display: "inline-flex",
-                        flexDirection: "column",
-                        maxHeight: 250,
-                        marginTop: 50,
-                      }}
+                      className='dataCardContainer'
                       data-tip
                       data-for="global"
-                      data-event="click focus"
+                      
                     >
                       <p className="CardText">
                         <span>Nom :</span> {value ? value.nom : ""}
@@ -325,6 +435,7 @@ const DocList = view(() => {
                       <p className="CardText">
                         <span>Version :</span>
                         {value ? value.version : ""}
+                      
                       </p>
                       <p className="CardText">
                         <span>Auteur :</span>
