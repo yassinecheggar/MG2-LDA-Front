@@ -17,6 +17,7 @@ import IconButton from "@material-ui/core/IconButton";
 import SearchBar from "material-ui-search-bar";
 import "./NavigationStyle.css";
 import axios from "axios";
+import open from 'open';
 import AppConfig from "../../Global";
 import ReactTooltip from "react-tooltip";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -339,6 +340,12 @@ const DocType = view(() => {
   );
 });
 
+function openFile(params) {
+  navigator.clipboard.writeText(params);
+ 
+  //window.open(params);
+}
+
 const DocList = view(() => {
   const outlinedInputClasses = useOutlinedInputStyles();
   const classes = useStyles();
@@ -409,7 +416,7 @@ const DocList = view(() => {
               <Grid item xs={12} md={6} lg={3} style={{ marginTop: 40 }}>
                 <Paper className={classes.cardPage}>
                   <div style={{ display: "flex", position: "relative" }}>
-                    <IconButton
+                    <IconButton onClick={()=>openFile(value.lien)}
                       style={{
                         position: "absolute",
                         right: "0px",
@@ -421,23 +428,22 @@ const DocList = view(() => {
 
                     <div
                       className='dataCardContainer'
-                      data-tip
-                      data-for="global"
+                     
                       
                     >
-                      <p className="CardText">
+                      <p className="CardText"  data-tip  data-for={value ? 'nom'+value.id : ""}>
                         <span>Nom :</span> {value ? value.nom : ""}
                       </p>
-                      <p className="CardText">
+                      <p className="CardText" data-tip data-for={value ? 'date'+value.id : ""}>
                         <span>Date :</span>
                         {value ? value.pubDate : ""}
                       </p>
-                      <p className="CardText">
+                      <p className="CardText" data-tip  data-for={value ? 'version'+value.id : ""}>
                         <span>Version :</span>
                         {value ? value.version : ""}
                       
                       </p>
-                      <p className="CardText">
+                      <p className="CardText" data-tip  data-for={value ? 'auteur' +value.id : ""}>
                         <span>Auteur :</span>
                         {value
                           ? value.docummentauthor
@@ -447,27 +453,54 @@ const DocList = view(() => {
                             : ""
                           : ""}
                       </p>
-                      <p className="CardText">
+                      <p className="CardText" data-tip  data-for={value ? 'langue'+value.id : ""}>
                         <span>Langue:</span>
                         {value ? value.langue : ""}
                       </p>
+
+                      <p className="CardText" data-tip  data-for={value ? 'area'+value.id : ""}>
+                        <span>Area:</span>
+                        {value ? (value.documentPerimetre?(value.documentPerimetre.perimetreArea ? value.documentPerimetre.perimetreArea.areadesc :"") :"") : ""}
+                      </p>
+
+                      <p className="CardText" data-tip  data-for={value ? 'perimetre'+value.id : ""}>
+                        <span>Perimetre:</span>
+                        {value ? (value.documentPerimetre? value.documentPerimetre.perimetre :"") : ""}
+                      </p>
                     </div>
+
                   </div>
 
-                  <ReactTooltip
-                    id="global"
-                    aria-haspopup="true"
-                    role="example"
-                    globalEventOff="click"
-                  >
-                    <p>This is a global react component tooltip</p>
-                    <p>You can put every thing here</p>
-                    <ul>
-                      <li>Word</li>
-                      <li>Chart</li>
-                      <li>Else</li>
-                    </ul>
+                  <ReactTooltip id={value ? 'nom'+value.id : "n"} aria-haspopup="true" role="example" >
+                    <p>{value ? value.nom : ""}</p>
                   </ReactTooltip>
+                  <ReactTooltip id={value ? 'date'+value.id : "n"} aria-haspopup="true" role="example" >
+                    <p> {value ? value.pubDate : ""}</p>
+                  </ReactTooltip>
+                  <ReactTooltip id={value ? 'version'+value.id : "n"} aria-haspopup="true" role="example" >
+                    <p>{value ? value.version : ""}</p>
+                  </ReactTooltip>
+                  <ReactTooltip id={value ? 'auteur'+value.id : "n"} aria-haspopup="true" role="example" >
+                    <p>{value
+                          ? value.docummentauthor
+                            ? value.docummentauthor.nom +
+                              " " +
+                              value.docummentauthor.prenom
+                            : ""
+                          : ""}</p>
+                  </ReactTooltip>
+                  <ReactTooltip id={value ? 'langue'+value.id : "n"} aria-haspopup="true" role="example" >
+                    <p> {value ? value.langue : ""}</p>
+                  </ReactTooltip>
+
+                  <ReactTooltip id={value ? 'area'+value.id : "n"} aria-haspopup="true" role="example" >
+                    <p> {value ? (value.documentPerimetre?(value.documentPerimetre.perimetreArea ? value.documentPerimetre.perimetreArea.areadesc :"") :"") : ""}</p>
+                  </ReactTooltip>
+
+                  <ReactTooltip id={value ? 'perimetre'+value.id : "n"} aria-haspopup="true" role="example" >
+                    <p>  {value ? (value.documentPerimetre? value.documentPerimetre.perimetre :"") : ""}</p>
+                  </ReactTooltip>
+
                 </Paper>
               </Grid>
             );

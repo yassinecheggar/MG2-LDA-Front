@@ -24,6 +24,7 @@
     "material-ui-search-bar": "^1.0.0",
     "moment": "^2.26.0",
     "mui-rff": "^3.0.9",
+    "open": "^8.2.0",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.1",
     "react-confirm-alert": "^2.7.0",
