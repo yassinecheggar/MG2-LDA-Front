@@ -1,0 +1,39 @@
+.docInfoTitle{
+    font-size: 20px;
+    color: white;
+    text-align: center;
+}
+
+.docInfoField{
+    margin-left :10px;
+    color:lavender ;
+}
+
+.image{
+    width: 80px;
+    height: 80px;
+    
+}
+.image:hover{
+    cursor: pointer;
+}
+.DocTypoField{
+    color:white;
+    overflow-wrap: break-word;
+    font-weight:700;
+}
+.fab{
+    background-color: deepskyblue;
+}
+
+.upload{
+    width: 100px;
+}
+
+.hidden{
+    display: none;
+}
+.uploadText{
+
+    margin-left: 20px;
+}

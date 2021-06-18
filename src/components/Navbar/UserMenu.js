@@ -62,7 +62,7 @@ function UserMenu(props) {
       <ListItemText primary="Navigation" />
     </ListItem>
 
-    <ListItem button>
+    <ListItem button component={NavLink} to={`${props.url}/Trainning`}>
       <ListItemIcon>
         <CastForEducationIcon />
       </ListItemIcon>
