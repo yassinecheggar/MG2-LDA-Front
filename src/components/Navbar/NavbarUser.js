@@ -21,6 +21,7 @@ import Dashboard from '../Dashboard/Dashboard';
 import Search  from '../User-ui/Search/Search';
 import  Navigation  from  '../User-ui/Navigation/Navigation';
 import  Trainning  from  '../User-ui/Trainning/Trainning';
+import  BestPractice  from  '../User-ui/BestPractice/BestPractice';
 
 import {  BrowserRouter as Router, Route, Switch , useRouteMatch,NavLink,useParams } from 'react-router-dom';
 import UserMenu from './UserMenu';
@@ -233,6 +234,11 @@ export default function NavbarUser() {
 
         <Route path={`${path}/Trainning`}>
           <Trainning />
+        </Route>
+
+
+        <Route path={`${path}/Bestpractice`}>
+          <BestPractice />
         </Route>
        
        

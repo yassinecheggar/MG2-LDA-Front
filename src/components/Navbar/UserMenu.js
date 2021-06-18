@@ -98,7 +98,7 @@ function UserMenu(props) {
 
 
 
-          <ListItem button className={classes.nested}>
+          <ListItem button className={classes.nested} component={NavLink} to={`${props.url}/BestPractice`}>
             <ListItemIcon>
               <WbIncandescentIcon />
             </ListItemIcon>

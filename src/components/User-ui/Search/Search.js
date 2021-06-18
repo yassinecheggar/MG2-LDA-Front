@@ -186,10 +186,7 @@ const App = view(()  => {
             components={{
                 Toolbar: GridToolbar,
               }}
-            onSelectionModelChange={(newSelection) => {
-              setSelectionModel(newSelection.selectionModel);
-              
-            }}
+            
             onRowSelected={(e) => {
               IDselected = e.data.fname;
             }}
