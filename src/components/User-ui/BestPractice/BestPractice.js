@@ -19,6 +19,8 @@ import Backdrop from "@material-ui/core/Backdrop";
 import Divider from '@material-ui/core/Divider';
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from '@material-ui/core/Tooltip';
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+import  BestPracticeAdd from './BestPracticeAdd';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -90,7 +92,7 @@ const App = view(() => {
 
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     const [selection, setSelection] = useState();
-    const [enable, setEnable] = useState(true);
+  
     return(
    <>
     <Grid item xs={12} md={12} lg={12}>
@@ -109,9 +111,29 @@ const App = view(() => {
     </Grid>
 
     <Grid item xs={12} md={12} lg={12}>
+
+   
       <Paper className={fixedHeightPaper}>
        
-         
+      <div
+            style={{
+              Height: 30,
+              marginBottom: 10,
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
+             <Tooltip title="add Best Practice" placement="right-start">
+            <IconButton
+              aria-label="add activite"
+              style={{ color: "#039632" }}
+              onClick={appActions.handleOpenModal}
+            >
+              {" "}
+              <AddCircleIcon />
+            </IconButton>
+            </Tooltip>
+          </div>
        
         <DataGrid
           rows={appStore.rows}
@@ -132,10 +154,10 @@ const App = view(() => {
             appStore.selected = selectedRowData[0];
 
             setSelection( selectedRowData[0]);
-            setEnable(false);
+            
             appStore.open=true;
             //console.log("selected rowData:",  selection);
-            //console.log("selected rowData Store:",  appStore.data[0]);
+            //console.log("selected rowData Store:",  selection);
             
           }}
         />
@@ -171,16 +193,16 @@ const App = view(() => {
             
          <Paper className='Papercomp'>
                 <h2 style={{textAlign: 'center'}}> Best Practice</h2>
-               <p style={{position:'absolute' ,bottom:0 ,  right:5 , margin:0 ,fontSize: 12}} >date:<span>{appStore.data[0] ?appStore.data[0].date : ""}</span> </p>
+               <p style={{position:'absolute' ,bottom:0 ,  right:5 , margin:0 ,fontSize: 12}} >date:{selection ?selection.date : ""} </p>
                 <Divider/>
-                <p className='PaperText' style={{marginTop:30, marginBottom:0}}>Activite  : <span> {appStore.data[0]  ? (appStore.data[0].activiteBest? appStore.data[0].activiteBest.activite :"") : ""}</span></p>
-                <p className='PaperText' style={{marginTop:5, marginBottom:0}}>Delivrable : <span> {appStore.data[0]  ? (appStore.data[0].delivrableBest? appStore.data[0].delivrableBest.delivrable :"") : ""}</span></p>
-                <p className='PaperText' style={{marginTop:5, marginBottom:0}}>Categorie  : <span>  {appStore.data[0] ?appStore.data[0].categorie : ""}</span></p>
-                <p  className='PaperText' style={{marginTop:5, marginBottom:0}}>User : <span> {appStore.data[0]  ? (appStore.data[0].userBestPractice? appStore.data[0].userBestPractice.nom+' '+appStore.data[0].userBestPractice.prenom  :"") : ""}</span></p>
-                <p className='PaperText' style={{marginTop:5, marginBottom:25}}>Phase : <span> {appStore.data[0] ?appStore.data[0].phase : ""}</span></p>
+                <p className='PaperText' style={{marginTop:30, marginBottom:0}}>Activite  : <span> {selection  ? (selection.activiteBest? selection.activiteBest.activite :"") : ""}</span></p>
+                <p className='PaperText' style={{marginTop:5, marginBottom:0}}>Delivrable : <span> {selection  ? (selection.delivrableBest? selection.delivrableBest.delivrable :"") : ""}</span></p>
+                <p className='PaperText' style={{marginTop:5, marginBottom:0}}>Categorie  : <span>  {selection ?selection.categorie : ""}</span></p>
+                <p  className='PaperText' style={{marginTop:5, marginBottom:0}}>User : <span> {selection  ? (selection.userBestPractice? selection.userBestPractice.nom +' ' +  selection.userBestPractice.prenom     :"") : ""}</span></p>
+                <p className='PaperText' style={{marginTop:5, marginBottom:25}}>Phase : <span> {selection ?selection.phase : ""}</span></p>
                 
                 <Divider/>
-                <p className='PaperText'>Description : <span>{appStore.data[0] ?appStore.data[0].description : ""}</span> </p>
+                <p className='PaperText'>Description : <span>{selection ?selection.description : ""}</span> </p>
                 <Divider/>
                 <p className='PaperText' style={{color:'chocolate'}}>Resources</p>
 
@@ -193,6 +215,25 @@ const App = view(() => {
         </Paper>
         </Fade>
       </Modal>
+
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.modal}
+        open={appStore.openM}
+        onClose={appActions.handleCloseModal}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 2000,
+        }}
+      >
+        <Fade in={appStore.openM}>
+          <BestPracticeAdd/>
+          </Fade>
+        </Modal>
+
+
 
     
    </>);

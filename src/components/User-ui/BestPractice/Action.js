@@ -22,6 +22,22 @@ const appActions = {
   handlError: () => {
     appStore.error = true;
   },
+
+  handleOpenModal: () => {
+    appStore.data=[]
+    appStore.openM = true;
+  },
+  handleCloseModal: () => {
+    appStore.openM = false;
+    appStore.data=[] ;
+    appStore.linktoImage='';
+  },
+
+  handleFileUpload : event => {
+    appStore.linktoImage = event.target.value;
+       console.log(event.target.value);
+      
+    },
   
 };
 
