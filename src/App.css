@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+.addpaper{
+ max-height:90vh;
+ overflow: auto;
+ padding: 16px;
+}

@@ -81,7 +81,7 @@ function UserMenu(props) {
 
     <Collapse in={openl} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItem button className={classes.nested}>
+          <ListItem button className={classes.nested} component={NavLink} to={`${props.url}/Question`}>
             <ListItemIcon>
               <ContactSupportIcon />
             </ListItemIcon>

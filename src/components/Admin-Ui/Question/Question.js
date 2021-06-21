@@ -73,7 +73,7 @@ const columns = [
   { field: "phase", headerName: "Phase", flex: 0.1 },
   { field: "status", headerName: "Statut", flex: 0.1 },
   { field: "problemType", headerName: "Type de  Problem", flex: 0.1 },
-  { field: `delivrableQuest` , headerName: "Delivrable", flex: 0.1  , valueGetter : ({ value }) => value.delivrable },
+  { field: `categorie` , headerName: "Categorie", flex: 0.1   },
   { field: `activiteQuest` , headerName: "Acitivité", flex: 0.1  , valueGetter : ({ value }) => value.activite },
   {
     field: "color",
