@@ -89,7 +89,7 @@ function UserMenu(props) {
           </ListItem>
 
 
-          <ListItem button className={classes.nested}>
+          <ListItem button className={classes.nested} component={NavLink} to={`${props.url}/FeedBack`}>
             <ListItemIcon>
               <QuestionAnswerIcon />
             </ListItemIcon>

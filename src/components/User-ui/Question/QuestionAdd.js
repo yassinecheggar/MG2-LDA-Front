@@ -96,6 +96,22 @@ const useStyles = makeStyles((theme) => ({
   });
   }
 
+  function PostImageLink(params){
+    console.log(params);
+    var x =  ( axios.post(AppConfig.API+`Picture/Add`,params)).status;
+        try {      
+              if(x == 200){
+              return true; 
+            }
+            console.log();
+              } catch (error) {
+                console.log(error)
+               return  false;
+              }
+
+      }
+
+
 
 
   GetActivite();
@@ -106,6 +122,7 @@ const useStyles = makeStyles((theme) => ({
     
     const [success, setsuccess] = useState(false);
     const [error, seterror] = useState(false);
+    const [link, setlink] = useState('');
     
     const onSubmit =  async values   => {
       const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -116,25 +133,28 @@ const useStyles = makeStyles((theme) => ({
         values.userQuest={"id":109};
             try {
               if(values.activiteQuest.id!==""){
-                var x = (await axios.post(AppConfig.API+`Question/Add`, values)).status;
-                if(x == 200){
-                  console.log(values)
+                axios.post(AppConfig.API+`Question/Add`, values).then(res=>{
+                  if(res.data!=null){  
+
+                    if(link!=''){ 
+                      let o = {"id":0 ,"link": link , "description":"","questionimage":{"id" :res.data.id}};
+                        console.log(o); 
+                      PostImageLink(o);
+                    }
+                  } 
+                  
                   ResetValues(values);
                   setsuccess(true);
-                  GetData();    
-                }
-                  else seterror(true);
-              }
-          
-               
-        
-   
+                  GetData();  
 
-      } catch (error) {
+                  }
+                )
+              }
+               
+              
+        } catch (error) {
               console.log(error)
       }
-       
-     
     };
   
       function Onseccess() {
@@ -206,6 +226,23 @@ const useStyles = makeStyles((theme) => ({
                   
 
                   <MyView/>
+
+                  <Grid item  xs ={12}>
+                <input
+                  accept="*"
+       
+                  id="contained-button-file"
+                  className="hidden"
+                  type="file"
+                  onChange={event=>{setlink(event.target.value)}}
+                   />
+                   <label htmlFor="contained-button-file" >
+                  <Button variant="contained" color="primary" component="span" >
+                      Upload
+                 </Button>
+                   </label>
+                   <span className='uploadText'>{link} </span> 
+                </Grid>
                     
                   <Grid item style={{ marginTop: 16 }}>
                     <Button

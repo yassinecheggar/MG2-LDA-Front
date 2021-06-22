@@ -23,6 +23,7 @@ import  Navigation  from  '../User-ui/Navigation/Navigation';
 import  Trainning  from  '../User-ui/Trainning/Trainning';
 import  BestPractice  from  '../User-ui/BestPractice/BestPractice';
 import  Question  from  '../User-ui/Question/Question';
+import  FeedBack  from  '../User-ui/FeedBack/Feedback';
 
 import {  BrowserRouter as Router, Route, Switch , useRouteMatch,NavLink,useParams } from 'react-router-dom';
 import UserMenu from './UserMenu';
@@ -244,6 +245,10 @@ export default function NavbarUser() {
 
         <Route path={`${path}/Question`}>
           <Question />
+        </Route>
+
+        <Route path={`${path}/FeedBack`}>
+          <FeedBack />
         </Route>
        
        
