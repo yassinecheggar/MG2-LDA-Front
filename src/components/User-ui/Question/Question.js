@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
       
     },
     fixedHeight: {
-      height: 500,
+      height: "70vh",
     },
   
     TitleHeight: {
@@ -141,7 +141,7 @@ const App = view(() => {
           className={classes.TitleMargine}
         >
         
-       Do you have a Question ?
+       Questions
         </Typography>
   
      

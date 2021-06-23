@@ -29,6 +29,8 @@ const appActions = {
 
   },
   handleCloseModal: () => {
+    if(!appStore.completed || appStore.Reponse.length!=0){
+
     appStore.openM = false;
     appStore.data=[] ;
     appStore.linktoImage='';
@@ -37,6 +39,7 @@ const appActions = {
     appStore.completed=false;
     appStore.ResId=null;
     appStore.repoonsetext="";
+  }
     
   },
 
@@ -49,6 +52,7 @@ const appActions = {
       appStore.StepperOne = false;
       appStore.activeStep= 1;
       appStore.completed=true;
+      appStore.Reponse=[];
     },
 };
 

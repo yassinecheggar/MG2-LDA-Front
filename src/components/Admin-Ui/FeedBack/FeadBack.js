@@ -26,6 +26,7 @@ import appActions from "./Action";
 import { view } from "@risingstack/react-easy-state";
 import axios from 'axios';
 import AppConfig from '../../Global';
+import CheckIcon from '@material-ui/icons/Check';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -77,27 +78,17 @@ const columns = [
   { field: "validationDate", headerName: "Date Validation", flex: 0.1 },
   { field: "userFeedback", headerName: "User", flex: 0.1 ,valueGetter : ({ value }) =>value? value.nom+" "+ value.prenom : ""},
   {
-    field: "color",
+    field: "",
     headerName: "Action",
-    flex: 0.1,
-    renderCell: () => (
+    flex: 0.2,
+    renderCell: (params) => (
       <>
-        <IconButton
-          style={{ color: "#e81e32" }}
-          onClick={function () {
-            Delete();
-          }}
-        >
-          <DeleteIcon />
-        </IconButton>
-        <IconButton
-          style={{ color: "#0091ff" }}
-          onClick={function () {
-            Edit();
-          }}
-        >
-          <EditIcon />
-        </IconButton>
+        <IconButton style={{ color: "#e81e32" }}  onClick={function () {Delete(); }}> <DeleteIcon /> </IconButton>
+
+        {params.row.validationDate ? "" : <IconButton style={{ color: "green" }} onClick={()=>{Valider(params.row.id)}} > <CheckIcon /></IconButton>  }
+        {console.log(params.row.validationDate)}
+
+        <IconButton style={{ color: "#0091ff" }} onClick={function () { Edit() }}> <EditIcon /> </IconButton>
       </>
     ),
   },
@@ -122,6 +113,14 @@ function Delete() {
   appStore.dialog=true;
 }
 
+async function Valider(id) {
+
+  var status =  ( await axios.get(AppConfig.API+`Feedback/ValidatFeed/`+id) ).status;
+  console.log("delete Status" , status);
+  GetData();
+
+
+}
 async  function DeleteRequest(){
 
   var status =  ( await axios.delete(AppConfig.API+`Feedback/Delete/`+appStore.data[0].id) ).status;
@@ -147,7 +146,6 @@ const App = view(()  => {
   const [selectionModel, setSelectionModel] = useState([]);
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   
-
   return (
     <>
       <Grid item xs={12} md={12} lg={12}>

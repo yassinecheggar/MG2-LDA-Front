@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
       
     },
     fixedHeight: {
-      height: 500,
+      height: "70vh",
     },
   
     TitleHeight: {
@@ -97,6 +97,14 @@ const useStyles = makeStyles((theme) => ({
   });
   }
 
+  async function GetReponse(id) {
+    axios.get( AppConfig.API +'Feedback/GetReponse/'+id).then(response  =>{
+  
+      if(response.data){     
+          appStore.Reponse = response.data;   
+      }
+  });
+  }
   
 
 const App = view(() => {
@@ -116,7 +124,7 @@ const App = view(() => {
           className={classes.TitleMargine}
         >
         
-        How to be more Efficient ?
+        FeedBack
         </Typography>
   
      
@@ -167,7 +175,7 @@ const App = view(() => {
             appStore.selected = selectedRowData[0];
 
             setSelection( selectedRowData[0]);
-       
+            GetReponse(selectedRowData[0].id);
             appStore.open=true;
             appStore.repoonsetext='';
             //console.log("selected rowData:",  selection);
@@ -210,14 +218,28 @@ const App = view(() => {
                 <p className='PaperText' style={{marginTop:5, marginBottom:0}}>Categorie : <span> {selection  ? (selection.delivrableFeed? selection.delivrableFeed.delivrable :"") : ""}</span></p>
                 
                 <p  className='PaperText' style={{marginTop:5, marginBottom:0}}>User : <span> {selection  ? (selection.userFeedback? selection.userFeedback.nom +' ' +  selection.userFeedback.prenom     :"") : ""}</span></p>
-                <p className='PaperText' style={{marginTop:5, marginBottom:25}}>Phase : <span> {selection ?selection.phase : ""}</span></p>
-                <p className='PaperText' style={{marginTop:5, marginBottom:25}}>Phase : <span> {selection ?selection.validationDate : ""}</span></p>
+                <p className='PaperText' style={{marginTop:5, marginBottom:0}}>Phase : <span> {selection ?selection.phase : ""}</span></p>
+                <p className='PaperText' style={{marginTop:5, marginBottom:25}}>Date Validation : <span> {selection ?selection.validationDate : "Non Validé"}</span></p>
                 
                 <Divider/>
                 <p className='PaperText'>FeedBack : <span>{selection ?selection.feedback : ""}</span> </p>
                 <Divider/>
-                <Divider/>
               
+                <p className='PaperText'>Réponses : <span>{selection ?selection.reponse : ""}</span> </p>
+
+
+                {appStore.Reponse.map(rep => {
+
+            return (
+              
+              <div style={{ display:'flex' ,  flexDirection:'column' ,  marginTop:0}}>
+                      <div style={{display:'flex', justifyContent:'space-around' , padding:20 , paddingTop:5}}>
+                        <div style={{marginRight:30  , width:80,  fontSize:11 }}><p style={{marginTop:15,marginBottom:0 , textAlign:'center',color:'#42a4f5'}}>{rep? (rep.userReponse? rep.userReponse.nom +" " +rep.userReponse.prenom : "" ):''}</p><p style={{marginTop:0,marginBottom:0,textAlign:'center',color:'gray'}}>2021-05-01</p></div>
+                        <div style={{width:'100%'}}><p>{rep.reponse}</p></div>
+                    </div>
+                </div>
+            );
+          })}
 
                 <p className='PaperText' style={{color:'chocolate'}}>Resources</p>
               

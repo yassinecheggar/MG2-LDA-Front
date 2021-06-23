@@ -125,18 +125,22 @@ const useStyles = makeStyles((theme) => ({
       return (
         
         <div style={{ padding: 16, margin: 'auto',width:'50%'}}>
-        <Paper >
-        <Stepper  nonLinear activeStep={appStore.activeStep}>
-        
-        <Step key="1" completed={appStore.completed}>
-          <StepButton   > step 1 </StepButton>
-        </Step>
+        <Paper  style={{overflow:'auto',maxHeight:'90vh'}}>
+          <h2 style={{textAlign:'center', marginTop:30 ,  color:'chocolate'}}>Ajouter un FeedBack </h2>
+          <div style={{display:'flex',justifyContent:'center'}}>
+                <Stepper  nonLinear activeStep={appStore.activeStep} style={{width:'50%' }}>
+                
+                <Step key="1" completed={appStore.completed}>
+                  <StepButton   > step 1 </StepButton>
+                </Step>
 
-        <Step key="2">
-          <StepButton > step 2 </StepButton>
-        </Step>
-        
-        </Stepper>
+                <Step key="2">
+                  <StepButton > step 2 </StepButton>
+                </Step>
+                
+                </Stepper>
+
+        </div>
         <CssBaseline />
 
          {appStore.StepperOne ? <Stepone/> : <Steptwo/> }
@@ -158,24 +162,27 @@ const useStyles = makeStyles((theme) => ({
         
        
      try {
-      if(!appStore.edit){
+     
         values.date =  format(new Date(), "yyyy-MM-dd") ;
         values.userFeedback={"id":109};
-       await axios.post(AppConfig.API+`Feedback/Add`, values).then(res=>{
+        await axios.post(AppConfig.API+`Feedback/Add`, values).then(res=>{
 
         if(res.data!=null){  
 
-          ResetValues(values);
-          setsuccess(true);
+         
+         
           GetData();
           appStore.ResId=res.data;
+          //GetReponse(appStore.ResId);
+          ResetValues(values);
           appActions.handleStepperone();
+          
         }
         else seterror(true);
        })
         
           
-        }
+        
      } catch (error) {
           seterror(true);
      }
@@ -301,9 +308,24 @@ const useStyles = makeStyles((theme) => ({
     return (
       <>
               <CssBaseline />
-              <h3 style={{textAlign: 'center'}}>Ajoutez des reponses</h3>
+              <h3 style={{textAlign: 'center' ,color:'grey'}}>saisissez une reponses</h3>
+
+              {appStore.Reponse.map(rep => {
+
+return (
+  
+  <div style={{ display:'flex' ,  flexDirection:'column'}}>
+            <div style={{display:'flex', justifyContent:'space-around' , padding:20 , paddingTop:5}}>
+            <div style={{marginRight:30  , width:80,  fontSize:11 }}><p style={{marginTop:15,marginBottom:0 , textAlign:'center',color:'#42a4f5'}}>{rep? (rep.userReponse? rep.userReponse.nom +" " +rep.userReponse.prenom : "" ):''}</p>
+            <p style={{marginTop:0,marginBottom:0,textAlign:'center',color:'gray'}}>{rep.date.substring(0,10)}</p></div>
+            <div style={{width:'100%'}}><p>{rep.reponse}</p></div>
+        </div>
+    </div>
+);
+})}
+
               <div style={{width:'100%' , display:'flex', marginBottom:30,  justifyContent:'center' , position:'relative' ,  marginTop:60 } }>
-                <MytextField  label="réponse..." value={appStore.repoonsetext} onChange={ event => appStore.repoonsetext = event.target.value}  variant="filled" style={{Width:'70%' ,marginLeft:60}} multiline rows={6} fullWidth></MytextField>
+                <MytextField required  label="réponse..." value={appStore.repoonsetext} onChange={ event => appStore.repoonsetext = event.target.value}  variant="filled" style={{Width:'70%' ,marginLeft:60}} multiline rows={6} fullWidth></MytextField>
                 <IconButton  style={{ alignSelf:"flex-end" } } onClick={()=>{PostRepose(appStore.repoonsetext)}} color='secondary' ><SendIcon/> </IconButton>
               </div>
              <div style={{height:20}}>
@@ -321,6 +343,7 @@ const useStyles = makeStyles((theme) => ({
      var x =  (await axios.post(AppConfig.API+`Reponse/Add`, jsonObj)).status;
       if(x == 200){
        appStore.repoonsetext= ""; 
+       GetReponse(appStore.ResId.id)
         console.log("ok");
         
       }
@@ -328,8 +351,8 @@ const useStyles = makeStyles((theme) => ({
     console.log(jsonObj);}}
   }
   // add  get  Reponse  by  Feed  back  name  in  back end
-  async function GetReponse(id) {
-    axios.get( AppConfig.API +'Question/GetReponse/'+id).then(response  =>{
+   function GetReponse(id) {
+    axios.get( AppConfig.API +'Feedback/GetReponse/'+id).then(response  =>{
   
       if(response.data){     
           appStore.Reponse = response.data;   
@@ -376,15 +399,12 @@ function FeedBackAdd() {
                       initialValue={  appStore.data.length!=0 ? (appStore.data[0].activiteFeed? appStore.data[0].activiteFeed.id : "") : ""}>
 
              {appStore.acitivite ? appStore.acitivite.map(act => <MenuItem key={act.id} value={act.id}>{act.activite}</MenuItem>) : <MenuItem key="default" value="default">Select an Area</MenuItem>}
-
-               
-                               
-                                
+            
                     </Field>
                   </Grid>
 
                   
-                  <Grid item xs={12}>
+                  <Grid item xs={12} style={{marginBottom:30}}>
                     <Field
                       name="delivrableFeed.id"
                       fullWidth
@@ -396,10 +416,7 @@ function FeedBackAdd() {
                       initialValue={  appStore.data.length!=0 ? (appStore.data[0].delivrableFeed ? appStore.data[0].delivrableFeed.id : ""):""}>
 
              {appStore.delivrable ? appStore.delivrable.map(del => <MenuItem key={del.id} value={del.id}>{del.delivrable}</MenuItem>) : <MenuItem key="default" value="default">Select an Area</MenuItem>}
-
-               
-                               
-                                
+                                       
                     </Field>
                   </Grid>
           </>
