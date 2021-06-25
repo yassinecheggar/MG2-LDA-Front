@@ -241,13 +241,13 @@ const App = view(()  => {
           </Button>
         </DialogActions>
       </Dialog>
-      <MyView/>
+      
     </>
   );
 });
 
 function Direction() {
-  return <App />;
+  return <MyView />;
 }
 
 
@@ -267,7 +267,7 @@ class MyView extends Component {
 
     return (
         <>
-          
+          <App/>
         </>
     )
 }

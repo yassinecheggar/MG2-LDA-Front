@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,8 +11,11 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { NavLink } from 'react-router-dom';
-
+import { NavLink,useHistory } from 'react-router-dom';
+import axios from 'axios';
+import AppConfig from '../Global';
+import Alert from '@material-ui/lab/Alert';
+import Grow from '@material-ui/core/Grow';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -35,8 +38,42 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+
+
 export default function SignIn() {
   const classes = useStyles();
+  const [user, setuser] = useState();
+  const [pwd, setpwd] = useState();
+  const [msg, setmsg] = useState(false);
+  const history = useHistory();
+
+  function Post(){
+    let to ='/';
+    axios.post(AppConfig.API+`User/GetUsersByName`,{"username":user},{auth: {
+      username: user,
+      password: pwd
+    }}).then(res  =>{
+      if(res.data.roles[0].name ==="admin"){
+          to="/Home2";
+      }else if(res.data.roles[0].name ==="user"){
+          to="/Home";
+      }
+      history.push(to);
+      window.sessionStorage.setItem("user",user)
+      window.sessionStorage.setItem("pwd",pwd)
+      console.log(res.data)
+      //setlink("/Home")
+     // history.push('/Home');
+    }, error => {
+      if (error.response.status === 401) {
+        console.log(error)
+        setmsg(true);
+        setTimeout(() => {setmsg(false) }, 3000);
+      }
+      
+    });
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -46,18 +83,22 @@ export default function SignIn() {
           <LockOutlinedIcon />
         </Avatar>
 
-        
-
-
         <Typography component="h1" variant="h5"
-       
         >
           Sign in
         </Typography>
+
+        <Grow   in={msg} style={{ transformOrigin: '0 0 0' }} {...(msg ? { timeout: 1000 } : {})} >
+
+
+           <Alert severity="warning">  wrong username or password — check them out!</Alert>
+           
+           </Grow> 
         
 
         <form className={classes.form} noValidate>
           <TextField
+            value={user}
             variant="outlined"
             margin="normal"
             required
@@ -66,9 +107,11 @@ export default function SignIn() {
             label="Email Address"
             name="email"
             autoComplete="email"
+            onChange={event => setuser(event.target.value)}
             autoFocus
           />
           <TextField
+            value={pwd}
             variant="outlined"
             margin="normal"
             required
@@ -77,6 +120,7 @@ export default function SignIn() {
             label="Password"
             type="password"
             id="password"
+            onChange={event => setpwd(event.target.value)}
             autoComplete="current-password"
           />
           <FormControlLabel
@@ -84,13 +128,15 @@ export default function SignIn() {
             label="Remember me"
           />
           <Button
-            type="submit"
+            
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
-            component={NavLink}
-            to="/Home"
+          
+
+           onClick={()=>Post()}
+           
           >
             Sign In
           </Button>
