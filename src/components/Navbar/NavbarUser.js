@@ -6,7 +6,7 @@ import Drawer from '@material-ui/core/Drawer';
 import Box from '@material-ui/core/Box';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
@@ -24,6 +24,8 @@ import  Trainning  from  '../User-ui/Trainning/Trainning';
 import  BestPractice  from  '../User-ui/BestPractice/BestPractice';
 import  Question  from  '../User-ui/Question/Question';
 import  FeedBack  from  '../User-ui/FeedBack/Feedback';
+import Tooltip from '@material-ui/core/Tooltip';
+
 
 import {  BrowserRouter as Router, Route, Switch , useRouteMatch,NavLink,useParams } from 'react-router-dom';
 import UserMenu from './UserMenu';
@@ -71,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBarShift: {
     marginLeft: drawerWidth,
-    background: '#636363',
+    background: 'linear-gradient(45deg, rgba(106, 113, 138,0.1), rgba(0, 0, 0,1))',
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
@@ -82,6 +84,7 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: 36,
+   
   },
   menuButtonHidden: {
     display: 'none',
@@ -93,6 +96,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     whiteSpace: 'nowrap',
     width: drawerWidth,
+    background: 'linear-gradient(0deg, rgba(0, 1, 23,0.9), rgba(0, 1, 23,0.6)), url("images/drawerimg.jpg");  ',
     
   
   
@@ -129,6 +133,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2),
+    
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
@@ -174,6 +179,7 @@ export default function NavbarUser() {
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
           <IconButton
+            
             edge="start"
             color="inherit"
             aria-label="open drawer"
@@ -183,13 +189,13 @@ export default function NavbarUser() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Dashboard 2
+           
           </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
+          <Tooltip title="Log-out">
+          <IconButton color="inherit" component={NavLink} to="/">
+              <ExitToAppIcon />
           </IconButton>
+          </Tooltip>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -201,7 +207,7 @@ export default function NavbarUser() {
       >
         <div className={classes.toolbarIcon} style={{   backgroundImage: "url(images/LogoMG2.png)"}}>
           <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
+            <ChevronLeftIcon style={{color:'white'}}/>
           </IconButton>
         </div>
         <Divider />

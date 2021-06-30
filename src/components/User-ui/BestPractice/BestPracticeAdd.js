@@ -109,8 +109,20 @@ const useStyles = makeStyles((theme) => ({
                 console.log(error)
                return  false;
               }
-
       }
+
+      function PostFile(params,BestPracticeid){
+        const data = new FormData() ;
+        data.append('file',params[0]);
+        axios.post(AppConfig.API+`uploadFile`, data ,{ headers: { 'Content-Type': 'multipart/form-data' } }).then(res=>{
+          
+          let o = {"id":0 ,"link":AppConfig.API +""+ res.data.fileDownloadUri , "description":"","bestPracticeimage":{"id" :BestPracticeid}};
+          PostImageLink(o);
+          console.log(res);
+
+       });
+     
+    }
 
   GetActivite();
   GetDelivrable();
@@ -122,6 +134,7 @@ const useStyles = makeStyles((theme) => ({
     
     const [success, setsuccess] = useState(false);
     const [error, seterror] = useState(false);
+    const [link, setlink] = useState([]);
   
     const [selectedDate, setSelectedDate] = React.useState(initDate);
     const handleDateChange = (date) => {
@@ -145,12 +158,13 @@ const useStyles = makeStyles((theme) => ({
                 axios.post(AppConfig.API+`BestPractice/Add`, jsonObj).then(res  =>{
 
                 if(res.data!=null){  
-                  
-                  if(appStore.linktoImage!=''){ 
-                    let o = {"id":0 ,"link": appStore.linktoImage , "description":"loalaala","bestPracticeimage":{"id" :res.data.id}};
-                      console.log(o); 
-                    PostImageLink(o);
+                  if(link.length!=0){ 
+                     
+
+                    PostFile(link,res.data.id);
+
                   }
+                  
                  setsuccess(true);
                  GetData();  }
 
@@ -181,7 +195,7 @@ const useStyles = makeStyles((theme) => ({
           validate={validate}
           render={({ handleSubmit, reset, submitting, pristine, values }) => (
             <form onSubmit={handleSubmit} noValidate>
-              <Paper style={{ padding: 16 }}> 
+              <Paper style={{ padding: 16 , height:'70vh',overflow:'auto'}}> 
               { success ? <Onseccess /> : null }
           { error ? <OnError /> : null }
                 <Grid container alignItems="flex-start" spacing={2}>
@@ -236,14 +250,14 @@ const useStyles = makeStyles((theme) => ({
                   id="contained-button-file"
                       className="hidden"
                    type="file"
-                  onChange={appActions.handleFileUpload}
+                   onChange={event=>{setlink(event.target.files)}}
                    />
                    <label htmlFor="contained-button-file" >
                   <Button variant="contained" color="primary" component="span" >
                       Upload
                  </Button>
                    </label>
-                   <span className='uploadText'>{appStore.linktoImage} </span> 
+                   <span className='uploadText'>{link.length>0 ? link[0].name :"" } </span> 
                 </Grid>
                     
                   <Grid item style={{ marginTop: 16 }}>

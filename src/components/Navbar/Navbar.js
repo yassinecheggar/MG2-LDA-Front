@@ -33,7 +33,7 @@ import  BestPractice from  '../Admin-Ui/BestPractice/BestPractice';
 import  Document from  '../Admin-Ui/Document/Document';
 import  Comment from  '../Admin-Ui/Comment/Comment';
 import Modififcation from  '../Admin-Ui/Modification/Modification';
-
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import {  BrowserRouter as Router, Route, Switch , useRouteMatch,NavLink,useParams } from 'react-router-dom';
 import AdminMenu from './AdminMenu';
@@ -66,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: '0 8px',
+   
     
   
     ...theme.mixins.toolbar,
@@ -81,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBarShift: {
     marginLeft: drawerWidth,
-    background: '#636363',
+    background: 'linear-gradient(45deg, rgba(106, 113, 138,0.1), rgba(0, 0, 0,1))',
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
@@ -103,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     whiteSpace: 'nowrap',
     width: drawerWidth,
-    
+    background: 'linear-gradient(0deg, rgba(0, 0, 0,0.7), rgba(0, 0, 0,0.3)), url("images/draweradmin.jpg");  ',
   
   
     transition: theme.transitions.create('width', {
@@ -128,7 +129,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     height: '100vh',
     background:
-    'linear-gradient(0deg, rgba(0,0,0,0.4), rgba(0,0,0,0.9)), url("images/home3.jpg");  ',
+    'linear-gradient(0deg, rgba(0,0,0,0.4), rgba(0,0,0,0.9)) ',
   backgroundRepeat: "no-repeat",
   backgroundPosition: "Center",
     overflow: 'auto',
@@ -201,16 +202,16 @@ export default function Navbar() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Dashboard
+
           </Typography>
           <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
+           
+              <ExitToAppIcon />
+            
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Drawer
+      <Drawer 
         variant="permanent"
         classes={{
           paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
@@ -219,86 +220,14 @@ export default function Navbar() {
       >
         <div className={classes.toolbarIcon} style={{   backgroundImage: "url(images/LogoMG2.png)"}}>
           <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
+            <ChevronLeftIcon style={{color:'white'}} />
           </IconButton>
         </div>
         <Divider />
 
            <AdminMenu url={url}/>
-
-        {/* 
-        <List  component="nav" >
-    <ListItem button  >
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <SearchIcon />
-      </ListItemIcon>
-      <ListItemText primary="Search" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <NavigationIcon />
-      </ListItemIcon>
-      <ListItemText primary="Navigation" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <CastForEducationIcon />
-      </ListItemIcon>
-      <ListItemText primary="Training" />
-    </ListItem>
-    <ListItem button onClick={handleClick}>
-      <ListItemIcon>
-        <GroupWorkIcon />
-      </ListItemIcon>
-      <ListItemText primary="Feedback" />
-      {openl ? <ExpandLess /> : <ExpandMore />}
-    </ListItem>
-
-
-
-    <Collapse in={openl} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <ContactSupportIcon />
-            </ListItemIcon>
-            <ListItemText primary="Question" />
-          </ListItem>
-
-
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <QuestionAnswerIcon />
-            </ListItemIcon>
-            <ListItemText primary="FeedBack" />
-          </ListItem>
-
-
-
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <WbIncandescentIcon />
-            </ListItemIcon>
-            <ListItemText primary="Best Practice" />
-          </ListItem>
-
-        </List>
-      </Collapse>
-
-    </List>
-        <Divider />
-        <List>{secondaryListItems}</List>*/}
-
   
       </Drawer>
-
-
 
       <main className={classes.content}>
       <div className={classes.appBarSpacer} />
@@ -392,7 +321,7 @@ export default function Navbar() {
      
    
     
-    </div>
+        </div>
   );
 }
 

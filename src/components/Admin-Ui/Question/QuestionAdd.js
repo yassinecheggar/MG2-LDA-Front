@@ -8,12 +8,12 @@ import {  view } from "@risingstack/react-easy-state";
 import AppConfig from '../../Global';
 import axios from 'axios';
 import { Paper,Grid,Button, CssBaseline,MenuItem} from '@material-ui/core';
-import DateFnsUtils from '@date-io/date-fns';
 import { format } from 'date-fns';
-
+import '../../../App.css';
 
 import {  KeyboardDatePicker,MuiPickersUtilsProvider,} from '@material-ui/pickers';
-import { date } from 'faker';
+import appActions from './Action';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,23 +31,20 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
   
-  var Status = false ;
+
 
   function ResetValues(Values) {
         Values.decsiption="";
-        Values.date="";
         Values.phase="";
-        Values.status="";
         Values.problemType="";
         Values.categorie="";
-        Values.activiteQuest.id="";
-
-        Status= true;
-
+        Values.activiteQuest="";
+      
   }
   
   const validate = values => {
     const errors = {};
+    
     if (!values.decsiption) {
       errors.decsiption = 'Required';
     }
@@ -62,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
       errors.categorie = 'Required';
     }
     
+
     return errors;
   };
 
@@ -92,61 +90,93 @@ const useStyles = makeStyles((theme) => ({
       }
   });
   }
+
+  function PostImageLink(params){
+    console.log(params);
+    var x =  ( axios.post(AppConfig.API+`Picture/Add`,params)).status;
+        try {      
+              if(x == 200){
+              return true; 
+            }
+            console.log();
+              } catch (error) {
+                console.log(error)
+               return  false;
+              }
+
+      }
+
+      function PostFile(params,questionid){
+              const data = new FormData() ;
+              data.append('file',params[0]);
+              axios.post(AppConfig.API+`uploadFile`, data ,{ headers: { 'Content-Type': 'multipart/form-data' } }).then(res=>{
+
+                let o = {"id":0 ,"link": AppConfig.API +""+ res.data.fileDownloadUri , "description":"","questionimage":{"id" :questionid}};     
+                PostImageLink(o);
+                console.log(res);
+
+             });
+           
+          }
+
+
   GetActivite();
   GetDelivrable();
     
-  var initDate ; 
   const App = view(() => {
     
     const [success, setsuccess] = useState(false);
     const [error, seterror] = useState(false);
-    const [selectedDate, setSelectedDate] = React.useState(initDate);
-    const handleDateChange = (date) => {
-      setSelectedDate(date);
-      appStore.date= date;
-      //console.log(appStore.date);
-    };
+    const [link, setlink] = useState([]);
+    
     const onSubmit =  async values   => {
       const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
         await sleep(300);
         values.id = 0;
-      
-            try {
-     
-        if(!appStore.edit){
-          values.date = format(new Date(), "yyyy-MM-dd") ;
-        var x =  (await axios.post(AppConfig.API+`Question/Add`, values)).status;
         
-          if(x == 200){
-            ResetValues(values);
-            setsuccess(true);
-            GetData();
-            
-          }
-          else seterror(true);
-        }
-        if(appStore.edit){
-          values.date= appStore.data[0].date;
-          var y =  (await axios.put(AppConfig.API+`Question/Update/`+appStore.data[0].id, values)).status;
-          if(y == 200){
-            
-            ResetValues(values);
-            setsuccess(true);
-            appStore.edit=false;
-            GetData();
-          }
-          else seterror(true);
-        }
+        values.status="pas de réponse";
+        values.userQuest={"id":109};
 
-      } catch (error) {
-              console.log(error)
-      }
-      //  console.log((await x).status)
-     
+            
+              if(!appStore.edit){
+                values.date = format(new Date(), "yyyy-MM-dd") ;
+                if(values.activiteQuest.id!==""){
+                  axios.post(AppConfig.API+`Question/Add`, values).then(res=>{
+                  if(res.data!=null){  
+                    if(link.length!=0){ 
+                      PostFile(link,res.data.id);
+                    }
+                  } 
+                      ResetValues(values);
+                      setsuccess(true);
+                      GetData();  
+                  })}
+      
+              }
+
+            if(appStore.edit){
+             
+              if(values.activiteQuest.id!==""){
+                values.date = appStore.data[0].date;
+                axios.put(AppConfig.API+`Question/Update/`+ appStore.data[0].id, values).then(res=>{
+                if(res.data!=null){  
+                  if(link.length!=0){ 
+                    PostFile(link,appStore.data[0].id);
+                  }
+                } 
+                    ResetValues(values);
+                    setsuccess(true);
+                    GetData();  
+                })}
+
+            }
+               
+              
+    
     };
   
       function Onseccess() {
-        setTimeout(function() {setsuccess(false) ;appStore.open=false; }, 2000);
+        setTimeout(function() {setsuccess(false) ; appStore.open=false  }, 1000);
         return (<Alert severity="success" >Ajouté avec success</Alert>);  
       }
   
@@ -155,17 +185,19 @@ const useStyles = makeStyles((theme) => ({
         return (<Alert severity="error" >Erreur</Alert>);  
       }
       return (
-        <div style={{ padding: 16, margin: 'auto', maxWidth: 600 }}>
+        <div style={{ padding: 16, margin: 'auto', maxWidth: 600,  height:'90%'  }}>
         <CssBaseline />
-        <Form
+       
+        <Form 
           onSubmit={onSubmit}
           validate={validate}
           render={({ handleSubmit, reset, submitting, pristine, values }) => (
-            <form onSubmit={handleSubmit} noValidate>
-              <Paper style={{ padding: 16 }}> 
+            <form onSubmit={handleSubmit} noValidate >
+              
+              <Paper className='addpaper'> 
               { success ? <Onseccess /> : null }
           { error ? <OnError /> : null }
-                <Grid container alignItems="flex-start" spacing={2}>
+                <Grid container alignItems="flex-start" spacing={2}  >
                 
                   <Grid item xs={12}>
                     <Field
@@ -174,37 +206,13 @@ const useStyles = makeStyles((theme) => ({
                       required
                       component={TextField}
                       type="text"
+                      multiline
+                      rows={4}
                       label="Decsiption"
                       initialValue={  appStore.data.length!=0 ?  appStore.data[0].decsiption : ""}
                     />
                   </Grid>
-{/** 
-                  <Grid item xs={12}>
-                    <Field 
-                    name="date"
-                    name="rendez-vous"
-                 
-                    render={props => {
-                     // console.log(props); /* input and meta objects 
-                      
-                      return  <MuiPickersUtilsProvider utils={DateFnsUtils}> <KeyboardDatePicker
-                      margin="normal"
-                      id="date-picker-dialog"
-                      label="Date picker dialog"
-                      format="yyyy-MM-dd"
-                      
-                      value={selectedDate}
-              onChange={handleDateChange}
-              disableOpenOnEnter
-              animateYearScrolling={false}
-              autoOk={true}
-              clearable
-                    /></MuiPickersUtilsProvider>;
-                    }} />
-                      
-                      
-                  </Grid>
-                */}
+
                   <Grid item xs={12}>
                     <Field
                       name="phase"
@@ -229,19 +237,29 @@ const useStyles = makeStyles((theme) => ({
                     />
                   </Grid>
 
-                  <Grid item xs={6}>
-                    <Field
-                      name="status"
-                      fullWidth
-                      required
-                      component={TextField}
-                      type="text"
-                      label="statut"
-                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].status : ""}
-                    />
-                  </Grid>
-
+                
                   <MyView/>
+
+                  <Grid item  xs ={12}>
+                <input
+                  accept="*"
+       
+                  id="contained-button-file"
+                  style={{display:'none'}}
+                  type="file"
+                  onChange={event=>{setlink(event.target.files)}}
+                  multiple={false}
+                 //onChange={event=>{files =  event.target.files PostFile(files);}}
+                
+          
+                   />
+                   <label htmlFor="contained-button-file" >
+                  <Button variant="contained" color="primary" component="span" >
+                      Upload
+                 </Button>
+                   </label>
+                   <span className='uploadText'>{link.length>0 ? link[0].name :"" } </span> 
+                </Grid>
                     
                   <Grid item style={{ marginTop: 16 }}>
                     <Button
@@ -267,8 +285,9 @@ const useStyles = makeStyles((theme) => ({
 
                 </Grid>
               </Paper>
-
+              
             </form>
+       
           )}
         />
       
@@ -280,9 +299,6 @@ const useStyles = makeStyles((theme) => ({
    
 
 function QuestionAdd() {
-    
-    
-   
        return(
          <App/>
        );     
@@ -295,23 +311,16 @@ function QuestionAdd() {
     }
   
     componentDidMount(){
-    if(appStore.data[0]){
-     initDate = new Date(appStore.data[0].date);
-     appStore.date= initDate;
-    }
-      
+   
       GetActivite();
       GetDelivrable();
 
       //  console.log( appStore.data[0].date)
     }
   
- 
     render() {
-  
       return (
           <>
-                
                 <Grid item xs={12}>
                     <Field
                       name="activiteQuest.id"
@@ -322,27 +331,20 @@ function QuestionAdd() {
                       label="Activité"
                       formControlProps={{ fullWidth: true }}
                       initialValue={  appStore.data.length!=0 ?  appStore.data[0].activiteQuest.id : ""}>
-
-             {appStore.acitivite ? appStore.acitivite.map(act => <MenuItem key={act.id} value={act.id}>{act.activite}</MenuItem>) : <MenuItem key="default" value="default">Select an Area</MenuItem>}
-
-               
-                               
-                                
+                      {appStore.acitivite ? appStore.acitivite.map(act => <MenuItem key={act.id} value={act.id}>{act.activite}</MenuItem>) : <MenuItem key="default" value="default">Select an Area</MenuItem>}
                     </Field>
                   </Grid>
 
-                  
                   <Grid item xs={12}>
                     <Field
                       name="categorie"
                       fullWidth
                       required
                       component={Select}
+                      style={{width:250}}
                       type="Text"
                       label="Categorie"
-                      formControlProps={{ fullWidth: true }}
                       initialValue={  appStore.data.length!==0 ?  appStore.data[0].categorie : ""}>
-                     
 
                            <MenuItem key="1" value="Outil"> Outil</MenuItem>
                            <MenuItem key="2" value="Metier">Metier</MenuItem>

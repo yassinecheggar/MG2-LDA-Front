@@ -60,11 +60,6 @@ const useStyles = makeStyles((theme) => ({
     }
     
 
-      
-       
-    
-
-
     return errors;
   };
 
@@ -111,18 +106,28 @@ const useStyles = makeStyles((theme) => ({
 
       }
 
+      function PostFile(params,questionid){
+              const data = new FormData() ;
+              data.append('file',params[0]);
+              axios.post(AppConfig.API+`uploadFile`, data ,{ headers: { 'Content-Type': 'multipart/form-data' } }).then(res=>{
 
+                let o = {"id":0 ,"link": AppConfig.API +""+ res.data.fileDownloadUri , "description":"","questionimage":{"id" :questionid}};     
+                PostImageLink(o);
+                console.log(res);
+
+             });
+           
+          }
 
 
   GetActivite();
   GetDelivrable();
     
-  var initDate ; 
   const App = view(() => {
     
     const [success, setsuccess] = useState(false);
     const [error, seterror] = useState(false);
-    const [link, setlink] = useState('');
+    const [link, setlink] = useState([]);
     
     const onSubmit =  async values   => {
       const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -136,10 +141,11 @@ const useStyles = makeStyles((theme) => ({
                 axios.post(AppConfig.API+`Question/Add`, values).then(res=>{
                   if(res.data!=null){  
 
-                    if(link!=''){ 
-                      let o = {"id":0 ,"link": link , "description":"","questionimage":{"id" :res.data.id}};
-                        console.log(o); 
-                      PostImageLink(o);
+                    if(link.length!=0){ 
+                     
+
+                      PostFile(link,res.data.id);
+
                     }
                   } 
                   
@@ -195,10 +201,6 @@ const useStyles = makeStyles((theme) => ({
                     />
                   </Grid>
 
-                      
-                      
-              
-
                   <Grid item xs={12}>
                     <Field
                       name="phase"
@@ -223,8 +225,7 @@ const useStyles = makeStyles((theme) => ({
                     />
                   </Grid>
 
-                  
-
+                
                   <MyView/>
 
                   <Grid item  xs ={12}>
@@ -234,14 +235,18 @@ const useStyles = makeStyles((theme) => ({
                   id="contained-button-file"
                   className="hidden"
                   type="file"
-                  onChange={event=>{setlink(event.target.value)}}
+                  onChange={event=>{setlink(event.target.files)}}
+                  multiple={false}
+                 //onChange={event=>{files =  event.target.files PostFile(files);}}
+                
+          
                    />
                    <label htmlFor="contained-button-file" >
                   <Button variant="contained" color="primary" component="span" >
                       Upload
                  </Button>
                    </label>
-                   <span className='uploadText'>{link} </span> 
+                   <span className='uploadText'>{link.length>0 ? link[0].name :"" } </span> 
                 </Grid>
                     
                   <Grid item style={{ marginTop: 16 }}>
@@ -282,9 +287,6 @@ const useStyles = makeStyles((theme) => ({
    
 
 function QuestionAdd() {
-    
-    
-   
        return(
          <App/>
        );     
@@ -297,23 +299,16 @@ function QuestionAdd() {
     }
   
     componentDidMount(){
-    if(appStore.data[0]){
-     initDate = new Date(appStore.data[0].date);
-     appStore.date= initDate;
-    }
-      
+   
       GetActivite();
       GetDelivrable();
 
       //  console.log( appStore.data[0].date)
     }
   
- 
     render() {
-  
       return (
           <>
-                
                 <Grid item xs={12}>
                     <Field
                       name="activiteQuest.id"
@@ -324,16 +319,10 @@ function QuestionAdd() {
                       label="Activité"
                       formControlProps={{ fullWidth: true }}
                       initialValue="">
-
-             {appStore.acitivite ? appStore.acitivite.map(act => <MenuItem key={act.id} value={act.id}>{act.activite}</MenuItem>) : <MenuItem key="default" value="default">Select an Area</MenuItem>}
-
-               
-                               
-                                
+                      {appStore.acitivite ? appStore.acitivite.map(act => <MenuItem key={act.id} value={act.id}>{act.activite}</MenuItem>) : <MenuItem key="default" value="default">Select an Area</MenuItem>}
                     </Field>
                   </Grid>
 
-                  
                   <Grid item xs={12}>
                     <Field
                       name="categorie"
@@ -344,7 +333,6 @@ function QuestionAdd() {
                       label="Categorie"
                       formControlProps={{ fullWidth: true }}
                      >
-
                            <MenuItem key="1" value="Outil"> Outil</MenuItem>
                            <MenuItem key="2" value="Metier">Metier</MenuItem>
                            <MenuItem key="3" value="Point bloqant Urgent">Point bloqant Urgent</MenuItem>

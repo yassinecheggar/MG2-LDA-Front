@@ -8,14 +8,10 @@ import {  view } from "@risingstack/react-easy-state";
 import AppConfig from '../../Global';
 import axios from 'axios';
 import { Paper,Grid,Button, CssBaseline,MenuItem} from '@material-ui/core';
-import DateFnsUtils from '@date-io/date-fns';
 import { format } from 'date-fns';
-
 import { OnChange } from 'react-final-form-listeners'
-import {  KeyboardDatePicker,MuiPickersUtilsProvider,} from '@material-ui/pickers';
-import { date } from 'faker';
-import appActions from './Action';
-import { gridColumnLookupSelector } from '@material-ui/data-grid';
+
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -73,16 +69,10 @@ const useStyles = makeStyles((theme) => ({
       if (!values.status) {
         errors.status = 'Required';
       }
-      if (!values.lien) {
-        errors.lien = 'Required';
-      }
+     
       if (!values.valideur) {
         errors.valideur = 'Required';
-      }
-      
-    
-    
-        
+      }   
    
     return errors;
   };
@@ -140,11 +130,14 @@ const useStyles = makeStyles((theme) => ({
   });
   }
 
+  
+
   function GetArea() {
     axios.get( AppConfig.API +'Area/GetAll').then(response  =>{
   
       if(response.data){     
-          appStore.documentArea = response.data;   
+          appStore.documentArea = response.data;  
+          console.log(appStore.documentArea); 
       }
   });}
 
@@ -193,13 +186,24 @@ const useStyles = makeStyles((theme) => ({
   GetValidator();
   GetArea();
   GetActivite();
-    
+
+      function PostFile(params){
+              const data = new FormData() ;
+              data.append('file',params[0]);
+              axios.post(AppConfig.API+`uploadFile`, data ,{ headers: { 'Content-Type': 'multipart/form-data' } }).then(res=>{
+          
+               return  res.data.fileDownloadUri     
+            
+             });
+           
+          }
   var initDate ; 
   const App = view(() => {
     
     const [success, setsuccess] = useState(false);
     const [error, seterror] = useState(false);
     const [selectedDate, setSelectedDate] = React.useState(initDate);
+    const [link, setlink] = useState([]);
     const handleDateChange = (date) => {
       setSelectedDate(date);
       appStore.date= date;
@@ -210,45 +214,71 @@ const useStyles = makeStyles((theme) => ({
         await sleep(300);
         values.id = 0;
        
-     
-        
           try {
                  
         if(!appStore.edit){
           values.ref = appStore.PoleById.pole+"-"+appStore.ActiviteById.abreviation+"-"+values.version ;
         values.pubDate =  format(new Date(), "yyyy-MM-dd") ;
-        var x =  (await axios.post(AppConfig.API+`Document/Add`, values)).status;
-        
-          if(x == 200){
-            ResetValues(values);
-            setsuccess(true);
-            GetData();
-            
+
+        if(link.length!=0){ 
+          const data = new FormData() ;
+          data.append('file',link[0]);
+            await axios.post(AppConfig.API+`uploadFile`, data ,{ headers: { 'Content-Type': 'multipart/form-data' } }).then(res=>{
+           
+            values.lien =  res.data.fileDownloadUri ; 
+             axios.post(AppConfig.API+`Document/Add`, values).then(res=>{
+              setsuccess(true);
+              GetData();
+
+             });
           }
-          else seterror(true);
+         )
         }
-        if(appStore.edit){
-             
-             
+      }
+
+       
+          if(appStore.edit){
+
+            if(link.length!=0){ 
+
               values.ref = appStore.PoleById.pole+"-"+appStore.ActiviteById.abreviation+"-"+values.version ;
-            values.pubDate = appStore.date;
-          var y =  (await axios.put(AppConfig.API+`Document/Update/`+appStore.data[0].id, values)).status;
-          if(y == 200){
-            
-            ResetValues(values);
-            setsuccess(true);
-            appStore.edit=false;
-            GetData();
+              values.pubDate= appStore.data[0].pubDate;     
+              const data = new FormData() ;
+              data.append('file',link[0]);
+              
+
+              axios.post(AppConfig.API+`uploadFile`, data ,{ headers: { 'Content-Type': 'multipart/form-data' } }).then(res=>{
+                values.lien =  res.data.fileDownloadUri ;   
+
+                axios.put(AppConfig.API+`Document/Update/`+appStore.data[0].id, values).then(res=>{
+                  setsuccess(true);
+                  appStore.edit=false;
+                   GetData();
+               
+             });
+            }
+           )
           }
-          else seterror(true);
-        }
+          else if(link.length==0){
+            values.ref = appStore.PoleById.pole+"-"+appStore.ActiviteById.abreviation+"-"+values.version ;
+            values.pubDate= appStore.data[0].pubDate;
+            values.lien =  appStore.data[0].lien ; 
+
+            
+            axios.put(AppConfig.API+`Document/Update/`+appStore.data[0].id, values).then(res=>{
+             setsuccess(true);
+             appStore.edit=false;
+             GetData();
+  
+            });
+          }
+        }   
+
 
      } catch (error) {
             console.log(error)
       }
       
-      //  console.log((await x).status)
-     //console.log(values);
     };
   
       function Onseccess() {
@@ -261,14 +291,14 @@ const useStyles = makeStyles((theme) => ({
         return (<Alert severity="error" >Erreur</Alert>);  
       }
       return (
-        <div style={{ padding: 16, margin: 'auto', maxWidth: 600 }}>
+        <div style={{ padding: 16, margin: 'auto', maxWidth: 600  }}>
         <CssBaseline />
         <Form
           onSubmit={onSubmit}
           validate={validate}
           render={({ handleSubmit, reset, submitting, pristine, values }) => (
             <form onSubmit={handleSubmit} noValidate>
-              <Paper style={{ padding: 16 }}> 
+              <Paper style={{ padding: 16 , overflow:'auto',maxHeight:'90vh'}}> 
               { success ? <Onseccess /> : null }
           { error ? <OnError /> : null }
                 <Grid container alignItems="flex-start" spacing={2}>
@@ -287,21 +317,6 @@ const useStyles = makeStyles((theme) => ({
                     />
                   </Grid>
  
-
-                  <Grid item xs={12}>
-                    <Field
-                      name="lien"
-                      fullWidth
-                      required
-                      component={TextField}
-                      type="text"
-                      label="Lien"
-                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].lien : ""}
-                    />
-                  </Grid>
-
-                  
-
                   <Grid item xs={4}>
                     <Field
                       name="langue"
@@ -313,8 +328,8 @@ const useStyles = makeStyles((theme) => ({
                       formControlProps={{ fullWidth: true }}
                       initialValue={  appStore.data.length!=0 ?  appStore.data[0].langue  : ""}>
 
-                       <MenuItem  value="FR">FR</MenuItem>
-                       <MenuItem  value="ENG">ENG</MenuItem>       
+                       <MenuItem  value="fr">FR</MenuItem>
+                       <MenuItem  value="en">ENG</MenuItem>       
                     </Field>
                   </Grid>
 
@@ -329,37 +344,12 @@ const useStyles = makeStyles((theme) => ({
                       formControlProps={{ fullWidth: true }}
                       initialValue={  appStore.data.length!=0 ?  appStore.data[0].trainning  : ""}>
 
-                       <MenuItem  value="YES">Yes</MenuItem>
-                       <MenuItem  value="NO">No</MenuItem>       
+                       <MenuItem  value="yes">Yes</MenuItem>
+                       <MenuItem  value="no">No</MenuItem>       
                     </Field>
                   </Grid>
 
 
-                  <Grid item xs={12}>
-                    <Field 
-                    name="date"
-                    initialValue={appStore.date}
-                    render={props => {
-                     // console.log(props); /* input and meta objects */
-                      
-                      return  <MuiPickersUtilsProvider utils={DateFnsUtils}> <KeyboardDatePicker
-                      margin="normal"
-                      id="datepicker"
-                     
-                      format="yyyy-MM-dd"
-                      
-                      value={selectedDate}
-                      onChange={handleDateChange}
-                        disableOpenOnEnter
-                        animateYearScrolling={false}
-                        autoOk={true}
-                        clearable
-                    /></MuiPickersUtilsProvider>;
-                    }} />
-                     
-                      
-                      
-                  </Grid> 
 
                   <Grid item xs={6}>
                     <Field
@@ -401,6 +391,29 @@ const useStyles = makeStyles((theme) => ({
 
 
                   <MyView/>
+
+                  
+                  <Grid item  xs ={12}>
+                <input
+                  accept="*"
+       
+                  id="contained-button-file"
+                  style={{display:'none'}}
+                  type="file"
+                  onChange={event=>{setlink(event.target.files)}}
+                  multiple={false}
+                 //onChange={event=>{files =  event.target.files PostFile(files);}}
+                
+          
+                   />
+                   <label htmlFor="contained-button-file" >
+                  <Button variant="contained" color="primary" component="span" >
+                      Upload
+                 </Button>
+                   </label>
+                   <span className='uploadText'>{link.length>0 ? link[0].name :"" } </span> 
+                </Grid>
+                    
                     
                   <Grid item style={{ marginTop: 16 }}>
                     <Button
@@ -437,9 +450,7 @@ const useStyles = makeStyles((theme) => ({
       });
 
 function DocumentAdd() {
-    
-    
-   
+
        return(
          <App/>
        );     
@@ -447,17 +458,25 @@ function DocumentAdd() {
   }
 
   class MyView extends Component {
+
+
+    constructor () {
+      super()
+      this.state = { loaded: false }
+    }
+  
     componentWillUnmount() {
       appStore.edit=false;
     }
   
     componentDidMount(){
+
     if(appStore.data[0]!=null){
-      
-     initDate = new Date(appStore.data[0].date);
-     appStore.date= initDate;
      GetPoleById(appStore.data[0].documentPole.id);
-    }else{ initDate = null;}
+     GetPerimetre(appStore.data[0].documentPerimetre.perimetreArea.id);
+     GetActiviteById(appStore.data[0].documentActivite.id);
+     
+    }
       
     GetType();
     GetPole();
@@ -466,14 +485,14 @@ function DocumentAdd() {
     GetValidator();
     GetArea();
     GetActivite();
-  
 
         //console.log( appStore.data[0].appStore.documentPole)
     }
   
  
     render() {
-  
+      const { loaded } = this.state;
+      
       return (
           <>
           
@@ -518,8 +537,6 @@ function DocumentAdd() {
                       initialValue={  appStore.data.length!=0 ? (appStore.data[0].documentdirection? appStore.data[0].documentdirection.id : "") : ""}>
                       
                       {appStore.documentdirection ? appStore.documentdirection.map(dir => <MenuItem key={dir.id} value={dir.id}>{dir.directiondesc}</MenuItem>) : <MenuItem key="default" value="default">Select a direction</MenuItem>}
-         
-         
                     </Field>
                   </Grid>
 
@@ -564,8 +581,6 @@ function DocumentAdd() {
                       type="Text"
                       label="Area"
 
-                     
-                      
                       formControlProps={{ fullWidth: true }}
                       initialValue={  appStore.data.length!=0 ? (appStore.data[0].documentPerimetre.perimetreArea? appStore.data[0].documentPerimetre.perimetreArea.id : "") : ""}>
 
@@ -592,7 +607,7 @@ function DocumentAdd() {
                       label="Perimetre"
                      
                       formControlProps={{ fullWidth: true }}
-                      initialValue={  appStore.data.length!=0 ? (appStore.data[0].documentPerimetre? appStore.data[0].documentPerimetre.id : "") : ""}>
+                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].documentPerimetre.id : "" }>
 
                       {appStore.documentPerimetre ? appStore.documentPerimetre.map(per => <MenuItem key={per.id} value={per.id}>{per.perimetre}</MenuItem>) : <MenuItem key="default" value="default">Select an Area</MenuItem>}
          
@@ -654,12 +669,6 @@ function DocumentAdd() {
                     </Field>
                   </Grid>
 
-
-
-
-                               
-                                
-                
           </>
       )
   }

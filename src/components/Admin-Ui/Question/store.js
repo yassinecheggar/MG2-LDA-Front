@@ -12,6 +12,7 @@ const appStore = store({
   activite: [],
   delivrable: [],
   date: null,
+  resources:[],
 
 });
 

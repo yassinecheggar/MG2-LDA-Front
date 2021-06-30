@@ -167,10 +167,10 @@ const App = view(()  => {
           
             Looking for a document? 
           </Typography>
-    
+      {/*     
         <Button variant="contained" color="primary" style={{float: 'right'}} onClick={appActions.handleOpenModal}>
         Add Document
-      </Button>
+      </Button> */}
 
       </Grid>
 

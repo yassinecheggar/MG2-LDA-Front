@@ -22,6 +22,7 @@ import AppConfig from "../../Global";
 import ReactTooltip from "react-tooltip";
 import MenuItem from "@material-ui/core/MenuItem";
 
+
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 import { tr } from "date-fns/locale";
 
@@ -104,8 +105,8 @@ const useStyles = makeStyles((theme) => ({
 
   cardPage3: {
     height: 200,
-    backgroundColor: '#f8002f',
-    backgroundImage: ' linear-gradient(320deg, #f8002f 0%, #000c14 80%)',
+    backgroundColor: '#141e30',
+    backgroundImage: ' linear-gradient(to right, #0f2027, #203a43, #2c5364);',
 
     transition: "1s ease",
     "&:hover": {
@@ -238,6 +239,7 @@ function filterByValueDocNested(array, string, col) {
     {main: 'pubDate', sub: null},
     {main: 'langue', sub: null},
     {main: 'ref', sub: null},
+    {main: 'docummentauthor', sub: 'prenom'},
     {main: 'typeDocument', sub: 'typedoc'}];
 
     var y =  x.filter(function(it) {
@@ -343,7 +345,7 @@ const DocType = view(() => {
 function openFile(params) {
   navigator.clipboard.writeText(params);
  
-  //window.open(params);
+  window.open(params);
 }
 
 const DocList = view(() => {
@@ -397,7 +399,7 @@ const DocList = view(() => {
           <MenuItem value={'nom'}>Nom</MenuItem>
           <MenuItem value={'ref'}>Ref</MenuItem>
           <MenuItem value={'pubDate'}>date</MenuItem>
-          <MenuItem value={'langue'}>auteur</MenuItem>
+          <MenuItem value={'docummentauthor'}>auteur</MenuItem>
           <MenuItem value={'documentPole'}>pole</MenuItem>
           <MenuItem value={'documentdirection'}>direction</MenuItem>
           <MenuItem value={'typeDocument'}>Typedocument</MenuItem>
@@ -416,7 +418,7 @@ const DocList = view(() => {
               <Grid item xs={12} md={6} lg={3} style={{ marginTop: 40 }}>
                 <Paper className={classes.cardPage}>
                   <div style={{ display: "flex", position: "relative" }}>
-                    <IconButton onClick={()=>openFile(value.lien)}
+                    <IconButton onClick={()=>openFile(AppConfig.API + value.lien)}
                       style={{
                         position: "absolute",
                         right: "0px",

@@ -11,6 +11,7 @@ const appStore = store({
   edit: false,
   openM : false ,
   linktoImage:'',
+  resources:[],
 
 });
 

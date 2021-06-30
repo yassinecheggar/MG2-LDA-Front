@@ -85,6 +85,15 @@ const useStyles = makeStyles((theme) => ({
       }
   });
   }
+
+  async function GetResource(id) {
+    axios.get( AppConfig.API +'BestPractice/GetResources/'+id).then(response  =>{
+  
+      if(response.data){     
+          appStore.resources = response.data;   
+      }
+  });
+  }
   
 
 const App = view(() => {
@@ -154,7 +163,7 @@ const App = view(() => {
             appStore.selected = selectedRowData[0];
 
             setSelection( selectedRowData[0]);
-            
+            GetResource(selectedRowData[0].id);
             appStore.open=true;
             //console.log("selected rowData:",  selection);
             //console.log("selected rowData Store:",  selection);
@@ -206,12 +215,16 @@ const App = view(() => {
                 <Divider/>
                 <p className='PaperText' style={{color:'chocolate'}}>Resources</p>
 
+                {appStore.resources.map(res => {
+                    return (
                 <Tooltip title="open file" placement="right-start">
-                 <IconButton style={{width:70 , height:70 , marginLeft:20 ,  marginBottom:20}}>
+                 <IconButton style={{width:70 , height:70 , marginLeft:20 ,  marginBottom:20 } } onClick={()=>{window.open(res.link)}} >
 
-                <img src='images/resources.png'  alt ='res'  className='imgResources'/>
+                    <img src='images/resources.png'  alt ='res'  className='imgResources'/>
                  </IconButton>
                 </Tooltip>
+                    );
+                  })}
         </Paper>
         </Fade>
       </Modal>

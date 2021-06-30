@@ -9,6 +9,7 @@ const appActions = {
   handleClose: () => {
     appStore.open = false;
     appStore.data=[] ;
+    appStore.edit=false;
     
   },
 

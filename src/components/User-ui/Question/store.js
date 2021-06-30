@@ -13,6 +13,7 @@ const appStore = store({
   linktoImage:'',
   Reponse:[],
   repoonsetext:"",
+  resources:[],
 
 });
 

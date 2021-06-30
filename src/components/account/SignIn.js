@@ -134,8 +134,9 @@ export default function SignIn() {
             color="primary"
             className={classes.submit}
           
-
-           onClick={()=>Post()}
+            component={NavLink}
+            to='/Home'
+           //onClick={()=>Post()}
            
           >
             Sign In

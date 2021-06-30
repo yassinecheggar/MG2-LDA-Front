@@ -25,7 +25,11 @@ import { NavLink } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
     nested: {
       paddingLeft: theme.spacing(4),
+      color: 'white',
     },
+    icons  :{
+      color: 'white',
+    }
   }));
 
 function UserMenu(props) {
@@ -39,42 +43,42 @@ function UserMenu(props) {
         <>
 
 
-      <List  component="nav" >
+      <List  component="nav"  >
 
     <ListItem button  >
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" />
+      <ListItemIcon >
+        <DashboardIcon className={classes.icons} />
+      </ListItemIcon >
+      <ListItemText primary="Dashboard" className={classes.icons} />
     </ListItem>
 
     <ListItem button component={NavLink} to={`${props.url}/Search`}>
       <ListItemIcon>
-        <SearchIcon />
+        <SearchIcon  className={classes.icons}/>
       </ListItemIcon>
-      <ListItemText primary="Search" />
+      <ListItemText primary="Search"  className={classes.icons}/>
     </ListItem>
 
     <ListItem button  component={NavLink} to={`${props.url}/Navigation`}>
       <ListItemIcon>
-        <NavigationIcon />
+        <NavigationIcon className={classes.icons} />
       </ListItemIcon>
-      <ListItemText primary="Navigation" />
+      <ListItemText primary="Navigation" className={classes.icons} />
     </ListItem>
 
     <ListItem button component={NavLink} to={`${props.url}/Trainning`}>
       <ListItemIcon>
-        <CastForEducationIcon />
+        <CastForEducationIcon  className={classes.icons} />
       </ListItemIcon>
-      <ListItemText primary="Training" />
+      <ListItemText primary="Training" className={classes.icons} />
     </ListItem>
     <ListItem button onClick={handleClick}>
 
       <ListItemIcon>
-        <GroupWorkIcon />
+        <GroupWorkIcon  className={classes.icons}/>
       </ListItemIcon>
-      <ListItemText primary="Feedback" />
-      {openl ? <ExpandLess /> : <ExpandMore />}
+      <ListItemText primary="Feedback"  className={classes.icons}/>
+      {openl ? <ExpandLess  className={classes.icons}/> : <ExpandMore className={classes.icons} />}
     </ListItem>
 
 
@@ -83,7 +87,7 @@ function UserMenu(props) {
         <List component="div" disablePadding>
           <ListItem button className={classes.nested} component={NavLink} to={`${props.url}/Question`}>
             <ListItemIcon>
-              <ContactSupportIcon />
+              <ContactSupportIcon className={classes.icons} />
             </ListItemIcon>
             <ListItemText primary="Question" />
           </ListItem>
@@ -91,7 +95,7 @@ function UserMenu(props) {
 
           <ListItem button className={classes.nested} component={NavLink} to={`${props.url}/FeedBack`}>
             <ListItemIcon>
-              <QuestionAnswerIcon />
+              <QuestionAnswerIcon  className={classes.icons}/>
             </ListItemIcon>
             <ListItemText primary="FeedBack" />
           </ListItem>
@@ -100,7 +104,7 @@ function UserMenu(props) {
 
           <ListItem button className={classes.nested} component={NavLink} to={`${props.url}/BestPractice`}>
             <ListItemIcon>
-              <WbIncandescentIcon />
+              <WbIncandescentIcon  className={classes.icons}/>
             </ListItemIcon>
             <ListItemText primary="Best Practice" />
           </ListItem>

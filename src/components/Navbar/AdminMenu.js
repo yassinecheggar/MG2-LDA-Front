@@ -2,20 +2,24 @@ import React from 'react'
 
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import ListItemText  from '@material-ui/core/ListItemText' ;
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import SettingsIcon from '@material-ui/icons/Settings';
+import SettingsIcon  from '@material-ui/icons/Settings';
 import { NavLink } from 'react-router-dom';
 
 
 
 const useStyles = makeStyles((theme) => ({
+  
     nested: {
       paddingLeft: theme.spacing(4),
     },
+    icons  :{
+      color: 'white',
+    }
   }));
 
 function AdminMenu(props) {
@@ -28,123 +32,121 @@ function AdminMenu(props) {
       };  
     return (
         <>
-
-
-            <List  component="nav" >
-            <ListSubheader inset>Admin Menu</ListSubheader>
+            <List  component="nav"  style={{overflow: 'auto' ,overflowX:'hidden', maxHeight:'90vh'}}>
+            <ListSubheader inset disableSticky style={{color:'whitesmoke'}}>Admin Menu</ListSubheader>
 
 <ListItem button component={NavLink} to={`${props.url}/CompActivite`}>
   <ListItemIcon>
-    <SettingsIcon />
+    <SettingsIcon  className={classes.icons} />
   </ListItemIcon>
-  <ListItemText primary="Activité" />
+  <ListItemText className={classes.icons} primary="Activité" />
 </ListItem>
 
 <ListItem button component={NavLink} to={`${props.url}/Area`}>
 
   <ListItemIcon>
-    <SettingsIcon />
+    <SettingsIcon className={classes.icons} />
   </ListItemIcon>
-  <ListItemText primary="Area" />
+  <ListItemText className={classes.icons} primary="Area" />
 </ListItem>
 
 <ListItem button component={NavLink} to={`${props.url}/Author`}>
   <ListItemIcon>
-    <SettingsIcon />
+    <SettingsIcon className={classes.icons} />
   </ListItemIcon>
-  <ListItemText primary="Author" />
+  <ListItemText className={classes.icons} primary="Author" />
 </ListItem>
 
 
 <ListItem button component={NavLink} to={`${props.url}/BestPractice`}>
   <ListItemIcon>
-    <SettingsIcon />
+    <SettingsIcon className={classes.icons} />
   </ListItemIcon>
-  <ListItemText primary="BestPractice" />
+  <ListItemText className={classes.icons} primary="BestPractice" />
 </ListItem>
 
 
 <ListItem button component={NavLink} to={`${props.url}/Comment`}>
   <ListItemIcon>
-    <SettingsIcon />
+    <SettingsIcon className={classes.icons} />
   </ListItemIcon>
-  <ListItemText primary="Comment" />
+  <ListItemText className={classes.icons} primary="Comment" />
 </ListItem>
 
 
 
 <ListItem button component={NavLink} to={`${props.url}/Delivrable`}>
   <ListItemIcon>
-    <SettingsIcon />
+    <SettingsIcon className={classes.icons} />
   </ListItemIcon>
-  <ListItemText primary="Delivrable" />
+  <ListItemText className={classes.icons} primary="Delivrable" />
 </ListItem>
 
 <ListItem button component={NavLink} to={`${props.url}/Direction`}>
   <ListItemIcon>
-    <SettingsIcon />
+    <SettingsIcon className={classes.icons} />
   </ListItemIcon>
-  <ListItemText primary="Direction" />
+  <ListItemText className={classes.icons} primary="Direction" />
 </ListItem>
 
 
 <ListItem button component={NavLink} to={`${props.url}/Document`}>
   <ListItemIcon>
-    <SettingsIcon />
+    <SettingsIcon className={classes.icons} />
   </ListItemIcon>
-  <ListItemText primary="Document" />
+  <ListItemText className={classes.icons} primary="Document" />
 </ListItem>
 
 
 
 <ListItem button component={NavLink} to={`${props.url}/Type`}> 
   <ListItemIcon>
-    <SettingsIcon />
+    <SettingsIcon className={classes.icons} />
   </ListItemIcon>
-  <ListItemText primary="Doc Type" />
+  <ListItemText className={classes.icons} primary="Doc Type" />
 </ListItem>
 
 
 <ListItem button component={NavLink} to={`${props.url}/FeedBack`}>
   <ListItemIcon>
-    <SettingsIcon />
+    <SettingsIcon className={classes.icons} />
   </ListItemIcon>
-  <ListItemText primary="Feedback" />
+  <ListItemText className={classes.icons} primary="Feedback" />
 </ListItem>
 
 
 <ListItem button component={NavLink} to={`${props.url}/Modification`}>
   <ListItemIcon>
-    <SettingsIcon />
+    <SettingsIcon className={classes.icons} />
   </ListItemIcon>
-  <ListItemText primary="Modif" />
+  <ListItemText className={classes.icons} primary="Modif" />
 </ListItem>
 
 
 
 <ListItem button component={NavLink} to={`${props.url}/Perimetre`}>
   <ListItemIcon>
-    <SettingsIcon />
+    <SettingsIcon className={classes.icons} />
   </ListItemIcon>
-  <ListItemText primary="Perimetre" />
+  <ListItemText className={classes.icons} primary="Perimetre" />
 </ListItem>
 
 
 
 <ListItem button component={NavLink} to={`${props.url}/Picture`}>
   <ListItemIcon>
-    <SettingsIcon />
+    <SettingsIcon className={classes.icons} />
   </ListItemIcon>
-  <ListItemText primary="Picture" />
+  <ListItemText className={classes.icons} primary="Picture" />
 </ListItem>
 
 
 
 <ListItem button  component={NavLink} to={`${props.url}/Pole`}>
   <ListItemIcon>
-    <SettingsIcon />
+    <SettingsIcon className={classes.icons} />
   </ListItemIcon>
-  <ListItemText primary="Pole" />
+  <ListItemText className={classes.icons} primary="Pole" />
 </ListItem>
 
 
@@ -152,18 +154,18 @@ function AdminMenu(props) {
 
 <ListItem button component={NavLink} to={`${props.url}/Question`}>
   <ListItemIcon>
-    <SettingsIcon />
+    <SettingsIcon className={classes.icons} />
   </ListItemIcon>
-  <ListItemText primary="Question" />
+  <ListItemText className={classes.icons} primary="Question" />
 </ListItem>
 
 
 
 <ListItem button component={NavLink} to={`${props.url}/user`}>
   <ListItemIcon>
-    <SettingsIcon />
+    <SettingsIcon className={classes.icons} />
   </ListItemIcon>
-  <ListItemText primary="User" />
+  <ListItemText className={classes.icons} primary="User" />
 </ListItem>
 
 

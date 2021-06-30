@@ -105,6 +105,15 @@ const useStyles = makeStyles((theme) => ({
       }
   });
   }
+
+  async function GetResource(id) {
+    axios.get( AppConfig.API +'Question/GetResources/'+id).then(response  =>{
+  
+      if(response.data){     
+          appStore.resources = response.data;   
+      }
+  });
+  }
   
 
   async function  PostRepose(params){
@@ -193,6 +202,8 @@ const App = view(() => {
 
             setSelection( selectedRowData[0]);
             GetReponse(selectedRowData[0].id);
+            GetResource(selectedRowData[0].id);
+
             appStore.open=true;
             appStore.repoonsetext='';
             //console.log("selected rowData:",  selection);
@@ -271,13 +282,18 @@ const App = view(() => {
                 <Divider/>
 
                 <p className='PaperText' style={{color:'chocolate'}}>Resources</p>
-              
-                <Tooltip title="open file" placement="right-start">
-                 <IconButton style={{width:70 , height:70 , marginLeft:20 ,  marginBottom:20}}>
+                <div style={{display:'flex'}} >
+                {appStore.resources.map(res => {
+                    return (
+                <Tooltip title={"open "+res.link.substr(res.link.lastIndexOf('.') + 1) +" file " }placement="right-start">
+                 <IconButton style={{width:70 , height:70 , marginLeft:20 ,  marginBottom:20 } } onClick={()=>{window.open(res.link)}} >
 
-                <img src='images/resources.png'  alt ='res'  className='imgResources'/>
+                    <img src='images/resources.png'  alt ='res'  className='imgResources'/>
                  </IconButton>
                 </Tooltip>
+                    );
+                  })}
+        </div>
         </Paper>
         </Fade>
       </Modal>
