@@ -52,12 +52,16 @@ const useStyles = makeStyles((theme) => ({
 
 
   function GetData() {
-    axios.get( AppConfig.API +'Comment/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.rows = response.data;   
-      }
-  });
+ try {
+      axios.get( AppConfig.API +'Comment/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.rows = response.data;   
+        }
+    });
+ } catch (err) {
+   
+ }
   }
 var   initDate = null;
 const  DataPick = ()=>{
@@ -111,27 +115,35 @@ const  DataPick = ()=>{
           values.dateComment =appStore.date;
         if(!appStore.edit){
 
-        var x =  (await axios.post(AppConfig.API+`Comment/Add`, values)).status;
-        
-          if(x == 200){
-            ResetValues(values);
-            setsuccess(true);
-            GetData();
-            
-          }
-          else seterror(true);
+        try {
+          var x =  (await axios.post(AppConfig.API+`Comment/Add`, values ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})).status;
+          
+            if(x == 200){
+              ResetValues(values);
+              setsuccess(true);
+              GetData();
+              
+            }
+            else seterror(true);
+        } catch (err) {
+          
+        }
         }
         if(appStore.edit){
-        
-          var y =  (await axios.put(AppConfig.API+`Comment/Update/`+appStore.data[0].id, values)).status;
-          if(y == 200){
-            
-            ResetValues(values);
-            setsuccess(true);
-            appStore.edit=false;
-            GetData();
-          }
-          else seterror(true);
+        try {
+          
+            var y =  (await axios.put(AppConfig.API+`Comment/Update/`+appStore.data[0].id, values ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})).status;
+            if(y == 200){
+              
+              ResetValues(values);
+              setsuccess(true);
+              appStore.edit=false;
+              GetData();
+            }
+            else seterror(true);
+        } catch (err) {
+          
+        }
         }
         console.log(values)
       //  console.log((await x).status)

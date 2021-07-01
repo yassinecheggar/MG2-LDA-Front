@@ -11,26 +11,7 @@ import { Paper,Grid,Button, CssBaseline,MenuItem} from '@material-ui/core';
 import { format } from 'date-fns';
 import '../../../App.css';
 
-import {  KeyboardDatePicker,MuiPickersUtilsProvider,} from '@material-ui/pickers';
-import appActions from './Action';
 
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '100%',
-        '& > * + *': {
-          marginTop: theme.spacing(2),
-        },
-      },
-    paper: {
-      backgroundColor: theme.palette.background.paper,
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-      height: "500px",
-      width: "800px",
-    }
-  }));
-  
 
 
   function ResetValues(Values) {
@@ -65,25 +46,33 @@ const useStyles = makeStyles((theme) => ({
 
 
   function GetData() {
-    axios.get( AppConfig.API +'Question/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.rows = response.data;   
-      }
-  });
+  try {
+      axios.get( AppConfig.API +'Question/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.rows = response.data;   
+        }
+    });
+  } catch (err) {
+    
+  }
   }
 
   function GetDelivrable() {
-    axios.get( AppConfig.API +'Delivrable/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.delivrable = response.data;   
-      }
-  });
+   try {
+      axios.get( AppConfig.API +'Delivrable/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.delivrable = response.data;   
+        }
+    });
+   } catch (err) {
+     
+   }
   }
 
   function GetActivite() {
-    axios.get( AppConfig.API +'Activite/GetAll').then(response  =>{
+    axios.get( AppConfig.API +'Activite/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
   
       if(response.data){     
           appStore.acitivite = response.data;   
@@ -93,12 +82,13 @@ const useStyles = makeStyles((theme) => ({
 
   function PostImageLink(params){
     console.log(params);
-    var x =  ( axios.post(AppConfig.API+`Picture/Add`,params)).status;
-        try {      
+       try {   
+              var x =  ( axios.post(AppConfig.API+`Picture/Add`,params,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})).status;
+        
               if(x == 200){
               return true; 
-            }
-            console.log();
+              }
+            
               } catch (error) {
                 console.log(error)
                return  false;
@@ -107,9 +97,10 @@ const useStyles = makeStyles((theme) => ({
       }
 
       function PostFile(params,questionid){
+              const x= JSON.parse( window.localStorage.getItem("ldat"));
               const data = new FormData() ;
               data.append('file',params[0]);
-              axios.post(AppConfig.API+`uploadFile`, data ,{ headers: { 'Content-Type': 'multipart/form-data' } }).then(res=>{
+              axios.post(AppConfig.API+`uploadFile`, data ,{ headers: { 'Content-Type': 'multipart/form-data', 'Authorization': x.Authorization } }).then(res=>{
 
                 let o = {"id":0 ,"link": AppConfig.API +""+ res.data.fileDownloadUri , "description":"","questionimage":{"id" :questionid}};     
                 PostImageLink(o);
@@ -139,36 +130,44 @@ const useStyles = makeStyles((theme) => ({
 
             
               if(!appStore.edit){
-                values.date = format(new Date(), "yyyy-MM-dd") ;
+             try {
+                  values.date = format(new Date(), "yyyy-MM-dd") ;
+                  if(values.activiteQuest.id!==""){
+                    axios.post(AppConfig.API+`Question/Add`, values ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(res=>{
+                    if(res.data!=null){  
+                      if(link.length!=0){ 
+                        PostFile(link,res.data.id);
+                      }
+                    } 
+                        ResetValues(values);
+                        setsuccess(true);
+                        GetData();  
+                    })}
+        
+             } catch (err) {
+               
+             }
+              }
+
+            if(appStore.edit){
+             
+              try {
                 if(values.activiteQuest.id!==""){
-                  axios.post(AppConfig.API+`Question/Add`, values).then(res=>{
+                  values.date = appStore.data[0].date;
+                  axios.put(AppConfig.API+`Question/Update/`+ appStore.data[0].id, values ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(res=>{
                   if(res.data!=null){  
                     if(link.length!=0){ 
-                      PostFile(link,res.data.id);
+                      PostFile(link,appStore.data[0].id);
                     }
                   } 
                       ResetValues(values);
                       setsuccess(true);
                       GetData();  
                   })}
-      
+  
+              } catch (err) {
+                
               }
-
-            if(appStore.edit){
-             
-              if(values.activiteQuest.id!==""){
-                values.date = appStore.data[0].date;
-                axios.put(AppConfig.API+`Question/Update/`+ appStore.data[0].id, values).then(res=>{
-                if(res.data!=null){  
-                  if(link.length!=0){ 
-                    PostFile(link,appStore.data[0].id);
-                  }
-                } 
-                    ResetValues(values);
-                    setsuccess(true);
-                    GetData();  
-                })}
-
             }
                
               

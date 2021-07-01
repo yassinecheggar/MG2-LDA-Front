@@ -1,9 +1,8 @@
 import React  ,{ useState ,Component } from 'react'
-import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
+
 import Alert from '@material-ui/lab/Alert';
 import { Form, Field } from 'react-final-form';
-import { TextField ,Select} from 'final-form-material-ui';
+import { Select} from 'final-form-material-ui';
 import appStore from "./store";
 import {  view } from "@risingstack/react-easy-state";
 import AppConfig from '../../Global';
@@ -15,35 +14,16 @@ import { format } from 'date-fns';
 
 
 import {  KeyboardDatePicker,MuiPickersUtilsProvider,} from '@material-ui/pickers';
-import { Apps, ControlCameraSharp } from '@material-ui/icons';
-import { date } from 'faker';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '100%',
-        '& > * + *': {
-          marginTop: theme.spacing(2),
-        },
-      },
-    paper: {
-      backgroundColor: theme.palette.background.paper,
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-      height: "500px",
-      width: "800px",
-    }
-  }));
-  
-  var Status = false ;
+
+
+
 
   function ResetValues(Values) {
         Values.dateModification="";
         Values.userMod="";
         
-  
 
-
-      Status= true;
   }
   
   const validate = values => {
@@ -55,30 +35,42 @@ const useStyles = makeStyles((theme) => ({
 
 
   function GetData() {
-    axios.get( AppConfig.API +'Modif/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.rows = response.data;   
-      }
-  });
+    try {
+      axios.get( AppConfig.API +'Modif/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.rows = response.data;   
+        }
+    });
+    } catch (err) {
+      
+    }
   }
 
   function GetUser() {
-    axios.get( AppConfig.API +'User/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.User = response.data;   
-      }
-  });
+   try {
+      axios.get( AppConfig.API +'User/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.User = response.data;   
+        }
+    });
+   } catch (err) {
+     
+   }
   }
 
   function GetDocument() {
-    axios.get( AppConfig.API +'Document/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.Doc = response.data;   
-      }
-  });
+    try {
+      axios.get( AppConfig.API +'Document/GetAll' ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.Doc = response.data;   
+        }
+    });
+    } catch (err) {
+      
+    }
   }
   GetDocument();
   GetUser();
@@ -113,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
         if(!appStore.edit){
         values.date =  format(new Date(), "yyyy-MM-dd") ;
         
-        var x =  (await axios.post(AppConfig.API+`Modif/Add`, values)).status;
+        var x =  (await axios.post(AppConfig.API+`Modif/Add`, values ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})).status;
         
           if(x == 200){
             ResetValues(values);
@@ -127,7 +119,7 @@ const useStyles = makeStyles((theme) => ({
         if(appStore.edit){
             if(appStore.date){values.validationDate = format(appStore.date, "yyyy-MM-dd")  }else values.validationDate="";
             values.date=appStore.data[0].date; 
-          var y =  (await axios.put(AppConfig.API+`Modif/Update/`+appStore.data[0].id, values)).status;
+          var y =  (await axios.put(AppConfig.API+`Modif/Update/`+appStore.data[0].id, values ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})).status;
           if(y == 200){
             
             ResetValues(values);
@@ -171,7 +163,7 @@ const useStyles = makeStyles((theme) => ({
                   <Grid item xs={12}>
                     <Field 
                     name="dateModification"
-                    name="rendez-vous"
+                   
                  
                     render={props => {
                      // console.log(props); /* input and meta objects */

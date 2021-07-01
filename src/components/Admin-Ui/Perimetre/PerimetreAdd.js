@@ -47,21 +47,29 @@ const useStyles = makeStyles((theme) => ({
 
 
   function GetData() {
-    axios.get( AppConfig.API +'Perimetre/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.rows = response.data;   
-      }
-  });
+  try {
+      axios.get( AppConfig.API +'Perimetre/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.rows = response.data;   
+        }
+    });
+  } catch (err) {
+    
+  }
   }
 
   function GetArea() {
-    axios.get( AppConfig.API +'Area/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.areas = response.data;   
-      }
-  });
+    try {
+      axios.get( AppConfig.API +'Area/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.areas = response.data;   
+        }
+    });
+    } catch (err) {
+      
+    }
   }
 
   const App = view(() => {
@@ -76,28 +84,36 @@ const useStyles = makeStyles((theme) => ({
        
         if(!appStore.edit){
 
-      var x =  (await axios.post(AppConfig.API+`Perimetre/Add`, values)).status;
+      try {
+        var x =  (await axios.post(AppConfig.API+`Perimetre/Add`, values,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})).status;
+          
+            if(x == 200){
+              ResetValues(values);
+              setsuccess(true);
+              GetData();
+              
+            }
+            else seterror(true);
+      } catch (err) {
         
-          if(x == 200){
-            ResetValues(values);
-            setsuccess(true);
-            GetData();
-            
-          }
-          else seterror(true);
+      }
         }
         if(appStore.edit){
 
-       
-          var y =  (await axios.put(AppConfig.API+`Perimetre/Update/`+appStore.data[0].id, values)).status;
-          if(y == 200){
-            
-            ResetValues(values);
-            setsuccess(true);
-            appStore.edit=false;
-            GetData();
-          }
-          else seterror(true);
+       try {
+         
+            var y =  (await axios.put(AppConfig.API+`Perimetre/Update/`+appStore.data[0].id, values,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})).status;
+            if(y == 200){
+              
+              ResetValues(values);
+              setsuccess(true);
+              appStore.edit=false;
+              GetData();
+            }
+            else seterror(true);
+       } catch (err) {
+         
+       }
          // console.log((values));
         }
        

@@ -1,6 +1,5 @@
 import React  ,{ useState ,Component } from 'react'
-import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
+
 import Alert from '@material-ui/lab/Alert';
 import { Form, Field } from 'react-final-form';
 import { TextField ,Select} from 'final-form-material-ui';
@@ -17,23 +16,8 @@ import { format } from 'date-fns';
 import {  KeyboardDatePicker,MuiPickersUtilsProvider,} from '@material-ui/pickers';
 import { Apps, ControlCameraSharp } from '@material-ui/icons';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '100%',
-        '& > * + *': {
-          marginTop: theme.spacing(2),
-        },
-      },
-    paper: {
-      backgroundColor: theme.palette.background.paper,
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-      height: "500px",
-      width: "800px",
-    }
-  }));
-  
-  var Status = false ;
+
+
 
   function ResetValues(Values) {
         Values.feedback="";
@@ -46,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
   
 
 
-      Status= true;
   }
   
   const validate = values => {
@@ -60,30 +43,42 @@ const useStyles = makeStyles((theme) => ({
 
 
   function GetData() {
-    axios.get( AppConfig.API +'Feedback/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.rows = response.data;   
-      }
-  });
+  try {
+      axios.get( AppConfig.API +'Feedback/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.rows = response.data;   
+        }
+    });
+  } catch (err) {
+    
+  }
   }
 
   function GetDelivrable() {
-    axios.get( AppConfig.API +'Delivrable/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.delivrable = response.data;   
-      }
-  });
+   try {
+      axios.get( AppConfig.API +'Delivrable/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.delivrable = response.data;   
+        }
+    });
+   } catch (err) {
+     
+   }
   }
 
   function GetActivite() {
-    axios.get( AppConfig.API +'Activite/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.acitivite = response.data;   
-      }
-  });
+  try {
+      axios.get( AppConfig.API +'Activite/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.acitivite = response.data;   
+        }
+    });
+  } catch (err) {
+    
+  }
   }
   GetActivite();
   GetDelivrable();
@@ -108,31 +103,39 @@ const useStyles = makeStyles((theme) => ({
      
 
         if(!appStore.edit){
-        values.date =  format(new Date(), "yyyy-MM-dd") ;
-        
-        var x =  (await axios.post(AppConfig.API+`Feedback/Add`, values)).status;
-        
-          if(x == 200){
-            ResetValues(values);
-            setsuccess(true);
-            GetData();
+        try {
+          values.date =  format(new Date(), "yyyy-MM-dd") ;
           
+          var x =  (await axios.post(AppConfig.API+`Feedback/Add`, values ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})).status;
+          
+            if(x == 200){
+              ResetValues(values);
+              setsuccess(true);
+              GetData();
             
-          }
-          else seterror(true);
+              
+            }
+            else seterror(true);
+        } catch (err) {
+          
+        }
         }
         if(appStore.edit){
-            if(appStore.date){values.validationDate = format(appStore.date, "yyyy-MM-dd")  }else values.validationDate="";
-            values.date=appStore.data[0].date; 
-          var y =  (await axios.put(AppConfig.API+`Feedback/Update/`+appStore.data[0].id, values)).status;
-          if(y == 200){
-            
-            ResetValues(values);
-            setsuccess(true);
-            appStore.edit=false;
-            GetData();
-          }
-          else seterror(true);
+           try {
+              if(appStore.date){values.validationDate = format(appStore.date, "yyyy-MM-dd")  }else values.validationDate="";
+              values.date=appStore.data[0].date; 
+            var y =  (await axios.put(AppConfig.API+`Feedback/Update/`+appStore.data[0].id, values,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})).status;
+            if(y == 200){
+              
+              ResetValues(values);
+              setsuccess(true);
+              appStore.edit=false;
+              GetData();
+            }
+            else seterror(true);
+           } catch (err) {
+             
+           }
         }
       //  console.log((await x).status)
       console.log(values)
@@ -200,7 +203,7 @@ const useStyles = makeStyles((theme) => ({
                   <Grid item xs={12}>
                     <Field 
                     name="date"
-                    name="rendez-vous"
+                    
                  
                     render={props => {
                      // console.log(props); /* input and meta objects */

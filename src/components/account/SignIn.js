@@ -50,29 +50,42 @@ export default function SignIn() {
 
   function Post(){
     let to ='/';
-    axios.post(AppConfig.API+`User/GetUsersByName`,{"username":user},{auth: {
-      username: user,
-      password: pwd
-    }}).then(res  =>{
-      if(res.data.roles[0].name ==="admin"){
-          to="/Home2";
-      }else if(res.data.roles[0].name ==="user"){
-          to="/Home";
-      }
-      history.push(to);
-      window.sessionStorage.setItem("user",user)
-      window.sessionStorage.setItem("pwd",pwd)
-      console.log(res.data)
-      //setlink("/Home")
-     // history.push('/Home');
-    }, error => {
-      if (error.response.status === 401) {
-        console.log(error)
-        setmsg(true);
-        setTimeout(() => {setmsg(false) }, 3000);
-      }
+    axios.post(AppConfig.API+`authenticate`,{"username":user ,"password":pwd}).then(res  =>{
       
-    });
+      if(res.status===200){
+          
+        const Token =  { Authorization: "Bearer " + res.data.token } ;
+        console.log(res.data.token)
+        window.localStorage.setItem("ldat",JSON.stringify(Token));
+
+        axios.post(AppConfig.API+`User/GetUsersByName`,{"username":user},{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(res  =>{
+          if(res.data.roles[0].name ==="admin"){
+              to="/Home2";
+          }else if(res.data.roles[0].name ==="user"){
+              to="/Home";
+          }
+          history.push(to);
+          window.sessionStorage.setItem("user",user)
+          window.sessionStorage.setItem("pwd",pwd)
+          console.log(res.data)
+          //setlink("/Home")
+         // history.push('/Home');
+        }, error => {
+          if (error.response.status === 401) {
+            console.log(error)
+            setmsg(true);
+            setTimeout(() => {setmsg(false) }, 3000);
+          }
+          
+        });
+
+
+        console.log(AppConfig.Token);
+      }
+       
+    })
+    
+   
   }
 
   return (
@@ -134,9 +147,8 @@ export default function SignIn() {
             color="primary"
             className={classes.submit}
           
-            component={NavLink}
-            to='/Home'
-           //onClick={()=>Post()}
+          
+           onClick={()=>Post()}
            
           >
             Sign In

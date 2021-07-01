@@ -1,3 +1,4 @@
+import { apps } from "open";
 import appStore from "./store";
 
 const appActions = {
@@ -10,6 +11,7 @@ const appActions = {
     appStore.open = false;
     appStore.data=[] ;
     appStore.edit=false;
+    
     
   },
 

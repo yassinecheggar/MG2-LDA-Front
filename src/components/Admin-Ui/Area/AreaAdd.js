@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 
 
   function GetData() {
-    axios.get( AppConfig.API +'Area/GetAll').then(response  =>{
+    axios.get( AppConfig.API +'Area/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
   
       if(response.data){     
           appStore.rows = response.data;   
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 
         if(!appStore.edit){
 
-        var x =  (await axios.post(AppConfig.API+`Area/Add`, values)).status;
+        var x =  (await axios.post(AppConfig.API+`Area/Add`, values ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})).status;
         
           if(x == 200){
             ResetValues(values);
@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
         }
         if(appStore.edit){
         
-          var y =  (await axios.put(AppConfig.API+`Area/Update/`+appStore.data[0].id, values)).status;
+          var y =  (await axios.put(AppConfig.API+`Area/Update/`+appStore.data[0].id, values ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})).status;
           if(y == 200){
             
             ResetValues(values);

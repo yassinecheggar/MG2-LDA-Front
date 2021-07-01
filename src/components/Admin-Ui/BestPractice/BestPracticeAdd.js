@@ -8,13 +8,7 @@ import {  view } from "@risingstack/react-easy-state";
 import AppConfig from '../../Global';
 import axios from 'axios';
 import { Paper,Grid,Button, CssBaseline,MenuItem} from '@material-ui/core';
-import DateFnsUtils from '@date-io/date-fns';
 import { format } from 'date-fns';
-
-
-import {  KeyboardDatePicker,MuiPickersUtilsProvider,} from '@material-ui/pickers';
-import { date } from 'faker';
-import appActions from './Action';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
   
-  var Status = false ;
+
 
  
   
@@ -71,50 +65,67 @@ const useStyles = makeStyles((theme) => ({
 
 
   function GetData() {
-    axios.get( AppConfig.API +'BestPractice/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.rows = response.data;   
-      }
-  });
+   try {
+      axios.get( AppConfig.API +'BestPractice/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.rows = response.data;   
+        }
+    });
+   } catch (err) {
+     
+   }
   }
 
   function GetDelivrable() {
-    axios.get( AppConfig.API +'Delivrable/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.delivrable = response.data;   
-      }
-  });
+   try {
+      axios.get( AppConfig.API +'Delivrable/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.delivrable = response.data;   
+        }
+    });
+   } catch (err) {
+     
+   }
   }
 
   function GetActivite() {
-    axios.get( AppConfig.API +'Activite/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.acitivite = response.data;   
-      }
-  });
+   try {
+      axios.get( AppConfig.API +'Activite/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.acitivite = response.data;   
+        }
+    });
+   } catch (err) {
+     
+   }
   }
 
    function PostImageLink(params){
-    console.log(params);
-    var x =  ( axios.post(AppConfig.API+`Picture/Add`,params)).status;
-        try {      
-              if(x == 200){
-              return true; 
-            }
-            console.log();
-              } catch (error) {
-                console.log(error)
-               return  false;
+    try {
+      console.log(params);
+      var x =  ( axios.post(AppConfig.API+`Picture/Add`,params ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})).status;
+          try {      
+                if(x == 200){
+                return true; 
               }
+              console.log();
+                } catch (error) {
+                  console.log(error)
+                 return  false;
+                }
+    } catch (err) {
+      
+    }
       }
 
       function PostFile(params,BestPracticeid){
         const data = new FormData() ;
         data.append('file',params[0]);
-        axios.post(AppConfig.API+`uploadFile`, data ,{ headers: { 'Content-Type': 'multipart/form-data' } }).then(res=>{
+        const x= JSON.parse( window.localStorage.getItem("ldat"));
+        axios.post(AppConfig.API+`uploadFile`, data ,{ headers: { 'Content-Type': 'multipart/form-data' , "Authorization": x.Authorization }}).then(res=>{
           
           let o = {"id":0 ,"link":AppConfig.API +""+ res.data.fileDownloadUri , "description":"","bestPracticeimage":{"id" :BestPracticeid}};
           PostImageLink(o);
@@ -153,7 +164,7 @@ const useStyles = makeStyles((theme) => ({
                 values.date =  format(new Date(), "yyyy-MM-dd") ;
                 let jsonObj ={"id":0  , "description":values.description , "phase":values.phase , "date":values.date , "userBestPractice":{'id':109} ,
                               "delivrableBest":{'id':values.delivrableBest} ,"activiteBest":{'id':values.activiteBest} ,"categorie" : values.categorie} 
-                axios.post(AppConfig.API+`BestPractice/Add`, jsonObj).then(res  =>{
+                axios.post(AppConfig.API+`BestPractice/Add`, jsonObj,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(res  =>{
 
                 if(res.data!=null){  
                   if(link.length!=0){  
@@ -170,7 +181,7 @@ const useStyles = makeStyles((theme) => ({
                 values.date =  appStore.data[0].date;
                 let jsonObj ={"id":0  , "description":values.description , "phase":values.phase , "date":values.date , "userBestPractice":{'id':109} ,
                               "delivrableBest":{'id':values.delivrableBest} ,"activiteBest":{'id':values.activiteBest} ,"categorie" : values.categorie} 
-                axios.put(AppConfig.API+`BestPractice/Update/`+appStore.data[0].id, jsonObj).then(res  =>{
+                axios.put(AppConfig.API+`BestPractice/Update/`+appStore.data[0].id, jsonObj,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(res  =>{
 
                 if(res.data!=null){  
                   if(link.length!=0){ 

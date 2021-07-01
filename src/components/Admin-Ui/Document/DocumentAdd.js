@@ -79,105 +79,148 @@ const useStyles = makeStyles((theme) => ({
 
 
   function GetData() {
-    axios.get( AppConfig.API +'Document/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.rows = response.data;   
-      }
-  });
+    try {
+      axios.get( AppConfig.API +'Document/GetAll' ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.rows = response.data;   
+        }
+    });
+    } catch (err) {
+      
+    }
   }
 
   function GetType() {
-    axios.get( AppConfig.API +'Type/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.typeDocument = response.data;   
-      }
-  });
+   try {
+      axios.get( AppConfig.API +'Type/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.typeDocument = response.data;   
+        }
+    });
+   } catch (err) {
+     
+   }
   }
 
   function GetPole() {
-    axios.get( AppConfig.API +'Pole/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.documentPole = response.data;   
-          
-      }
-  });}
+   try {
+      axios.get( AppConfig.API +'Pole/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.documentPole = response.data;   
+            
+        }
+    });
+   } catch (err) {
+     
+   }}
 
   function GetDirection() {
-    axios.get( AppConfig.API +'Direction/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.documentdirection = response.data;   
-      }
-  });}
+    try {
+      axios.get( AppConfig.API +'Direction/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.documentdirection = response.data;   
+        }
+    });
+    } catch (err) {
+      
+    }}
 
   function GetAuthor() {
-    axios.get( AppConfig.API +'Author/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.docummentauthor = response.data;   
-      }
-  });}
+   try {
+      axios.get( AppConfig.API +'Author/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.docummentauthor = response.data;   
+        }
+    });
+   } catch (err) {
+     
+   }}
 
   function GetPerimetre(id) {
-    axios.get( AppConfig.API +'Area/GetPerimetre/'+id).then(response  =>{
-  
-      if(response.data){     
-          appStore.documentPerimetre = response.data;   
-      }
-  });
+    try {
+      axios.get( AppConfig.API +'Area/GetPerimetre/'+id ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.documentPerimetre = response.data;   
+        }
+    });
+    } catch (err) {
+      
+    }
   }
 
   
-
   function GetArea() {
-    axios.get( AppConfig.API +'Area/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.documentArea = response.data;  
-          console.log(appStore.documentArea); 
-      }
-  });}
+    try {
+      axios.get( AppConfig.API +'Area/GetAll' ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.documentArea = response.data;  
+            console.log(appStore.documentArea); 
+        }
+    });
+    } catch (err) {
+      
+    }}
 
   
 
   function GetValidator() {
-    axios.get( AppConfig.API +'User/GetUsersByPrev').then(response  =>{
-  
-      if(response.data){     
-          appStore.validator = response.data;   
-      }
-  });}
+  try {
+      axios.get( AppConfig.API +'User/GetUsersByPrev',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.validator = response.data;   
+        }
+    });
+  } catch (err) {
+    
+  }}
 
   function GetActivite() {
-    axios.get( AppConfig.API +'Activite/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.documentActivite = response.data;   
-      }
-  });}
+   try {
+      axios.get( AppConfig.API +'Activite/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.documentActivite = response.data;   
+        }
+    });
+   } catch (err) {
+     
+   }}
 
   
   function GetActiviteById(id) {
      
-    axios.get( AppConfig.API +'Activite/GetById/'+id).then(response  =>{
-  
-      if(response.data){     
-          appStore.ActiviteById = response.data;
-      }
-  });}
+   try {
+      axios.get( AppConfig.API +'Activite/GetById/'+id ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.ActiviteById = response.data;
+        }
+    });
+   } catch (err) {
+     
+   }}
 
   function GetPoleById(id) {
      
-    axios.get( AppConfig.API +'Pole/GetById/'+id).then(response  =>{
-  
-      if(response.data){     
-          appStore.PoleById = response.data;
-       
-      }
-  });}
+   try {
+      axios.get( AppConfig.API +'Pole/GetById/'+id ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.PoleById = response.data;
+         
+        }
+    });
+   } catch (err) {
+     
+   }}
 
   GetType();
   GetPole();
@@ -187,46 +230,32 @@ const useStyles = makeStyles((theme) => ({
   GetArea();
   GetActivite();
 
-      function PostFile(params){
-              const data = new FormData() ;
-              data.append('file',params[0]);
-              axios.post(AppConfig.API+`uploadFile`, data ,{ headers: { 'Content-Type': 'multipart/form-data' } }).then(res=>{
-          
-               return  res.data.fileDownloadUri     
-            
-             });
-           
-          }
-  var initDate ; 
   const App = view(() => {
     
     const [success, setsuccess] = useState(false);
     const [error, seterror] = useState(false);
-    const [selectedDate, setSelectedDate] = React.useState(initDate);
+    
     const [link, setlink] = useState([]);
-    const handleDateChange = (date) => {
-      setSelectedDate(date);
-      appStore.date= date;
-      //console.log(appStore.date);
-    };
+    
     const onSubmit =  async values   => {
       const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
         await sleep(300);
         values.id = 0;
-       
+        const x= JSON.parse( window.localStorage.getItem("ldat"));
           try {
                  
         if(!appStore.edit){
           values.ref = appStore.PoleById.pole+"-"+appStore.ActiviteById.abreviation+"-"+values.version ;
         values.pubDate =  format(new Date(), "yyyy-MM-dd") ;
-
+       
         if(link.length!=0){ 
           const data = new FormData() ;
           data.append('file',link[0]);
-            await axios.post(AppConfig.API+`uploadFile`, data ,{ headers: { 'Content-Type': 'multipart/form-data' } }).then(res=>{
+          
+            await axios.post(AppConfig.API+`uploadFile`, data ,{ headers: { 'Content-Type': 'multipart/form-data' , 'Authorization': x.Authorization } }).then(res=>{
            
             values.lien =  res.data.fileDownloadUri ; 
-             axios.post(AppConfig.API+`Document/Add`, values).then(res=>{
+             axios.post(AppConfig.API+`Document/Add`, values ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(res=>{
               setsuccess(true);
               GetData();
 
@@ -247,10 +276,10 @@ const useStyles = makeStyles((theme) => ({
               data.append('file',link[0]);
               
 
-              axios.post(AppConfig.API+`uploadFile`, data ,{ headers: { 'Content-Type': 'multipart/form-data' } }).then(res=>{
+              axios.post(AppConfig.API+`uploadFile`, data ,{ headers: { 'Content-Type': 'multipart/form-data' , "Authorization": x.Authorization } }).then(res=>{
                 values.lien =  res.data.fileDownloadUri ;   
 
-                axios.put(AppConfig.API+`Document/Update/`+appStore.data[0].id, values).then(res=>{
+                axios.put(AppConfig.API+`Document/Update/`+appStore.data[0].id, values ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(res=>{
                   setsuccess(true);
                   appStore.edit=false;
                    GetData();
@@ -265,7 +294,7 @@ const useStyles = makeStyles((theme) => ({
             values.lien =  appStore.data[0].lien ; 
 
             
-            axios.put(AppConfig.API+`Document/Update/`+appStore.data[0].id, values).then(res=>{
+            axios.put(AppConfig.API+`Document/Update/`+appStore.data[0].id, values,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(res=>{
              setsuccess(true);
              appStore.edit=false;
              GetData();

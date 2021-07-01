@@ -1,4 +1,4 @@
-import React, { useState,Component  } from "react";
+import React, { Component  } from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import clsx from "clsx";
@@ -131,27 +131,35 @@ function Delete() {
 
 async  function DeleteRequest(){
 
-  var status =  ( await axios.delete(AppConfig.API+`Document/Delete/`+appStore.data[0].id) ).status;
-  console.log("delete Status" , status);
-  appStore.dialog= false;
-
-  GetData();
+ try {
+    var status =  ( await axios.delete(AppConfig.API+`Document/Delete/`+appStore.data[0].id ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}) ).status;
+    console.log("delete Status" , status);
+    appStore.dialog= false;
+  
+    GetData();
+ } catch (err) {
+   
+ }
 
 }
 
 function GetData() {
-  axios.get( AppConfig.API +'Document/GetAll').then(response  =>{
-
-    if(response.data){     
-        appStore.rows = response.data;   
-    }
-});
+ try {
+    axios.get( AppConfig.API +'Document/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+  
+      if(response.data){     
+          appStore.rows = response.data;   
+      }
+  });
+ } catch (err) {
+   
+ }
 }
 
 const App = view(()  => {
   
   const classes = useStyles();
-  const [selectionModel, setSelectionModel] = useState([]);
+ 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   
 
@@ -194,9 +202,7 @@ const App = view(()  => {
             rows={appStore.rows}
             columns={columns}
             pageSize={10}
-            onSelectionModelChange={(newSelection) => {
-              setSelectionModel(newSelection.selectionModel);
-            }}
+            
             onRowSelected={(e) => {
               IDselected = e.data.fname;
             }}
