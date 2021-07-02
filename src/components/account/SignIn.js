@@ -65,8 +65,8 @@ export default function SignIn() {
               to="/Home";
           }
           history.push(to);
-          window.sessionStorage.setItem("user",user)
-          window.sessionStorage.setItem("pwd",pwd)
+          window.sessionStorage.setItem("user",res.data.id)
+         
           console.log(res.data)
           //setlink("/Home")
          // history.push('/Home');

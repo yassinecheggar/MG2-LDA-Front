@@ -70,8 +70,8 @@ const columns = [
   { field: "id", headerName: "Id", flex: 0.1 },
   { field: "nom", headerName: "Name", flex: 0.2 },
   { field: "prenom", headerName: "Prenom", flex: 0.2 },
-  { field: "email", headerName: "Email", flex: 0.3 },
-  { field: "prev", headerName: "Role", flex: 0.2 },
+  { field: "username", headerName: "Username", flex: 0.3 },
+  { field: "roles" , headerName: "rolos", flex: 0.1  ,valueGetter : ({ value }) =>value?  value[0].name : "no  val"},
   {
     field: "color",
     headerName: "Action",
@@ -148,7 +148,6 @@ function GetData() {
 const App = view(()  => {
   
   const classes = useStyles();
-  const [selectionModel, setSelectionModel] = useState([]);
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   
 
@@ -191,9 +190,7 @@ const App = view(()  => {
             columns={columns}
             pageSize={10}
            
-            onRowSelected={(e) => {
-              IDselected = e.data.fname;
-            }}
+           
             onSelectionModelChange={(e) => {
               const selectedIDs = new Set(e.selectionModel);
               const selectedRowData = appStore.rows.filter((row) =>

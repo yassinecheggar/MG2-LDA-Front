@@ -48,12 +48,16 @@ const useStyles = makeStyles((theme) => ({
 
 
   async function GetComment(id) {
-    axios.get( AppConfig.API +'Document/GetCommentBydoc/'+id).then(response  =>{
-  
-      if(response.data){     
-          appStore.comment = response.data;   
-      }
-  });
+    try {
+      axios.get( AppConfig.API +'Document/GetCommentBydoc/'+id,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.comment = response.data;   
+        }
+    });
+    } catch (err) {
+      
+    }
   }
 
   const App = view(() => {
@@ -65,26 +69,30 @@ const useStyles = makeStyles((theme) => ({
       const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
         await sleep(300);
         values.id = 0;
-        values.documentComment="";
-     
-        values.dateComment =format(new Date(), "yyyy-MM-dd") ;
-        let jsonobj={"id" : 0 , "comment" : values.comment , "documentComment" :{"id":appStore.selected.id} ,"dateComment" : format(new Date(), "yyyy-MM-dd") ,"userComment" : {"id":176}   }
-        
-        
-        var x =  (await axios.post(AppConfig.API+`Comment/Add`, jsonobj)).status;
-        
-        //values.documentComment.id=appStore.data[0].id;
-        if(x == 200){
-            //ResetValues(values);
-            setsuccess(true);
-         GetComment(appStore.selected.id);
-            
-          }
-          else seterror(true);
-        
-     // console.log(jsonobj);
-    
-      //  console.log((await x).status)
+       try {
+          values.documentComment="";
+       
+          values.dateComment =format(new Date(), "yyyy-MM-dd") ;
+          let jsonobj={"id" : 0 , "comment" : values.comment , "documentComment" :{"id":appStore.selected.id} ,"dateComment" : format(new Date(), "yyyy-MM-dd") ,"userComment" : {"id":176}   }
+          
+          
+          var x =  (await axios.post(AppConfig.API+`Comment/Add`, jsonobj,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})).status;
+          
+          //values.documentComment.id=appStore.data[0].id;
+          if(x == 200){
+              //ResetValues(values);
+              setsuccess(true);
+           GetComment(appStore.selected.id);
+              
+            }
+            else seterror(true);
+          
+       // console.log(jsonobj);
+      
+        //  console.log((await x).status)
+       } catch (err) {
+         
+       }
     };
   
       function Onseccess() {

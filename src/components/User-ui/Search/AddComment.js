@@ -48,12 +48,16 @@ const useStyles = makeStyles((theme) => ({
 
 
   async function GetComment(id) {
-    axios.get( AppConfig.API +'Document/GetCommentBydoc/'+id).then(response  =>{
-  
-      if(response.data){     
-          appStore.comment = response.data;   
-      }
-  });
+    try {
+      axios.get( AppConfig.API +'Document/GetCommentBydoc/'+id ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.comment = response.data;   
+        }
+    });
+    } catch (err) {
+      
+    }
   }
 
   const App = view(() => {
@@ -66,21 +70,25 @@ const useStyles = makeStyles((theme) => ({
         await sleep(300);
         values.id = 0;
         values.documentComment="";
-     
+        try {
+          
         values.dateComment =format(new Date(), "yyyy-MM-dd") ;
-        let jsonobj={"id" : 0 , "comment" : values.comment , "documentComment" :{"id":appStore.selected.id} ,"dateComment" : format(new Date(), "yyyy-MM-dd") ,"userComment" : {"id":176}   }
+        let jsonobj={"id" : 0 , "comment" : values.comment , "documentComment" :{"id":appStore.selected.id} ,"dateComment" : format(new Date(), "yyyy-MM-dd") ,"userComment" : {"id":window.sessionStorage.getItem("user")}   }
         
-        
-        var x =  (await axios.post(AppConfig.API+`Comment/Add`, jsonobj)).status;
-        
-        //values.documentComment.id=appStore.data[0].id;
-        if(x == 200){
-            //ResetValues(values);
-            setsuccess(true);
-         GetComment(appStore.selected.id);
-            
-          }
-          else seterror(true);
+    
+          var x =  (await axios.post(AppConfig.API+`Comment/Add`, jsonobj,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})).status;
+          
+          //values.documentComment.id=appStore.data[0].id;
+          if(x == 200){
+              //ResetValues(values);
+              setsuccess(true);
+           GetComment(appStore.selected.id);
+              
+            }
+            else seterror(true);
+       } catch (err) {
+         
+       }
         
      // console.log(jsonobj);
     

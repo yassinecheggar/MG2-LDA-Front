@@ -13,8 +13,6 @@ import IconButton from "@material-ui/core/IconButton";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
-
-
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -26,7 +24,7 @@ import appActions from "./Action";
 import { view } from "@risingstack/react-easy-state";
 import axios from 'axios';
 import AppConfig from '../../Global';
-import ModificationAdd from "./ModificationAdd";
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -87,14 +85,7 @@ const columns = [
         >
           <DeleteIcon />
         </IconButton>
-        <IconButton
-          style={{ color: "#0091ff" }}
-          onClick={function () {
-            Edit();
-          }}
-        >
-          <EditIcon />
-        </IconButton>
+       
       </>
     ),
   },
@@ -179,14 +170,7 @@ const App = view(()  => {
             }}
           >
             {" "}
-            <IconButton
-              aria-label="add Feedback"
-              style={{ color: "#039632" }}
-              onClick={appActions.handleOpen}
-            >
-              {" "}
-              <AddCircleIcon />
-            </IconButton>
+           
           </div>
           <DataGrid
             rows={appStore.rows}
@@ -221,9 +205,7 @@ const App = view(()  => {
           timeout: 2000,
         }}
       >
-        <Fade in={appStore.open}>
-          <ModificationAdd />
-        </Fade>
+       
       </Modal>
 
       <Dialog

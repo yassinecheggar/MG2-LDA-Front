@@ -4,8 +4,6 @@ import Paper from "@material-ui/core/Paper";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import { DataGrid , GridToolbar} from "@material-ui/data-grid";
-import Button from "@material-ui/core/Button";
-import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
 import Typography from "@material-ui/core/Typography";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
@@ -13,11 +11,8 @@ import IconButton from "@material-ui/core/IconButton";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
-//import DocumentAdd from "./DocumentAdd";
 import AddComment  from "./AddComment"
 import  Comment from  './Comment';
-import  DocumentAdd  from  './DocumentAdd';
-import Slide from "@material-ui/core/Slide";
 import appStore from "./store";
 import appActions from "./Action";
 import { view } from "@risingstack/react-easy-state";
@@ -92,33 +87,45 @@ const columns = [
 
 
 function GetData() {
-  axios.get( AppConfig.API +'Document/GetTrainning').then(response  =>{
-
-    if(response.data){     
-        appStore.rows = response.data;   
-    }
-});
+  try {
+    axios.get( AppConfig.API +'Document/GetTrainning',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+  
+      if(response.data){     
+          appStore.rows = response.data;   
+      }
+  });
+  } catch (err) {
+    
+  }
 }
 
 
  async function GetComment(id) {
-  axios.get( AppConfig.API +'Document/GetCommentBydoc/'+id).then(response  =>{
-
-    if(response.data){     
-        appStore.comment = response.data;   
-    }
-});
+ try {
+    axios.get( AppConfig.API +'Document/GetCommentBydoc/'+id,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+  
+      if(response.data){     
+          appStore.comment = response.data;   
+      }
+  });
+ } catch (err) {
+   
+ }
 }
 
 async function GetUpdate(id) {
-  appStore.update=null;
-  axios.get( AppConfig.API +'Document/GetLastModBydoc/'+id).then(response  =>{
-
-    if(response.data){  
-      
-        appStore.update = response.data;   
-    }
-});
+ try {
+    appStore.update=null;
+    axios.get( AppConfig.API +'Document/GetLastModBydoc/'+id,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+  
+      if(response.data){  
+        
+          appStore.update = response.data;   
+      }
+  });
+ } catch (err) {
+   
+ }
 }
 
 const App = view(()  => {
@@ -289,9 +296,9 @@ const App = view(()  => {
           timeout: 2000,
         }} >
           
-        <Fade in={appStore.open}>
+        {/* <Fade in={appStore.open}>
          <DocumentAdd/>
-        </Fade>
+        </Fade> */}
       </Modal>
 
       

@@ -1,4 +1,4 @@
-import React  ,{ useState } from 'react'
+import React  ,{ useState,Component } from 'react'
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Alert from '@material-ui/lab/Alert';
@@ -50,27 +50,31 @@ const useStyles = makeStyles((theme) => ({
         errors.prenom = 'Required';
       }
 
-      if (!values.email) {
-        errors.email = 'Required';
+      if (!values.username) {
+        errors.username = 'Required';
       }
 
       
-      if (!values.pwd) {
-        errors.pwd = 'Required';
-      }
-
-      if (!values.prev) {
-        errors.prev = 'Required';
-      }
+      
     return errors;
   };
 
 
   function GetData() {
-    axios.get( AppConfig.API +'User/GetAll').then(response  =>{
+    axios.get( AppConfig.API +'User/GetAll', { headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
   
       if(response.data){     
           appStore.rows = response.data;   
+      }
+  });
+  }
+
+  
+  function GetRoles() {
+    axios.get( AppConfig.API +'Role/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+  
+      if(response.data){     
+          appStore.roles = response.data;   
       }
   });
   }
@@ -84,10 +88,13 @@ const useStyles = makeStyles((theme) => ({
       const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
         await sleep(300);
         values.id = 0;
+        var holder = values.roles.id;
+        values.roles= [{"id": holder}];
+        
 
         if(!appStore.edit){
 
-        var x =  (await axios.post(AppConfig.API+`User/Add`, values)).status;
+        var x =  (await axios.post(AppConfig.API+`User/Add`, values , { headers: JSON.parse( window.localStorage.getItem("ldat"))})).status;
         
           if(x == 200){
             ResetValues(values);
@@ -99,7 +106,7 @@ const useStyles = makeStyles((theme) => ({
         }
         if(appStore.edit){
         
-          var y =  (await axios.put(AppConfig.API+`User/Update/`+appStore.data[0].id, values)).status;
+          var y =  (await axios.put(AppConfig.API+`User/Update/`+appStore.data[0].id, values, { headers: JSON.parse( window.localStorage.getItem("ldat"))})).status;
           if(y == 200){
             
             ResetValues(values);
@@ -109,7 +116,7 @@ const useStyles = makeStyles((theme) => ({
           }
           else seterror(true);
         }
-      //  console.log((await x).status)
+        console.log(values)
     };
   
       function Onseccess() {
@@ -160,20 +167,20 @@ const useStyles = makeStyles((theme) => ({
 
                   <Grid item xs={12}>
                     <Field
-                      name="email"
+                      name="username"
                       fullWidth
                       required
                       component={TextField}
-                      type="email"
-                      label="E-mail"
-                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].email : ""}
+                      type="text"
+                      label="username"
+                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].username : ""}
                     />
                   </Grid>
 
                   
                   <Grid item xs={12}>
                     <Field
-                      name="pwd"
+                      name="password"
                       fullWidth
                       required
                       component={TextField}
@@ -184,20 +191,7 @@ const useStyles = makeStyles((theme) => ({
                   </Grid>
                     
 
-                  <Grid item xs={6}>
-                    <Field
-                      name="prev"
-                      fullWidth
-                      required
-                      component={Select}
-                      type="Text"
-                      label="Role"
-                      formControlProps={{ fullWidth: true }}>
-                             <MenuItem value="user">User</MenuItem>
-                                <MenuItem value="admin">Admin</MenuItem>
-                   
-                    </Field>
-                  </Grid>
+                 <MyView/>
                     
                   <Grid item style={{ marginTop: 16 }}>
                     <Button
@@ -215,7 +209,7 @@ const useStyles = makeStyles((theme) => ({
                       variant="contained"
                       color="primary"
                       type="submit"
-                      disabled={submitting || pristine}
+                     
                     >
                       Submit
                     </Button>
@@ -236,12 +230,37 @@ const useStyles = makeStyles((theme) => ({
 
 function UserAdd() {
     
-    
-   
        return(
          <App/>
        );     
-   
+  }
+
+  class MyView extends Component {
+    componentWillUnmount() {
+       
+    }
+    componentDidMount(){
+      GetRoles();
+    }
+  
+    render() { return (  <> 
+
+                  <Grid item xs={6}>
+                    <Field
+                      name="roles.id"
+                      fullWidth
+                      required
+                      component={Select}
+                      type="Text"
+                      label="Role"
+                      formControlProps={{ fullWidth: true }}
+                      initialValue={  appStore.data.length!=0 ?  appStore.data[0].roles[0].id : ""}>
+                                {appStore.roles ? appStore.roles.map(rol => <MenuItem key={rol.id} value={rol.id}>{rol.name}</MenuItem>) : <MenuItem key="default" value="default">Select an Area</MenuItem>}
+                   
+                    </Field>
+                  </Grid>
+     </> )
+     }
   }
 
 export default UserAdd

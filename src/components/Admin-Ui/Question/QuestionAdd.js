@@ -126,7 +126,7 @@ import '../../../App.css';
         values.id = 0;
         
         values.status="pas de réponse";
-        values.userQuest={"id":109};
+        values.userQuest={"id":window.sessionStorage.getItem("user")};
 
             
               if(!appStore.edit){

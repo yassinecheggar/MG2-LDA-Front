@@ -89,19 +89,36 @@ const useStyles = makeStyles((theme) => ({
     
   ];
   function GetData() {
-    axios.get( AppConfig.API +'Feedback/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.rows = response.data;   
-      }
-  });
+   try {
+      axios.get( AppConfig.API +'Feedback/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.rows = response.data;   
+        }
+    });
+   } catch (err) {
+     
+   }
   }
 
   async function GetReponse(id) {
-    axios.get( AppConfig.API +'Feedback/GetReponse/'+id).then(response  =>{
+    try {
+      axios.get( AppConfig.API +'Feedback/GetReponse/'+id,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.Reponse = response.data;   
+        }
+    });
+    } catch (err) {
+      
+    }
+  }
+
+  async function GetResource(id) {
+    axios.get( AppConfig.API +'Question/GetResources/'+id ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
   
       if(response.data){     
-          appStore.Reponse = response.data;   
+          appStore.resources = response.data;   
       }
   });
   }
@@ -176,6 +193,7 @@ const App = view(() => {
 
             setSelection( selectedRowData[0]);
             GetReponse(selectedRowData[0].id);
+            GetResource(selectedRowData[0].id);
             appStore.open=true;
             appStore.repoonsetext='';
             //console.log("selected rowData:",  selection);
@@ -240,15 +258,19 @@ const App = view(() => {
                 </div>
             );
           })}
+            <p className='PaperText' style={{color:'chocolate'}}>Resources</p>
+                <div style={{display:'flex'}} >
+                {appStore.resources.map(res => {
+                    return (
+                <Tooltip title={"open "+res.link.substr(res.link.lastIndexOf('.') + 1) +" file " }placement="right-start">
+                 <IconButton style={{width:70 , height:70 , marginLeft:20 ,  marginBottom:20 } } onClick={()=>{window.open(res.link)}} >
 
-                <p className='PaperText' style={{color:'chocolate'}}>Resources</p>
-              
-                <Tooltip title="open file" placement="right-start">
-                 <IconButton style={{width:70 , height:70 , marginLeft:20 ,  marginBottom:20}}>
-
-                <img src='images/resources.png'  alt ='res'  className='imgResources'/>
+                    <img src='images/resources.png'  alt ='res'  className='imgResources'/>
                  </IconButton>
                 </Tooltip>
+                    );
+                  })}
+        </div>
         </Paper>
         </Fade>
       </Modal>

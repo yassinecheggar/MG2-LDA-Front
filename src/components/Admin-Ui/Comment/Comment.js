@@ -13,7 +13,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
-import CommentAdd from "./CommentAdd";
+
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -87,14 +87,7 @@ const columns = [
         >
           <DeleteIcon />
         </IconButton>
-        <IconButton
-          style={{ color: "#0091ff" }}
-          onClick={function () {
-            Edit();
-          }}
-        >
-          <EditIcon />
-        </IconButton>
+        
       </>
     ),
   },
@@ -178,7 +171,7 @@ const App = view(()  => {
               justifyContent: "flex-end",
             }}
           >
-            {" "}
+            {/* {" "}
             <IconButton
               aria-label="add Comment"
               style={{ color: "#039632" }}
@@ -186,15 +179,13 @@ const App = view(()  => {
             >
               {" "}
               <AddCircleIcon />
-            </IconButton>
+            </IconButton> */}
           </div>
           <DataGrid
             rows={appStore.rows}
             columns={columns}
             pageSize={10}
-            onSelectionModelChange={(newSelection) => {
-              setSelectionModel(newSelection.selectionModel);
-            }}
+           
             onRowSelected={(e) => {
               IDselected = e.data.fname;
             }}
@@ -223,9 +214,7 @@ const App = view(()  => {
           timeout: 2000,
         }}
       >
-        <Fade in={appStore.open}>
-          <CommentAdd />
-        </Fade>
+        
       </Modal>
 
       <Dialog

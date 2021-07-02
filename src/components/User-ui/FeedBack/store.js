@@ -17,6 +17,7 @@ const appStore = store({
   activeStep: 0,
   completed: false,
   ResId: null,
+  resources:[],
 
 });
 

@@ -162,7 +162,7 @@ const useStyles = makeStyles((theme) => ({
         
         if(!appStore.edit){
                 values.date =  format(new Date(), "yyyy-MM-dd") ;
-                let jsonObj ={"id":0  , "description":values.description , "phase":values.phase , "date":values.date , "userBestPractice":{'id':109} ,
+                let jsonObj ={"id":0  , "description":values.description , "phase":values.phase , "date":values.date , "userBestPractice":{'id':window.sessionStorage.getItem("user")} ,
                               "delivrableBest":{'id':values.delivrableBest} ,"activiteBest":{'id':values.activiteBest} ,"categorie" : values.categorie} 
                 axios.post(AppConfig.API+`BestPractice/Add`, jsonObj,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(res  =>{
 
@@ -179,7 +179,7 @@ const useStyles = makeStyles((theme) => ({
 
               if(appStore.edit){
                 values.date =  appStore.data[0].date;
-                let jsonObj ={"id":0  , "description":values.description , "phase":values.phase , "date":values.date , "userBestPractice":{'id':109} ,
+                let jsonObj ={"id":0  , "description":values.description , "phase":values.phase , "date":values.date , "userBestPractice":{'id':window.sessionStorage.getItem("user")} ,
                               "delivrableBest":{'id':values.delivrableBest} ,"activiteBest":{'id':values.activiteBest} ,"categorie" : values.categorie} 
                 axios.put(AppConfig.API+`BestPractice/Update/`+appStore.data[0].id, jsonObj,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(res  =>{
 

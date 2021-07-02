@@ -78,21 +78,29 @@ const useStyles = makeStyles((theme) => ({
     
   ];
   function GetData() {
-    axios.get( AppConfig.API +'BestPractice/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.rows = response.data;   
-      }
-  });
+  try {
+      axios.get( AppConfig.API +'BestPractice/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.rows = response.data;   
+        }
+    });
+  } catch (err) {
+    
+  }
   }
 
   async function GetResource(id) {
-    axios.get( AppConfig.API +'BestPractice/GetResources/'+id).then(response  =>{
-  
-      if(response.data){     
-          appStore.resources = response.data;   
-      }
-  });
+   try {
+      axios.get( AppConfig.API +'BestPractice/GetResources/'+id,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.resources = response.data;   
+        }
+    });
+   } catch (err) {
+     
+   }
   }
   
 
@@ -161,9 +169,9 @@ const App = view(() => {
 
             appStore.data = selectedRowData;
             appStore.selected = selectedRowData[0];
-
-            setSelection( selectedRowData[0]);
             GetResource(selectedRowData[0].id);
+            setSelection( selectedRowData[0]);
+           
             appStore.open=true;
             //console.log("selected rowData:",  selection);
             //console.log("selected rowData Store:",  selection);

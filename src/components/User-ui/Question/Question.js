@@ -89,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
     
   ];
   function GetData() {
-    axios.get( AppConfig.API +'Question/GetAll').then(response  =>{
+    axios.get( AppConfig.API +'Question/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
   
       if(response.data){     
           appStore.rows = response.data;   
@@ -98,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
   }
 
   async function GetReponse(id) {
-    axios.get( AppConfig.API +'Question/GetReponse/'+id).then(response  =>{
+    axios.get( AppConfig.API +'Question/GetReponse/'+id,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
   
       if(response.data){     
           appStore.Reponse = response.data;   
@@ -107,7 +107,7 @@ const useStyles = makeStyles((theme) => ({
   }
 
   async function GetResource(id) {
-    axios.get( AppConfig.API +'Question/GetResources/'+id).then(response  =>{
+    axios.get( AppConfig.API +'Question/GetResources/'+id,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
   
       if(response.data){     
           appStore.resources = response.data;   
@@ -120,7 +120,7 @@ const useStyles = makeStyles((theme) => ({
 
     if(params!=''){
       var jsonObj = {"id":0,"reponse":params ,"date": format(new Date(), "yyyy-MM-dd"),"repsonseQuestion":{"id":appStore.data[0].id} , "userReponse":{"id":110}  }
-      var x =  (await axios.post(AppConfig.API+`Reponse/Add`, jsonObj)).status;
+      var x =  (await axios.post(AppConfig.API+`Reponse/Add`, jsonObj,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})).status;
       if(x == 200){
        appStore.repoonsetext= ""; 
         console.log("ok");

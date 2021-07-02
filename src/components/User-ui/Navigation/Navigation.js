@@ -163,33 +163,45 @@ const useOutlinedInputStyles = makeStyles(theme => ({
 
 
 function GetActivite() {
-  axios.get(AppConfig.API + "Activite/GetAll").then((response) => {
-    if (response.data) {
-      appStore.rows = response.data;
-      appStore.res = appStore.rows;
-      appStore.hasResult = true;
-    }
-  });
+ try {
+    axios.get(AppConfig.API + "Activite/GetAll" ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then((response) => {
+      if (response.data) {
+        appStore.rows = response.data;
+        appStore.res = appStore.rows;
+        appStore.hasResult = true;
+      }
+    });
+ } catch (err) {
+   
+ }
 }
 
 function GetDocType() {
-  axios.get(AppConfig.API + "Type/GetAll").then((response) => {
-    if (response.data) {
-      appStore.Typerows = response.data;
-      appStore.Typeres = appStore.Typerows;
-      appStore.TypehasResul = true;
-    }
-  });
+  try {
+    axios.get(AppConfig.API + "Type/GetAll",{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then((response) => {
+      if (response.data) {
+        appStore.Typerows = response.data;
+        appStore.Typeres = appStore.Typerows;
+        appStore.TypehasResul = true;
+      }
+    });
+  } catch (err) {
+    
+  }
 }
 
 function GetDoc() {
-  axios.get(AppConfig.API + "Document/GetAll").then((response) => {
-    if (response.data) {
-      appStore.Docrows = response.data;
-      appStore.Docres = appStore.Docrows;
-      appStore.DochasReslut = true;
-    }
-  });
+  try {
+    axios.get(AppConfig.API + "Document/GetAll",{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then((response) => {
+      if (response.data) {
+        appStore.Docrows = response.data;
+        appStore.Docres = appStore.Docrows;
+        appStore.DochasReslut = true;
+      }
+    });
+  } catch (err) {
+    
+  }
 }
 /*
   function filterByallValue(array, string) {    
@@ -343,8 +355,11 @@ const DocType = view(() => {
 });
 
 function openFile(params) {
-  navigator.clipboard.writeText(params);
  
+  // axios.get(params,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(res=>{
+    
+  // });
+
   window.open(params);
 }
 
@@ -418,7 +433,7 @@ const DocList = view(() => {
               <Grid item xs={12} md={6} lg={3} style={{ marginTop: 40 }}>
                 <Paper className={classes.cardPage}>
                   <div style={{ display: "flex", position: "relative" }}>
-                    <IconButton onClick={()=>openFile(AppConfig.API + value.lien)}
+                    <IconButton onClick={()=>openFile(AppConfig.API + value.lien ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})}
                       style={{
                         position: "absolute",
                         right: "0px",

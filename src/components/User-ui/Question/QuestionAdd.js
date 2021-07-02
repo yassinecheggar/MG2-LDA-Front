@@ -65,35 +65,47 @@ const useStyles = makeStyles((theme) => ({
 
 
   function GetData() {
-    axios.get( AppConfig.API +'Question/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.rows = response.data;   
-      }
-  });
+    try {
+      axios.get( AppConfig.API +'Question/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.rows = response.data;   
+        }
+    });
+    } catch (err) {
+      
+    }
   }
 
   function GetDelivrable() {
-    axios.get( AppConfig.API +'Delivrable/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.delivrable = response.data;   
-      }
-  });
+   try {
+      axios.get( AppConfig.API +'Delivrable/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.delivrable = response.data;   
+        }
+    });
+   } catch (err) {
+     
+   }
   }
 
   function GetActivite() {
-    axios.get( AppConfig.API +'Activite/GetAll').then(response  =>{
-  
-      if(response.data){     
-          appStore.acitivite = response.data;   
-      }
-  });
+   try {
+      axios.get( AppConfig.API +'Activite/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.acitivite = response.data;   
+        }
+    });
+   } catch (err) {
+     
+   }
   }
 
   function PostImageLink(params){
     console.log(params);
-    var x =  ( axios.post(AppConfig.API+`Picture/Add`,params)).status;
+    var x =  ( axios.post(AppConfig.API+`Picture/Add`,params,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})).status;
         try {      
               if(x == 200){
               return true; 
@@ -107,15 +119,20 @@ const useStyles = makeStyles((theme) => ({
       }
 
       function PostFile(params,questionid){
-              const data = new FormData() ;
-              data.append('file',params[0]);
-              axios.post(AppConfig.API+`uploadFile`, data ,{ headers: { 'Content-Type': 'multipart/form-data' } }).then(res=>{
-
-                let o = {"id":0 ,"link": AppConfig.API +""+ res.data.fileDownloadUri , "description":"","questionimage":{"id" :questionid}};     
-                PostImageLink(o);
-                console.log(res);
-
-             });
+             try {
+                const data = new FormData() ;
+                data.append('file',params[0]);
+                const x= JSON.parse( window.localStorage.getItem("ldat"));
+                axios.post(AppConfig.API+`uploadFile`, data ,{ headers: { 'Content-Type': 'multipart/form-data','Authorization': x.Authorization } }).then(res=>{
+  
+                  let o = {"id":0 ,"link": AppConfig.API +""+ res.data.fileDownloadUri , "description":"","questionimage":{"id" :questionid}};     
+                  PostImageLink(o);
+                  console.log(res);
+  
+               });
+             } catch (err) {
+               
+             }
            
           }
 
@@ -135,10 +152,10 @@ const useStyles = makeStyles((theme) => ({
         values.id = 0;
         values.date = format(new Date(), "yyyy-MM-dd") ;
         values.status="pas de réponse";
-        values.userQuest={"id":109};
+        values.userQuest={"id":window.sessionStorage.getItem("user")};
             try {
               if(values.activiteQuest.id!==""){
-                axios.post(AppConfig.API+`Question/Add`, values).then(res=>{
+                axios.post(AppConfig.API+`Question/Add`, values ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(res=>{
                   if(res.data!=null){  
 
                     if(link.length!=0){ 

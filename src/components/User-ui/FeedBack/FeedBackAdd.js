@@ -92,7 +92,7 @@ const useStyles = makeStyles((theme) => ({
 
 
   function GetData() {
-    axios.get( AppConfig.API +'Feedback/GetAll').then(response  =>{
+    axios.get( AppConfig.API +'Feedback/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
   
       if(response.data){     
           appStore.rows = response.data;   
@@ -101,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
   }
 
   function GetDelivrable() {
-    axios.get( AppConfig.API +'Delivrable/GetAll').then(response  =>{
+    axios.get( AppConfig.API +'Delivrable/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
   
       if(response.data){     
           appStore.delivrable = response.data;   
@@ -110,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
   }
 
   function GetActivite() {
-    axios.get( AppConfig.API +'Activite/GetAll').then(response  =>{
+    axios.get( AppConfig.API +'Activite/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
   
       if(response.data){     
           appStore.acitivite = response.data;   
@@ -164,8 +164,8 @@ const useStyles = makeStyles((theme) => ({
      try {
      
         values.date =  format(new Date(), "yyyy-MM-dd") ;
-        values.userFeedback={"id":109};
-        await axios.post(AppConfig.API+`Feedback/Add`, values).then(res=>{
+        values.userFeedback={"id":window.sessionStorage.getItem("user")};
+        await axios.post(AppConfig.API+`Feedback/Add`, values,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(res=>{
 
         if(res.data!=null){  
 
@@ -339,25 +339,33 @@ return (
 
     if(params!=''){
       if(appStore.ResId.id !=''){
-      var jsonObj = {"id":0,"reponse":params ,"date": format(new Date(), "yyyy-MM-dd"),"repsonseFeedback":{"id":appStore.ResId.id} , "userReponse":{"id":110}  }
-     var x =  (await axios.post(AppConfig.API+`Reponse/Add`, jsonObj)).status;
-      if(x == 200){
-       appStore.repoonsetext= ""; 
-       GetReponse(appStore.ResId.id)
-        console.log("ok");
+      try {
+        var jsonObj = {"id":0,"reponse":params ,"date": format(new Date(), "yyyy-MM-dd"),"repsonseFeedback":{"id":appStore.ResId.id} , "userReponse":{"id":110}  }
+       var x =  (await axios.post(AppConfig.API+`Reponse/Add`, jsonObj ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})).status;
+        if(x == 200){
+         appStore.repoonsetext= ""; 
+         GetReponse(appStore.ResId.id)
+          console.log("ok");
+          
+        }
+        else console.log("err"); ;
+      } catch (err) {
         
       }
-      else console.log("err"); ;
     console.log(jsonObj);}}
   }
   // add  get  Reponse  by  Feed  back  name  in  back end
    function GetReponse(id) {
-    axios.get( AppConfig.API +'Feedback/GetReponse/'+id).then(response  =>{
-  
-      if(response.data){     
-          appStore.Reponse = response.data;   
-      }
-  });
+    try {
+      axios.get( AppConfig.API +'Feedback/GetReponse/'+id,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.Reponse = response.data;   
+        }
+    });
+    } catch (err) {
+      
+    }
   }
 
 
