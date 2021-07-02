@@ -93,7 +93,12 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
   },
   fixedHeight: {
-    height: 240,
+    height: 200,
+  },
+
+  Grid: {
+    position:'relative',
+     marginTop:'50px'
   },
 }));
 
@@ -113,25 +118,25 @@ export default function Dashboard() {
   return (
    <>
 
-          <Grid item xs={12} md={5} lg={3}>
+          <Grid item xs={12} md={5} lg={3} className={classes.Grid}>
             <Paper className={fixedHeightPaper}>
               <Deposits />
             </Paper>
           </Grid>
 
-          <Grid item xs={12} md={5} lg={3}>
+          <Grid item xs={12} md={5} lg={3}  className={classes.Grid}>
             <Paper className={fixedHeightPaper}>
               <Deposits />
             </Paper>
           </Grid>
 
-          <Grid item xs={12} md={5} lg={3}>
+          <Grid item xs={12} md={5} lg={3} className={classes.Grid}>
             <Paper className={fixedHeightPaper}>
               <Deposits />
             </Paper>
           </Grid>
 
-          <Grid item xs={12} md={5} lg={3}>
+          <Grid item xs={12} md={5} lg={3} className={classes.Grid}>
             <Paper className={fixedHeightPaper}>
               <Deposits />
             </Paper>

@@ -45,7 +45,7 @@ function UserMenu(props) {
 
       <List  component="nav"  >
 
-    <ListItem button  >
+    <ListItem button  component={NavLink} to={`${props.url}/Dashboard`}>
       <ListItemIcon >
         <DashboardIcon className={classes.icons} />
       </ListItemIcon >

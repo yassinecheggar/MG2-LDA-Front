@@ -3,6 +3,8 @@ import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Title from './Title';
+import  './Dash.css'
+import DescriptionIcon from '@material-ui/icons/Description';
 
 function preventDefault(event) {
   event.preventDefault();
@@ -17,19 +19,25 @@ const useStyles = makeStyles({
 export default function Deposits() {
   const classes = useStyles();
   return (
-    <React.Fragment>
-      <Title>Recent Deposits</Title>
+    <>
+    
+    <div > 
+      <Title>Document</Title>
       <Typography component="p" variant="h4">
-        $3,024.00
+        
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-        on 15 March, 2019
+      
       </Typography>
       <div>
         <Link color="primary" href="#" onClick={preventDefault}>
-          View balance
+         
         </Link>
       </div>
-    </React.Fragment>
+
+      <div style={{position:"absolute" , width:"90px" ,height:"90px" , background:"orange", top:-20, borderRadius:"5%"}}></div>
+        
+      </div>
+    </>
   );
 }

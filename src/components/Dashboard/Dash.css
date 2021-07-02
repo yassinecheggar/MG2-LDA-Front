@@ -1,0 +1,9 @@
+.floaty{
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    background-color: orange;
+    border-radius: 3%;
+    top: -20px;
+    box-shadow: 0 5px 6px -6px black;
+}

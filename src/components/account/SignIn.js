@@ -62,7 +62,7 @@ export default function SignIn() {
           if(res.data.roles[0].name ==="admin"){
               to="/Home2";
           }else if(res.data.roles[0].name ==="user"){
-              to="/Home";
+              to="/Home/Dashboard";
           }
           history.push(to);
           window.sessionStorage.setItem("user",res.data.id)
