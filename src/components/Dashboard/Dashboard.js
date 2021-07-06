@@ -1,7 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
-
+import  DynamicChart  from  './Chart2';
 import Typography from "@material-ui/core/Typography";
 
 import Grid from "@material-ui/core/Grid";
@@ -9,7 +9,7 @@ import Paper from "@material-ui/core/Paper";
 import Link from "@material-ui/core/Link";
   import { useParams } from 'react-router-dom';
 import Deposits from "./Deposits";
-
+import  './Dash.css';
 
 
 const drawerWidth = 240;
@@ -89,11 +89,11 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
     display: "flex",
-    overflow: "auto",
+    overflow: "hidden",
     flexDirection: "column",
   },
   fixedHeight: {
-    height: 200,
+    height: 135,
   },
 
   Grid: {
@@ -104,15 +104,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
 
-  let { topicId } = useParams();
+
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
@@ -120,38 +114,44 @@ export default function Dashboard() {
 
           <Grid item xs={12} md={5} lg={3} className={classes.Grid}>
             <Paper className={fixedHeightPaper}>
-              <Deposits />
+              <Deposits  color='orange' title='Document' subtitle='120' link='images/doc.png'/>
             </Paper>
           </Grid>
 
           <Grid item xs={12} md={5} lg={3}  className={classes.Grid}>
             <Paper className={fixedHeightPaper}>
-              <Deposits />
+              <Deposits  color='green' title='Best Practice' subtitle='120' link='images/creativity.png'/>
             </Paper>
           </Grid>
 
           <Grid item xs={12} md={5} lg={3} className={classes.Grid}>
             <Paper className={fixedHeightPaper}>
-              <Deposits />
+              <Deposits  color='#ff0059' title='Question' subtitle='120' link='images/question.png' />
             </Paper>
           </Grid>
 
           <Grid item xs={12} md={5} lg={3} className={classes.Grid}>
             <Paper className={fixedHeightPaper}>
-              <Deposits />
+              <Deposits  color='#00c4fa' title='Feedback' subtitle='120'link='images/good-feedback.png'/>
             </Paper>
           </Grid>
 
           {/* Chart */}
 
           
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-                
+            <Grid item xs={12} md={8} lg={7}>
+              <Paper style={{height:420}}>
+
+                <div style={{width:'100%', display:'flex' , flexDirection:'row',justifyContent:"center" ,}}>
+                  <Typography variant='h5' style={{marginTop:"10px",  marginBottom:"10px"}}> Chart</Typography>
+                </div>
+              
+                <DynamicChart/>
+               
               </Paper>
             </Grid>
 
-            <Grid item xs={12} md={8} lg={9}>
+            <Grid item xs={12} md={8} lg={5}>
               <Paper className={fixedHeightPaper}>
                 
               </Paper>

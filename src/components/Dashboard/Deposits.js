@@ -2,9 +2,11 @@ import React from 'react';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Title from './Title';
+
 import  './Dash.css'
+import Divider from '@material-ui/core/Divider';
 import DescriptionIcon from '@material-ui/icons/Description';
+import { green } from '@material-ui/core/colors';
 
 function preventDefault(event) {
   event.preventDefault();
@@ -16,27 +18,31 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Deposits() {
+export default function Deposits(props) {
   const classes = useStyles();
   return (
     <>
     
-    <div > 
-      <Title>Document</Title>
-      <Typography component="p" variant="h4">
-        
-      </Typography>
-      <Typography color="textSecondary" className={classes.depositContext}>
-      
-      </Typography>
-      <div>
-        <Link color="primary" href="#" onClick={preventDefault}>
-         
-        </Link>
-      </div>
+    
 
-      <div style={{position:"absolute" , width:"90px" ,height:"90px" , background:"orange", top:-20, borderRadius:"5%"}}></div>
-        
+    
+      <Typography color="textSecondary" className='Cardtitle' variant="h6">
+           {props.title}
+      </Typography>
+
+      <Typography className='subTitle' variant="p" >
+        {props.subtitle}
+      </Typography>
+
+      <Divider style={{marginTop:75}}/>
+     
+        <p style={{marginBottom:0 , marginTop:8, }}>lola</p>
+  
+
+      <div className='floaty' style={{background: props.color}}>
+        <img  src={props.link} className='cardimg' alt='doc' ></img>
+     
+          
       </div>
     </>
   );

@@ -2,8 +2,38 @@
     position: absolute;
     width: 90px;
     height: 90px;
-    background-color: orange;
+   
     border-radius: 3%;
     top: -20px;
     box-shadow: 0 5px 6px -6px black;
+    font-size: 16px;
+}
+.Cardtitle{
+    position: absolute;
+    top: 25px;
+    right: 30px;
+    
+}
+
+.subTitle{
+    position: absolute;
+    top: 60px;
+    right: 30px;
+    font-weight: 500;
+    font-size: 30px;
+    color: black
+    ;
+}
+
+.cardimg{
+    position: absolute;
+    top: 26px;
+    left: 26px;
+    width: 40px;
+    height: 40px;
+}
+
+.chart-title{
+
+    margin-top: 40px;
 }
