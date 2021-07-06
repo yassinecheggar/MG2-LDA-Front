@@ -16,7 +16,7 @@ import axios from 'axios';
 import AppConfig from '../Global';
 import Alert from '@material-ui/lab/Alert';
 import Grow from '@material-ui/core/Grow';
-
+import { format } from 'date-fns';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -38,7 +38,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
+function  postVisited(iduser){
+  var  date = format(new Date(), "yyyy-MM-dd")
+  var  obj = {"id":null ,"date":date,"visited":"app","userVisit":{"id":iduser}};
+  axios.post(AppConfig.API+'View/Add',obj,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})
+}
 
 
 export default function SignIn() {
@@ -64,9 +68,9 @@ export default function SignIn() {
           }else if(res.data.roles[0].name ==="user"){
               to="/Home/Dashboard";
           }
-          history.push(to);
+          postVisited(res.data.id);
           window.sessionStorage.setItem("user",res.data.id)
-         
+          history.push(to);
           console.log(res.data)
           //setlink("/Home")
          // history.push('/Home');

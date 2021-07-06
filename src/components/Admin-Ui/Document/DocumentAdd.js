@@ -222,6 +222,13 @@ const useStyles = makeStyles((theme) => ({
      
    }}
 
+   function  postModification(iduser,iddoc){
+    var  date = format(new Date(), "yyyy-MM-dd")
+    var  obj = {"id":null ,"dateModification":date,"documentMod":{"id":iddoc},"userMod":{"id":iduser}};
+    console.log(obj)
+    axios.post(AppConfig.API+'Modif/Add',obj,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})
+  }
+
   GetType();
   GetPole();
   GetAuthor();
@@ -245,8 +252,9 @@ const useStyles = makeStyles((theme) => ({
           try {
                  
         if(!appStore.edit){
+
           values.ref = appStore.PoleById.pole+"-"+appStore.ActiviteById.abreviation+"-"+values.version ;
-        values.pubDate =  format(new Date(), "yyyy-MM-dd") ;
+          values.pubDate =  format(new Date(), "yyyy-MM-dd") ;
        
         if(link.length!=0){ 
           const data = new FormData() ;
@@ -262,6 +270,8 @@ const useStyles = makeStyles((theme) => ({
              });
           }
          )
+
+         
         }
       }
 
@@ -283,7 +293,7 @@ const useStyles = makeStyles((theme) => ({
                   setsuccess(true);
                   appStore.edit=false;
                    GetData();
-               
+                   postModification(window.sessionStorage.getItem("user"),appStore.data[0].id)
              });
             }
            )
@@ -297,8 +307,9 @@ const useStyles = makeStyles((theme) => ({
             axios.put(AppConfig.API+`Document/Update/`+appStore.data[0].id, values,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(res=>{
              setsuccess(true);
              appStore.edit=false;
+             postModification(window.sessionStorage.getItem("user"),appStore.data[0].id)
              GetData();
-  
+            
             });
           }
         }   

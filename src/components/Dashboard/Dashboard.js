@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect,Component } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import  DynamicChart  from  './Chart2';
@@ -9,9 +9,12 @@ import Paper from "@material-ui/core/Paper";
 import Link from "@material-ui/core/Link";
   import { useParams } from 'react-router-dom';
 import Deposits from "./Deposits";
+import  CheckboxList from  './ListDoc'
 import  './Dash.css';
-
-
+import appStore from "./store";
+import {  view } from "@risingstack/react-easy-state";
+import axios from 'axios';
+import AppConfig from '../Global';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -102,12 +105,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Dashboard() {
+function Getlast() {
+  try {
+     axios.get( AppConfig.API +'Document/GetLast',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+   
+       if(response.data){     
+           appStore.AddedLast = response.data;   
+         
+       }
+   });
+  } catch (err) {
+    console.log(err)
+  }
+ }
 
+ 
+const App = view(() => {
 
   const classes = useStyles();
   
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+ 
 
   return (
    <>
@@ -140,7 +158,7 @@ export default function Dashboard() {
 
           
             <Grid item xs={12} md={8} lg={7}>
-              <Paper style={{height:420}}>
+              <Paper style={{height:320}}>
 
                 <div style={{width:'100%', display:'flex' , flexDirection:'row',justifyContent:"center" ,}}>
                   <Typography variant='h5' style={{marginTop:"10px",  marginBottom:"10px"}}> Chart</Typography>
@@ -152,8 +170,40 @@ export default function Dashboard() {
             </Grid>
 
             <Grid item xs={12} md={8} lg={5}>
-              <Paper className={fixedHeightPaper}>
-                
+              <Paper style={{height:320}}>
+              <div style={{width:'100%', display:'flex' , flexDirection:'row',justifyContent:"center" ,}}>
+                  <Typography variant='h5' style={{marginTop:"10px",  marginBottom:"10px"}}> Last added Documents </Typography>
+                </div>
+                <div style={{height:"80%",width:'100%'  , overflow:'auto'}}>
+
+                   <CheckboxList  icon='add' img='images/document.png' data={appStore.AddedLast} />
+                </div>
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12} md={8} lg={6}>
+              <Paper style={{height:320 }}>
+              <div style={{width:'100%', display:'flex' , flexDirection:'row',justifyContent:"center" ,}}>
+                  <Typography variant='h5' style={{marginTop:"10px",  marginBottom:"10px"}}> Last Modified Documents </Typography>
+                </div>
+
+                <div style={{height:"80%",width:'100%'  , overflow:'auto'}}>
+                   <CheckboxList icon='edit' img='images/document.png' data={appStore.edited}/>
+                </div>
+               
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12} md={8} lg={6}>
+              <Paper style={{height:320 }}>
+              <div style={{width:'100%', display:'flex' , flexDirection:'row',justifyContent:"center" ,}}>
+                  <Typography variant='h5' style={{marginTop:"10px",  marginBottom:"10px"}}> Last Modified Documents </Typography>
+                </div>
+
+                <div style={{height:"80%",width:'100%'  , overflow:'auto'}}>
+                   <CheckboxList color="#ff9b21" img='images/document.png' icon='del'  data={appStore.deleted}/>
+                </div>
+               
               </Paper>
             </Grid>
 
@@ -169,4 +219,35 @@ export default function Dashboard() {
         
   
   );
+  
+})
+
+export default function Dashboard() {
+
+  return(<MyView/>);
+  
 }
+
+
+class MyView extends Component {
+  componentWillUnmount() {
+    
+  }
+
+  componentDidMount(){
+    Getlast();
+  }
+
+  saveState() {
+    alert("exiting")
+  }
+  render() {
+
+    return (
+        <>
+          <App/>
+        </>
+    )
+}
+}
+
