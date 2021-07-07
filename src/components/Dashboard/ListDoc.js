@@ -21,6 +21,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+
 export default function CheckboxList(props) {
   const classes = useStyles();
   const [checked, setChecked] = React.useState([0]);
@@ -72,10 +74,10 @@ export default function CheckboxList(props) {
                
             
             </ListItemIcon>
-            <ListItemText id={labelId} ><p  style={{ width:'95%',  textOverflow:'ellipsis',  overflow:'hidden', margin:0}}>Doc:</p><p style={{margin:0,color:'grey'}}>id:</p></ListItemText>
+            <ListItemText id={labelId} ><p  style={{ width:'95%',  textOverflow:'ellipsis',  overflow:'hidden', margin:0}}>{value.nom}</p><p style={{margin:0,color:'grey'}}>{value.ref}</p></ListItemText>
 
-            <ListItemText id={labelId} ><p  style={{ width:'95%',    textOverflow:'ellipsis',  overflow:'hidden'}}>date</p></ListItemText>
-            <ListItemText id={labelId}  ><p  style={{ width:'95%',   textOverflow:'ellipsis',  overflow:'hidden'}}>updator</p></ListItemText>
+            <ListItemText id={labelId} ><p  style={{ width:'95%',    textOverflow:'ellipsis',  overflow:'hidden'}}>{ value.pubDate}</p></ListItemText>
+            <ListItemText id={labelId}  ><p  style={{ width:'95%',   textOverflow:'ellipsis',  overflow:'hidden'}}>{value.docummentauthor.nom+" " +value.docummentauthor.prenom }</p></ListItemText>
             <ListItemSecondaryAction>
               <IconButton edge="end" aria-label="comments">
                <img src={props.img} alt='doc'></img>

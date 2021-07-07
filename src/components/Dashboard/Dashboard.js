@@ -15,6 +15,7 @@ import appStore from "./store";
 import {  view } from "@risingstack/react-easy-state";
 import axios from 'axios';
 import AppConfig from '../Global';
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -119,6 +120,35 @@ function Getlast() {
   }
  }
 
+
+ function GetDash() {
+  try {
+     axios.get( AppConfig.API +'Document/GetCountDash',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+   
+       if(response.data){     
+           appStore.dash = response.data;   
+         
+       }
+   });
+  } catch (err) {
+    console.log(err)
+  }
+ }
+
+ function GetlastEdit(){
+  try {
+     axios.get( AppConfig.API +'Document/GetLastMode',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+   
+       if(response.data){     
+           appStore.edited = response.data;   
+         
+       }
+   });
+  } catch (err) {
+    console.log(err)
+  }
+ }
+
  
 const App = view(() => {
 
@@ -132,25 +162,25 @@ const App = view(() => {
 
           <Grid item xs={12} md={5} lg={3} className={classes.Grid}>
             <Paper className={fixedHeightPaper}>
-              <Deposits  color='orange' title='Document' subtitle='120' link='images/doc.png'/>
+              <Deposits  color='orange' title='Document' subtitle={appStore.dash[0]} link='images/doc.png'/>
             </Paper>
           </Grid>
 
           <Grid item xs={12} md={5} lg={3}  className={classes.Grid}>
             <Paper className={fixedHeightPaper}>
-              <Deposits  color='green' title='Best Practice' subtitle='120' link='images/creativity.png'/>
+              <Deposits  color='green' title='Best Practice' subtitle={appStore.dash[1]} link='images/creativity.png'/>
             </Paper>
           </Grid>
 
           <Grid item xs={12} md={5} lg={3} className={classes.Grid}>
             <Paper className={fixedHeightPaper}>
-              <Deposits  color='#ff0059' title='Question' subtitle='120' link='images/question.png' />
+              <Deposits  color='#ff0059' title='Question' subtitle={appStore.dash[2]} link='images/question.png' />
             </Paper>
           </Grid>
 
           <Grid item xs={12} md={5} lg={3} className={classes.Grid}>
             <Paper className={fixedHeightPaper}>
-              <Deposits  color='#00c4fa' title='Feedback' subtitle='120'link='images/good-feedback.png'/>
+              <Deposits  color='#00c4fa' title='Feedback' subtitle={appStore.dash[3]} link='images/good-feedback.png'/>
             </Paper>
           </Grid>
 
@@ -188,7 +218,7 @@ const App = view(() => {
                 </div>
 
                 <div style={{height:"80%",width:'100%'  , overflow:'auto'}}>
-                   <CheckboxList icon='edit' img='images/document.png' data={appStore.edited}/>
+                   <CheckboxList icon='edit' img='images/document.png' data={appStore.edited} date="lola"/>
                 </div>
                
               </Paper>
@@ -197,7 +227,7 @@ const App = view(() => {
             <Grid item xs={12} md={8} lg={6}>
               <Paper style={{height:320 }}>
               <div style={{width:'100%', display:'flex' , flexDirection:'row',justifyContent:"center" ,}}>
-                  <Typography variant='h5' style={{marginTop:"10px",  marginBottom:"10px"}}> Last Modified Documents </Typography>
+                  <Typography variant='h5' style={{marginTop:"10px",  marginBottom:"10px"}}> Deleted Documents </Typography>
                 </div>
 
                 <div style={{height:"80%",width:'100%'  , overflow:'auto'}}>
@@ -236,6 +266,8 @@ class MyView extends Component {
 
   componentDidMount(){
     Getlast();
+    GetlastEdit();
+    GetDash();
   }
 
   saveState() {

@@ -74,20 +74,20 @@ export default function SignIn() {
           console.log(res.data)
           //setlink("/Home")
          // history.push('/Home');
-        }, error => {
-          if (error.response.status === 401) {
-            console.log(error)
-            setmsg(true);
-            setTimeout(() => {setmsg(false) }, 3000);
-          }
-          
         });
 
 
         console.log(AppConfig.Token);
       }
        
-    })
+    }, error => {
+      if (error.response.status === 401) {
+        console.log(error)
+        setmsg(true);
+        setTimeout(() => {setmsg(false) }, 3000);
+      }
+      
+    });
     
    
   }

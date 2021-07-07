@@ -7,7 +7,7 @@ import  './Dash.css'
 import Divider from '@material-ui/core/Divider';
 import DescriptionIcon from '@material-ui/icons/Description';
 import { green } from '@material-ui/core/colors';
-
+import UpdateIcon from '@material-ui/icons/Update';
 function preventDefault(event) {
   event.preventDefault();
 }
@@ -22,10 +22,7 @@ export default function Deposits(props) {
   const classes = useStyles();
   return (
     <>
-    
-    
-
-    
+  
       <Typography color="textSecondary" className='Cardtitle' variant="h6">
            {props.title}
       </Typography>
@@ -35,9 +32,10 @@ export default function Deposits(props) {
       </Typography>
 
       <Divider style={{marginTop:75}}/>
-     
-        <p style={{marginBottom:0 , marginTop:8, }}>lola</p>
-  
+      <div style={{display:'flex'}}>
+        <UpdateIcon style={{marginBottom:0 , marginTop:9, fontSize:'18px'  , color:'grey'}}/>
+        <p style={{marginBottom:0 , marginTop:8, marginLeft:8 ,color:'grey'}}>Just Updated</p>
+        </div>
 
       <div className='floaty' style={{background: props.color}}>
         <img  src={props.link} className='cardimg' alt='doc' ></img>

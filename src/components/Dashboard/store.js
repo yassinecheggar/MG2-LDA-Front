@@ -5,7 +5,7 @@ const appStore = store({
   AddedLast: [],
   deleted: [],
   edited: [],
-
+  dash: [],
 
 });
 
