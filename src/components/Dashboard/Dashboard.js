@@ -119,7 +119,20 @@ function Getlast() {
     console.log(err)
   }
  }
-
+//********************************* to do    oooooooooooooooooooooooooooooo */
+ function CheckValidity() {
+  try {
+     axios.get( AppConfig.API +'Document/GetLast',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+   
+       if(response.data){     
+           appStore.AddedLast = response.data;   
+         
+       }
+   });
+  } catch (err) {
+    console.log(err)
+  }
+ }
 
  function GetDash() {
   try {

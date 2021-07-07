@@ -31,7 +31,7 @@ export default function Deposits(props) {
         {props.subtitle}
       </Typography>
 
-      <Divider style={{marginTop:75}}/>
+      <Divider style={{marginTop:82}}/>
       <div style={{display:'flex'}}>
         <UpdateIcon style={{marginBottom:0 , marginTop:9, fontSize:'18px'  , color:'grey'}}/>
         <p style={{marginBottom:0 , marginTop:8, marginLeft:8 ,color:'grey'}}>Just Updated</p>
