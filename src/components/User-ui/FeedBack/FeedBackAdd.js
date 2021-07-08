@@ -92,30 +92,44 @@ const useStyles = makeStyles((theme) => ({
 
 
   function GetData() {
-    axios.get( AppConfig.API +'Feedback/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+
+   try {
+      axios.get( AppConfig.API +'Feedback/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.rows = response.data;   
+        }
+    });
+   } catch (err) {
+     
+   }
   
-      if(response.data){     
-          appStore.rows = response.data;   
-      }
-  });
   }
 
   function GetDelivrable() {
-    axios.get( AppConfig.API +'Delivrable/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
-  
-      if(response.data){     
-          appStore.delivrable = response.data;   
-      }
-  });
+   try {
+      axios.get( AppConfig.API +'Delivrable/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.delivrable = response.data;   
+        }
+    });
+   } catch (err) {
+     
+   }
   }
 
   function GetActivite() {
-    axios.get( AppConfig.API +'Activite/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
-  
-      if(response.data){     
-          appStore.acitivite = response.data;   
-      }
-  });
+    try {
+      axios.get( AppConfig.API +'Activite/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.acitivite = response.data;   
+        }
+    });
+    } catch (err) {
+      
+    }
   }
   GetActivite();
   GetDelivrable();

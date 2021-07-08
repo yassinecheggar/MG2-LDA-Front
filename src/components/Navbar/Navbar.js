@@ -34,7 +34,12 @@ import  Document from  '../Admin-Ui/Document/Document';
 import  Comment from  '../Admin-Ui/Comment/Comment';
 import Modififcation from  '../Admin-Ui/Modification/Modification';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import appStore from "../account/store";
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
+import AppConfig from '../Global';
 
+import {  view } from "@risingstack/react-easy-state";
 import {  BrowserRouter as Router, Route, Switch , useRouteMatch,NavLink,useParams } from 'react-router-dom';
 import AdminMenu from './AdminMenu';
 import  CompActivite from  '../Admin-Ui/Activite/CompActivite';
@@ -153,15 +158,40 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+function init() {
+  appStore.Loged= Boolean (window.sessionStorage.getItem("Loged"));
+  // todo :  case jwt expired 
+}
+
+
+function CheckIfLoged(history) {
+      
+        
+  
+      axios.get( AppConfig.API +'User/Chek',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+
+    }, error => {
+      if (error.response.status === 401) {
+        window.sessionStorage.setItem("Loged",false);
+        history.push("/");
+      }
+    });
+  }
+   
+
 export default function Navbar() {
 
+  return(<App/>)
 
+}
+
+const App = view(() => {
+  const history = useHistory();
+  CheckIfLoged(history);
   let match = useRouteMatch();
-
-
   const {url , path} = useRouteMatch();
-
-
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const [openl, setOpenl] = React.useState(false);
@@ -169,7 +199,7 @@ export default function Navbar() {
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-  /*neasted list  to  do  *------------------------------------------------------------------------ multi  neasted list */
+  
   const handleDrawerClose = () => {
     setOpen(false);
   };
@@ -323,5 +353,5 @@ export default function Navbar() {
     
         </div>
   );
-}
+})
 

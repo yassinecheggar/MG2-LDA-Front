@@ -16,7 +16,7 @@ import Fade from "@material-ui/core/Fade";
 //import DocumentAdd from "./DocumentAdd";
 import AddComment  from "./AddComment"
 import  Comment from  './Comment';
-import  DocumentAdd  from  './DocumentAdd';
+
 import Slide from "@material-ui/core/Slide";
 import appStore from "./store";
 import appActions from "./Action";
@@ -25,6 +25,7 @@ import axios from 'axios';
 import AppConfig from '../../Global';
 import './SearchStyle.css';
 import Fab from '@material-ui/core/Fab';
+import { format } from 'date-fns';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -162,6 +163,14 @@ async function GetUpdate(id) {
    
  }
 }
+function openFile(params) {
+  window.open(params);
+}
+async function  postDownloaded(iduser,docid){
+  var  date = format(new Date(), "yyyy-MM-dd")
+  var  obj = {"id":null ,"date":date,"visited":"Doc","userVisit":{"id":iduser},"visitedid":docid};
+  axios.post(AppConfig.API+'View/Add',obj,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})
+}
 
 const App = view(()  => {
   
@@ -270,14 +279,20 @@ const App = view(()  => {
                         
                 </Grid>
                 </Grid>
-              <IconButton
-                style={{ position: 'absolute', right: '10px',  bottom: '10px' }}
-             
-            >
-             <img className='image' src='images/pdfIcon.png'/>
-            </IconButton>
-               
+                { selection ? selection.lien ?
+              <IconButton onClick={()=>{
+                openFile(AppConfig.API + selection.lien ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))});
                 
+                postDownloaded(window.sessionStorage.getItem("user"),selection.id);
+              }
+            
+            
+            }
+                style={{ position: 'absolute', right: '10px',  bottom: '10px' }}>
+                <img className='image' src='images/pdfIcon.png' alt='doc'/>
+              </IconButton>
+               :"" :""
+              }
                 </Paper>
             
 
@@ -336,7 +351,7 @@ const App = view(()  => {
         }} >
           
         <Fade in={appStore.open}>
-         <DocumentAdd/>
+         
         </Fade>
       </Modal>
 

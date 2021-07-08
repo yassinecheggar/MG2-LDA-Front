@@ -25,8 +25,11 @@ import  BestPractice  from  '../User-ui/BestPractice/BestPractice';
 import  Question  from  '../User-ui/Question/Question';
 import  FeedBack  from  '../User-ui/FeedBack/Feedback';
 import Tooltip from '@material-ui/core/Tooltip';
-
-
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
+import AppConfig from '../Global';
+import appStore from "../account/store";
+import {  view } from "@risingstack/react-easy-state";
 import {  BrowserRouter as Router, Route, Switch , useRouteMatch,NavLink,useParams } from 'react-router-dom';
 import UserMenu from './UserMenu';
 import  CompActivite from  '../Admin-Ui/Activite/CompActivite';
@@ -147,13 +150,40 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NavbarUser() {
+
+
+function init() {
+  appStore.Loged= Boolean (window.sessionStorage.getItem("Loged"));
+  // todo :  case jwt expired 
+}
+
+
+function CheckIfLoged(history) {
+      
+      axios.get( AppConfig.API +'User/Chek',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+
+    }, error => {
+      if (error.response.status === 401) {
+        window.sessionStorage.setItem("Loged",false);
+        history.push("/");
+      }
+    });
+}
+
+init();
+const App = view(() => {
+
   let match = useRouteMatch();
   const {url , path} = useRouteMatch();
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const [openl, setOpenl] = React.useState(false);
-  
+  const history = useHistory();
+
+  CheckIfLoged(history);
+
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -166,8 +196,6 @@ export default function NavbarUser() {
     setOpenl(!openl);
   }; 
   
- 
-
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   /** Nested  list  */
@@ -225,13 +253,15 @@ export default function NavbarUser() {
       <Container maxWidth="xl" className={classes.container}>
         <Grid container spacing={3}>
 
-          
+          { appStore.Loged ?
+
+       
         <Switch> 
           
           <Route path={`${path}/Search`}>
         <Search />
         </Route>
-        <Route path={`${path}/Dashboard`}>
+        <Route  path={`${path}/Dashboard` }>
           <Dashboard />
         </Route>
 
@@ -260,17 +290,24 @@ export default function NavbarUser() {
        
   
       </Switch>
-
+      :
+      ""
+   }
         </Grid>
         <Box pt={4}>
           <Copyright />
         </Box>
       </Container>
-    </main>
-     
-   
-    
+    </main> 
     </div>
   );
+})
+
+export default function NavbarUser() {
+       
+        return(
+          <App/>
+
+        );
 }
 

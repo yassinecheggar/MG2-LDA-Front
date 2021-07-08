@@ -21,7 +21,7 @@ import open from 'open';
 import AppConfig from "../../Global";
 import ReactTooltip from "react-tooltip";
 import MenuItem from "@material-ui/core/MenuItem";
-
+import { format } from 'date-fns';
 
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 import { tr } from "date-fns/locale";
@@ -203,6 +203,12 @@ function GetDoc() {
     
   }
 }
+async function  postDownloaded(iduser,docid){
+  var  date = format(new Date(), "yyyy-MM-dd")
+  var  obj = {"id":null ,"date":date,"visited":"Doc","userVisit":{"id":iduser},"visitedid":docid};
+  axios.post(AppConfig.API+'View/Add',obj,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})
+}
+
 /*
   function filterByallValue(array, string) {    
 
@@ -433,7 +439,9 @@ const DocList = view(() => {
               <Grid item xs={12} md={6} lg={3} style={{ marginTop: 40 }}>
                 <Paper className={classes.cardPage}>
                   <div style={{ display: "flex", position: "relative" }}>
-                    <IconButton onClick={()=>openFile(AppConfig.API + value.lien ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})}
+                    <IconButton onClick={()=>{openFile(AppConfig.API + value.lien ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))});
+                     postDownloaded(window.sessionStorage.getItem("user"),value.id);
+                  }}
                       style={{
                         position: "absolute",
                         right: "0px",

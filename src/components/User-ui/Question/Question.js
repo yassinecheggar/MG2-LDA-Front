@@ -89,30 +89,42 @@ const useStyles = makeStyles((theme) => ({
     
   ];
   function GetData() {
-    axios.get( AppConfig.API +'Question/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
-  
-      if(response.data){     
-          appStore.rows = response.data;   
-      }
-  });
+   try {
+      axios.get( AppConfig.API +'Question/GetAll',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.rows = response.data;   
+        }
+    });
+   } catch (err) {
+     
+   }
   }
 
   async function GetReponse(id) {
-    axios.get( AppConfig.API +'Question/GetReponse/'+id,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
-  
-      if(response.data){     
-          appStore.Reponse = response.data;   
-      }
-  });
+   try {
+      axios.get( AppConfig.API +'Question/GetReponse/'+id,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.Reponse = response.data;   
+        }
+    });
+   } catch (err) {
+     
+   }
   }
 
   async function GetResource(id) {
-    axios.get( AppConfig.API +'Question/GetResources/'+id,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
-  
-      if(response.data){     
-          appStore.resources = response.data;   
-      }
-  });
+   try {
+      axios.get( AppConfig.API +'Question/GetResources/'+id,{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+    
+        if(response.data){     
+            appStore.resources = response.data;   
+        }
+    });
+   } catch (err) {
+     
+   }
   }
   
 

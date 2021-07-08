@@ -17,6 +17,7 @@ import AppConfig from '../Global';
 import Alert from '@material-ui/lab/Alert';
 import Grow from '@material-ui/core/Grow';
 import { format } from 'date-fns';
+import appStore from "./store";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -52,6 +53,9 @@ export default function SignIn() {
   const [msg, setmsg] = useState(false);
   const history = useHistory();
 
+ 
+ 
+
   function Post(){
     let to ='/';
     axios.post(AppConfig.API+`authenticate`,{"username":user ,"password":pwd}).then(res  =>{
@@ -69,9 +73,11 @@ export default function SignIn() {
               to="/Home/Dashboard";
           }
           postVisited(res.data.id);
-          window.sessionStorage.setItem("user",res.data.id)
+          window.sessionStorage.setItem("user",res.data.id);
+          window.sessionStorage.setItem("Loged",true);
+          appStore.Loged=true;
           history.push(to);
-          console.log(res.data)
+          //console.log(res.data)
           //setlink("/Home")
          // history.push('/Home');
         });
@@ -175,3 +181,5 @@ export default function SignIn() {
     </Container>
   );
 }
+
+

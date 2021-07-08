@@ -122,16 +122,13 @@ function Getlast() {
 //********************************* to do    oooooooooooooooooooooooooooooo */
  function CheckValidity() {
   try {
-     axios.get( AppConfig.API +'Document/GetLast',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
-   
-       if(response.data){     
-           appStore.AddedLast = response.data;   
-         
-       }
-   });
-  } catch (err) {
-    console.log(err)
-  }
+    axios.get( AppConfig.API +'User/Chek',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+  
+  });
+ } catch (err) {
+   AppConfig.loged=false;
+ }
+  
  }
 
  function GetDash() {
@@ -144,7 +141,7 @@ function Getlast() {
        }
    });
   } catch (err) {
-    console.log(err)
+    
   }
  }
 
@@ -163,12 +160,16 @@ function Getlast() {
  }
 
  
+ 
+
 const App = view(() => {
 
   const classes = useStyles();
   
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
  
+
+  
 
   return (
    <>
