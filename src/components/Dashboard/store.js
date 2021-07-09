@@ -6,6 +6,8 @@ const appStore = store({
   deleted: [],
   edited: [],
   dash: [],
+  count:[],
+  downloaded:[],
 
 });
 

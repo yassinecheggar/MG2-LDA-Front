@@ -20,7 +20,8 @@ const data = [
   createData('24:00', undefined),
 ];
 
-export default function Chart() {
+
+export default function Chart(props) {
   const theme = useTheme();
 
   return (
@@ -28,7 +29,7 @@ export default function Chart() {
       
       <ResponsiveContainer>
         <LineChart
-          data={data}
+          data={props.data}
           margin={{
             top: 16,
             right: 16,

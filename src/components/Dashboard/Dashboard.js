@@ -99,6 +99,9 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 135,
   },
+  fixedHeight2: {
+    height: 350,
+  },
 
   Grid: {
     position:'relative',
@@ -159,6 +162,34 @@ function Getlast() {
   }
  }
 
+
+ function GetCountdocType () {
+  try {
+     axios.get( AppConfig.API +'View/getDocumentTypeCount',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+   
+       if(response.data){     
+           appStore.downloaded = response.data;   
+         
+       }
+   });
+  } catch (err) {
+    
+  }
+ }
+ 
+ function GetCountdocDownload() {
+  try {
+     axios.get( AppConfig.API +'View/getDocumentCountByType',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+   
+       if(response.data){     
+           appStore.count = response.data;   
+         
+       }
+   });
+  } catch (err) {
+    
+  }
+ }
  
  
 
@@ -202,19 +233,19 @@ const App = view(() => {
 
           
             <Grid item xs={12} md={8} lg={7}>
-              <Paper style={{height:320}}>
+              <Paper className={classes.fixedHeight2}>
 
                 <div style={{width:'100%', display:'flex' , flexDirection:'row',justifyContent:"center" ,}}>
-                  <Typography variant='h5' style={{marginTop:"10px",  marginBottom:"10px"}}> Chart</Typography>
+                  <Typography variant='h5' style={{marginTop:"10px",  marginBottom:"10px"}}> Popular Document </Typography>
                 </div>
               
-                <DynamicChart/>
+                <DynamicChart data1={appStore.downloaded} data2={appStore.count}/>
                
               </Paper>
             </Grid>
 
             <Grid item xs={12} md={8} lg={5}>
-              <Paper style={{height:320}}>
+              <Paper className={classes.fixedHeight2}>
               <div style={{width:'100%', display:'flex' , flexDirection:'row',justifyContent:"center" ,}}>
                   <Typography variant='h5' style={{marginTop:"10px",  marginBottom:"10px"}}> Last added Documents </Typography>
                 </div>
@@ -226,7 +257,7 @@ const App = view(() => {
             </Grid>
 
             <Grid item xs={12} md={8} lg={6}>
-              <Paper style={{height:320 }}>
+              <Paper className={classes.fixedHeight2}>
               <div style={{width:'100%', display:'flex' , flexDirection:'row',justifyContent:"center" ,}}>
                   <Typography variant='h5' style={{marginTop:"10px",  marginBottom:"10px"}}> Last Modified Documents </Typography>
                 </div>
@@ -239,9 +270,9 @@ const App = view(() => {
             </Grid>
 
             <Grid item xs={12} md={8} lg={6}>
-              <Paper style={{height:320 }}>
+              <Paper className={classes.fixedHeight2}>
               <div style={{width:'100%', display:'flex' , flexDirection:'row',justifyContent:"center" ,}}>
-                  <Typography variant='h5' style={{marginTop:"10px",  marginBottom:"10px"}}> Deleted Documents </Typography>
+                  <Typography variant='h5' style={{marginTop:"10px",  marginBottom:"10px"}}> Unanswered questions </Typography>
                 </div>
 
                 <div style={{height:"80%",width:'100%'  , overflow:'auto'}}>
@@ -282,6 +313,9 @@ class MyView extends Component {
     Getlast();
     GetlastEdit();
     GetDash();
+
+    GetCountdocType();
+    GetCountdocDownload();
   }
 
   saveState() {
