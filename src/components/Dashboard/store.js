@@ -8,6 +8,8 @@ const appStore = store({
   dash: [],
   count:[],
   downloaded:[],
+  Visited:[],
+  UnAnswered:[],
 
 });
 

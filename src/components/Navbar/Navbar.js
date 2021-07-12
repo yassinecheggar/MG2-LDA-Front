@@ -38,7 +38,7 @@ import appStore from "../account/store";
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import AppConfig from '../Global';
-
+import DashboardAdmin from '../Dashboard/DashboardAdmin';
 import {  view } from "@risingstack/react-easy-state";
 import {  BrowserRouter as Router, Route, Switch , useRouteMatch,NavLink,useParams } from 'react-router-dom';
 import AdminMenu from './AdminMenu';
@@ -234,7 +234,7 @@ const App = view(() => {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
 
           </Typography>
-          <IconButton color="inherit">
+          <IconButton color="inherit" component={NavLink} to="/">
            
               <ExitToAppIcon />
             
@@ -271,7 +271,7 @@ const App = view(() => {
         <CompActivite />
         </Route>
         <Route path={`${path}/Dashboard`}>
-          <Dashboard />
+          <DashboardAdmin />
         </Route>
         <Route path={`${path}/Delivrable`}>
           <Delivrable />
@@ -336,7 +336,8 @@ const App = view(() => {
         <Route path={`${path}/Modification`}>
           <Modififcation />
         </Route>
-       
+
+      
        
         
         

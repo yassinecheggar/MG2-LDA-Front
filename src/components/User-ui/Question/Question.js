@@ -130,18 +130,24 @@ const useStyles = makeStyles((theme) => ({
 
   async function  PostRepose(params){
 
-    if(params!=''){
-      var jsonObj = {"id":0,"reponse":params ,"date": format(new Date(), "yyyy-MM-dd"),"repsonseQuestion":{"id":appStore.data[0].id} , "userReponse":{"id":110}  }
-      var x =  (await axios.post(AppConfig.API+`Reponse/Add`, jsonObj,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})).status;
-      if(x == 200){
-       appStore.repoonsetext= ""; 
-        console.log("ok");
-        GetReponse( appStore.data[0].id);
-      }
-      else console.log("err"); ;
-    
-    console.log(jsonObj);
-     }   
+   try {
+      if(params!=''){
+        var jsonObj = {"id":0,"reponse":params ,"date": format(new Date(), "yyyy-MM-dd"),"repsonseQuestion":{"id":appStore.data[0].id} , "userReponse":{"id":110}  }
+        var x =  (await axios.post(AppConfig.API+`Reponse/Add`, jsonObj,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})).status;
+        if(x === 200){
+          axios.get(AppConfig.API+`Question/SetStatus/`+appStore.data[0].id, { headers: JSON.parse( window.localStorage.getItem("ldat"))})
+         appStore.repoonsetext= ""; 
+          console.log("ok");
+          GetReponse( appStore.data[0].id);
+          GetData();
+        }
+        else console.log("err"); ;
+      
+      console.log(jsonObj);
+       }   
+   } catch (err) {
+     
+   }
 
   }
 

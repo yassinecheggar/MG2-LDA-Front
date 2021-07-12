@@ -13,6 +13,7 @@ import { Typography } from '@material-ui/core';
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 import ReactTooltip from "react-tooltip";
+import LiveHelpIcon from '@material-ui/icons/LiveHelp';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +21,18 @@ const useStyles = makeStyles((theme) => ({
    
     backgroundColor: theme.palette.background.paper,
   },
+
+  ListItems :{
+    width:30 ,
+    overflow:"hidden",
+
+  } ,
+  ItemsText :{
+    width:'98%',
+      textOverflow: "ellipsis",
+        
+        margin:0
+  } 
 }));
 
 
@@ -106,4 +119,62 @@ export default function CheckboxList(props) {
       })}
     </List>
   );
+}
+export const  Question = (props)=>{
+
+  const classes = useStyles();
+  const [checked, setChecked] = React.useState([0]);
+
+  const handleToggle = (value) => () => {
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    setChecked(newChecked);
+  };
+
+  return (
+    <List className={classes.root} >
+      {props.data.map((value) => {
+        const labelId = `checkbox-list-label-${value}`;
+
+        return (
+          <ListItem key={value} role={undefined} dense button onClick={handleToggle(value)} style={{overflow:'hidden'}}>
+            <ListItemIcon >
+              <LiveHelpIcon style={{marginTop:10,  marginBottom:10, color:'#ff9b21'}} />
+                     
+            </ListItemIcon>
+            <ListItemText id={labelId} className={classes.ListItems} ><p  className={classes.ItemsText} data-tip  data-for={value ? 'docname'+value.id : ""}>{value.decsiption}</p><p style={{margin:0,color:'grey'}}>{value.categorie}</p></ListItemText>
+
+            <ListItemText id={labelId} className={classes.ListItems} ><p  className={classes.ItemsText}  data-tip  data-for={value ? 'date'+value.id : ""} >{ value.date}</p></ListItemText>
+            <ListItemText id={labelId} className={classes.ListItems} ><p  sclassName={classes.ItemsText}  data-tip  data-for={value ? 'user'+value.id : ""}>{value.userQuest.nom+" " +value.userQuest.prenom }</p></ListItemText>
+           
+            
+            <ReactTooltip id={value ? 'docname'+value.id : ""} aria-haspopup="true" role="example" >
+                    <p>{value ? value.nom : ""}</p>
+            </ReactTooltip> 
+
+             <ReactTooltip id={value ? 'date'+value.id : ""} aria-haspopup="true" role="example" >
+                    <p>{value ? value.date : ""}</p>
+            </ReactTooltip>           
+
+            <ReactTooltip id={value ? 'user'+value.id : ""} aria-haspopup="true" role="example" >
+                    <p>{value.userQuest.nom+" " +value.userQuest.prenom }</p>
+            </ReactTooltip>           
+
+                 
+
+          </ListItem>
+
+
+        );
+      })}
+    </List>
+  );
+
 }

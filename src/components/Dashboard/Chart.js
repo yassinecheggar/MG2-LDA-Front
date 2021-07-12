@@ -1,55 +1,51 @@
-import React from 'react';
-import { useTheme } from '@material-ui/core/styles';
-import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
+import React, { PureComponent } from 'react';
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import Typography from "@material-ui/core/Typography";
 
 
-// Generate Sales Data
-function createData(time, amount) {
-  return { time, amount };
+function  Formatdata( visited ){
+  var data=[];
+    for (let i = 0; i < visited.length; i++) {
+      data.push({name:visited[i][0],visits:visited[i][1]})
+      
+    }
+   return data;
 }
 
-const data = [
-  createData('00:00', 0),
-  createData('03:00', 300),
-  createData('06:00', 600),
-  createData('09:00', 800),
-  createData('12:00', 1500),
-  createData('15:00', 2000),
-  createData('18:00', 2400),
-  createData('21:00', 2400),
-  createData('24:00', undefined),
-];
+function search(docDownloaded ,type) {
+  for (let i = 0; i < docDownloaded.length; i++) {
 
+    if(docDownloaded[i][0]===type)return docDownloaded[i][1];
+  }
+}
+export  class Example extends PureComponent {
 
-export default function Chart(props) {
-  const theme = useTheme();
-
-  return (
-    <React.Fragment>
-      
-      <ResponsiveContainer>
-        <LineChart
-          data={props.data}
+  
+  render() {
+   
+    return (
+      <ResponsiveContainer width="97%" height="85%">
+          
+        <BarChart
+          width={500}
+          height={300}
+          data={Formatdata(this.props.data)}
           margin={{
-            top: 16,
-            right: 16,
-            bottom: 0,
-            left: 24,
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 15,
           }}
         >
-          <XAxis dataKey="time" stroke={theme.palette.text.secondary} />
-          <YAxis stroke={theme.palette.text.secondary}>
-            <Label
-              angle={270}
-              position="left"
-              style={{ textAnchor: 'middle', fill: theme.palette.text.primary }}
-            >
-              Sales ($)
-            </Label>
-          </YAxis>
-          <Line type="monotone" dataKey="amount" stroke={theme.palette.primary.main} dot={false} />
-        </LineChart>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name"   />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="visits" fill="#1597BB" barSize={30}/>
+         
+        </BarChart>
       </ResponsiveContainer>
-    </React.Fragment>
-  );
+    );
+  }
 }

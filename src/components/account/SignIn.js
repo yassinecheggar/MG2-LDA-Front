@@ -68,7 +68,7 @@ export default function SignIn() {
 
         axios.post(AppConfig.API+`User/GetUsersByName`,{"username":user},{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(res  =>{
           if(res.data.roles[0].name ==="admin"){
-              to="/Home2";
+              to="/Home2/Dashboard";
           }else if(res.data.roles[0].name ==="user"){
               to="/Home/Dashboard";
           }
