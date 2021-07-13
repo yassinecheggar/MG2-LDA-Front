@@ -9,12 +9,13 @@ import Paper from "@material-ui/core/Paper";
 import Link from "@material-ui/core/Link";
   import { useParams } from 'react-router-dom';
 import Deposits from "./Deposits";
-import  CheckboxList from  './ListDoc'
+import  CheckboxList ,{ Question} from  './ListDoc'
 import  './Dash.css';
 import appStore from "./store";
 import {  view } from "@risingstack/react-easy-state";
 import axios from 'axios';
 import AppConfig from '../Global';
+import {Animated} from "react-animated-css";
 
 const drawerWidth = 240;
 
@@ -162,6 +163,20 @@ function Getlast() {
   }
  }
 
+ 
+ function GetUnAnswered () {
+  try {
+     axios.get( AppConfig.API +'Question/getNoneAnswerd',{ headers: JSON.parse( window.localStorage.getItem("ldat"))}).then(response  =>{
+   
+       if(response.data){     
+           appStore.UnAnswered = response.data;   
+         
+       }
+   });
+  } catch (err) {
+    
+  }
+ }
 
  function GetCountdocType () {
   try {
@@ -206,33 +221,42 @@ const App = view(() => {
    <>
 
           <Grid item xs={12} md={5} lg={3} className={classes.Grid}>
+          <Animated animationIn="bounceInDown" animationOut="fadeOut" animationInDuration={2000} isVisible={true} >
             <Paper className={fixedHeightPaper}>
               <Deposits  color='orange' title='Document' subtitle={appStore.dash[0]} link='images/doc.png'/>
             </Paper>
+            </Animated>
           </Grid>
 
           <Grid item xs={12} md={5} lg={3}  className={classes.Grid}>
+          <Animated animationIn="bounceInDown" animationOut="fadeOut" animationInDuration={2100} isVisible={true} >
             <Paper className={fixedHeightPaper}>
               <Deposits  color='green' title='Best Practice' subtitle={appStore.dash[1]} link='images/creativity.png'/>
             </Paper>
+            </Animated>
           </Grid>
 
           <Grid item xs={12} md={5} lg={3} className={classes.Grid}>
+          <Animated animationIn="bounceInDown" animationOut="fadeOut" animationInDuration={2200} isVisible={true} >
             <Paper className={fixedHeightPaper}>
               <Deposits  color='#ff0059' title='Question' subtitle={appStore.dash[2]} link='images/question.png' />
             </Paper>
+            </Animated>
           </Grid>
 
           <Grid item xs={12} md={5} lg={3} className={classes.Grid}>
+          <Animated animationIn="bounceInDown" animationOut="fadeOut" animationInDuration={2300} isVisible={true} >
             <Paper className={fixedHeightPaper}>
               <Deposits  color='#00c4fa' title='Feedback' subtitle={appStore.dash[3]} link='images/good-feedback.png'/>
-            </Paper>
+            </Paper> 
+            </Animated>
           </Grid>
 
           {/* Chart */}
 
           
-            <Grid item xs={12} md={8} lg={7}>
+            <Grid item xs={12} md={12} lg={12}>
+            <Animated animationIn="pulse" animationOut="fadeOut" animationInDuration={2500} isVisible={true} >
               <Paper className={classes.fixedHeight2}>
 
                 <div style={{width:'100%', display:'flex' , flexDirection:'row',justifyContent:"center" ,}}>
@@ -242,9 +266,11 @@ const App = view(() => {
                 <DynamicChart data1={appStore.downloaded} data2={appStore.count}/>
                
               </Paper>
+              </Animated>
             </Grid>
 
-            <Grid item xs={12} md={8} lg={5}>
+            <Grid item xs={12} md={6} lg={6}>
+            <Animated animationIn="slideInLeft" animationOut="fadeOut" animationInDuration={2600} isVisible={true} >
               <Paper className={classes.fixedHeight2}>
               <div style={{width:'100%', display:'flex' , flexDirection:'row',justifyContent:"center" ,}}>
                   <Typography variant='h5' style={{marginTop:"10px",  marginBottom:"10px"}}> Last added Documents </Typography>
@@ -254,9 +280,11 @@ const App = view(() => {
                    <CheckboxList  icon='add' img='images/document.png' data={appStore.AddedLast} />
                 </div>
               </Paper>
+              </Animated>
             </Grid>
 
-            <Grid item xs={12} md={8} lg={6}>
+            <Grid item xs={12} md={6} lg={6}>
+            <Animated animationIn="slideInRight" animationOut="fadeOut" animationInDuration={2600} isVisible={true} >
               <Paper className={classes.fixedHeight2}>
               <div style={{width:'100%', display:'flex' , flexDirection:'row',justifyContent:"center" ,}}>
                   <Typography variant='h5' style={{marginTop:"10px",  marginBottom:"10px"}}> Last Modified Documents </Typography>
@@ -267,16 +295,19 @@ const App = view(() => {
                 </div>
                
               </Paper>
+              </Animated>
             </Grid>
 
-            <Grid item xs={12} md={8} lg={6}>
+            
+
+            <Grid item xs={12} md={8} lg={12}>
               <Paper className={classes.fixedHeight2}>
               <div style={{width:'100%', display:'flex' , flexDirection:'row',justifyContent:"center" ,}}>
                   <Typography variant='h5' style={{marginTop:"10px",  marginBottom:"10px"}}> Unanswered questions </Typography>
                 </div>
 
                 <div style={{height:"80%",width:'100%'  , overflow:'auto'}}>
-                   <CheckboxList color="#ff9b21" img='images/document.png' icon='del'  data={appStore.deleted}/>
+                   <Question color="#ff9b21" img='images/document.png' icon='del'  data={appStore.UnAnswered}/>
                 </div>
                
               </Paper>
@@ -313,7 +344,7 @@ class MyView extends Component {
     Getlast();
     GetlastEdit();
     GetDash();
-
+    GetUnAnswered();
     GetCountdocType();
     GetCountdocDownload();
   }

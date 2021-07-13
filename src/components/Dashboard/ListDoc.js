@@ -23,14 +23,18 @@ const useStyles = makeStyles((theme) => ({
   },
 
   ListItems :{
-    width:30 ,
+    width:"25%" ,
     overflow:"hidden",
+    
+
 
   } ,
   ItemsText :{
     width:'98%',
       textOverflow: "ellipsis",
-        
+      whitespace: 'nowrap',
+      overflow:"hidden",
+      whiteSpace:"nowrap",
         margin:0
   } 
 }));
@@ -149,14 +153,14 @@ export const  Question = (props)=>{
               <LiveHelpIcon style={{marginTop:10,  marginBottom:10, color:'#ff9b21'}} />
                      
             </ListItemIcon>
-            <ListItemText id={labelId} className={classes.ListItems} ><p  className={classes.ItemsText} data-tip  data-for={value ? 'docname'+value.id : ""}>{value.decsiption}</p><p style={{margin:0,color:'grey'}}>{value.categorie}</p></ListItemText>
+            <ListItemText id={labelId} className={classes.ListItems}  style={{width:"44%"}} ><p  className={classes.ItemsText}  data-tip  data-for={value ? 'docname'+value.id : ""}>{value.decsiption}</p><p style={{margin:0,color:'grey'}}>{value.categorie}</p></ListItemText>
 
             <ListItemText id={labelId} className={classes.ListItems} ><p  className={classes.ItemsText}  data-tip  data-for={value ? 'date'+value.id : ""} >{ value.date}</p></ListItemText>
             <ListItemText id={labelId} className={classes.ListItems} ><p  sclassName={classes.ItemsText}  data-tip  data-for={value ? 'user'+value.id : ""}>{value.userQuest.nom+" " +value.userQuest.prenom }</p></ListItemText>
            
             
             <ReactTooltip id={value ? 'docname'+value.id : ""} aria-haspopup="true" role="example" >
-                    <p>{value ? value.nom : ""}</p>
+                    <p>{value ? value.decsiption : ""}</p>
             </ReactTooltip> 
 
              <ReactTooltip id={value ? 'date'+value.id : ""} aria-haspopup="true" role="example" >
