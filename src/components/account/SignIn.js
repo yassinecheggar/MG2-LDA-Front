@@ -18,6 +18,7 @@ import Alert from '@material-ui/lab/Alert';
 import Grow from '@material-ui/core/Grow';
 import { format } from 'date-fns';
 import appStore from "./store";
+import {Animated} from "react-animated-css";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -101,7 +102,9 @@ export default function SignIn() {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
+      
       <div className={classes.paper}>
+        <Animated animationIn="bounceInDown" animationOut="fadeOut" animationInDuration={2000} isVisible={true} >
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
@@ -110,6 +113,8 @@ export default function SignIn() {
         >
           Sign in
         </Typography>
+
+        </Animated>
 
         <Grow   in={msg} style={{ transformOrigin: '0 0 0' }} {...(msg ? { timeout: 1000 } : {})} >
 
@@ -120,6 +125,7 @@ export default function SignIn() {
         
 
         <form className={classes.form} noValidate>
+        <Animated animationIn="fadeInLeft" animationOut="fadeOut" animationInDuration={2100} isVisible={true} >
           <TextField
             value={user}
             variant="outlined"
@@ -127,12 +133,15 @@ export default function SignIn() {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label="username"
             name="email"
             autoComplete="email"
             onChange={event => setuser(event.target.value)}
             autoFocus
           />
+          </Animated>
+
+          <Animated animationIn="fadeInRight" animationOut="fadeOut" animationInDuration={2100} isVisible={true} >
           <TextField
             value={pwd}
             variant="outlined"
@@ -140,16 +149,15 @@ export default function SignIn() {
             required
             fullWidth
             name="password"
-            label="Password"
+            label="password"
             type="password"
             id="password"
             onChange={event => setpwd(event.target.value)}
             autoComplete="current-password"
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
+         </Animated>
+
+         <Animated animationIn="bounceIn" animationOut="fadeOut" animationInDuration={2500} isVisible={true} >
           <Button
             
             fullWidth
@@ -163,21 +171,10 @@ export default function SignIn() {
           >
             Sign In
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link  variant="body2"component={NavLink} to="/Home2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
+          </Animated>
         </form>
       </div>
-     
+      
     </Container>
   );
 }

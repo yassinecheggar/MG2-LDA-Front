@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBarShift: {
     marginLeft: drawerWidth,
-    background: 'linear-gradient(45deg, rgba(106, 113, 138,0.1), rgba(0, 0, 0,1))',
+    background: 'linear-gradient(45deg, rgba(0, 0, 0,0.1), rgba(0, 0, 0,1))',
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
@@ -99,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     whiteSpace: 'nowrap',
     width: drawerWidth,
-    background: 'linear-gradient(0deg, rgba(0, 1, 23,0.9), rgba(0, 1, 23,0.6)), url("images/drawerimg.jpg");  ',
+    background: 'linear-gradient(0deg, rgba(0, 0, 0,0.8), rgba(0, 0, 0,0.6)), url("images/drawerimg.jpg");  ',
     
   
   
@@ -125,7 +125,8 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     height: '100vh',
     background:
-    'linear-gradient(0deg, rgba(0,0,0,0.4), rgba(0,0,0,0.9))  ',
+    'linear-gradient(0deg, rgba(0,0,0,0.4), rgba(0,0,0,0.9)) ',
+   
   backgroundRepeat: "no-repeat",
   backgroundPosition: "Center",
     overflow: 'auto',

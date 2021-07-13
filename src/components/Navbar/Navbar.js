@@ -109,7 +109,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     whiteSpace: 'nowrap',
     width: drawerWidth,
-    background: 'linear-gradient(0deg, rgba(0, 0, 0,0.7), rgba(0, 0, 0,0.3)), url("images/draweradmin.jpg");  ',
+    background: 'linear-gradient(0deg, rgba(0, 0, 0,0.8), rgba(0, 0, 0,0.6)), url("images/drawerimg.jpg");  ',
   
   
     transition: theme.transitions.create('width', {
