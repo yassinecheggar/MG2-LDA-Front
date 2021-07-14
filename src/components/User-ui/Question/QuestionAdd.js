@@ -200,6 +200,7 @@ const useStyles = makeStyles((theme) => ({
             <form onSubmit={handleSubmit} noValidate >
               
               <Paper className='addpaper'> 
+              <div style ={{padding:20}}>
               { success ? <Onseccess /> : null }
           { error ? <OnError /> : null }
                 <Grid container alignItems="flex-start" spacing={2}  >
@@ -289,6 +290,7 @@ const useStyles = makeStyles((theme) => ({
                   </Grid>
 
                 </Grid>
+                </div>
               </Paper>
               
             </form>

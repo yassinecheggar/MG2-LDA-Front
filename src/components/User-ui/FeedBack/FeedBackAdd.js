@@ -229,6 +229,7 @@ const useStyles = makeStyles((theme) => ({
           render={({ handleSubmit, reset, submitting, pristine, values }) => (
             <form onSubmit={handleSubmit} noValidate>
               <Paper style={{ padding: 16 }}> 
+              <div style ={{padding:20}}>
               { success ? <Onseccess /> : null }
               { error ? <OnError /> : null }
                 <Grid container alignItems="flex-start" spacing={2}>
@@ -308,6 +309,7 @@ const useStyles = makeStyles((theme) => ({
                   </Grid>
 
                 </Grid>
+                </div>
               </Paper>
 
             </form>
@@ -322,6 +324,7 @@ const useStyles = makeStyles((theme) => ({
     return (
       <>
               <CssBaseline />
+              <div style ={{padding:20}}>
               <h3 style={{textAlign: 'center' ,color:'grey'}}>saisissez une reponses</h3>
 
               {appStore.Reponse.map(rep => {
@@ -344,7 +347,11 @@ return (
               </div>
              <div style={{height:20}}>
 
-             </div>    
+             </div>
+             </div>  
+
+               
+
       </>
     )
   })

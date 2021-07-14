@@ -207,8 +207,9 @@ const App = view(() => {
       >
         <Fade in={appStore.open}>
 
-            
+       
          <Paper className='Papercomp'>
+         <div style ={{padding:20}}>
                 <h2 style={{textAlign: 'center'}}> Best Practice</h2>
                <p style={{position:'absolute' ,bottom:0 ,  right:5 , margin:0 ,fontSize: 12}} >date:{selection ?selection.date : ""} </p>
                 <Divider/>
@@ -233,6 +234,7 @@ const App = view(() => {
                 </Tooltip>
                     );
                   })}
+                  </div>   
         </Paper>
         </Fade>
       </Modal>

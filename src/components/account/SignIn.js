@@ -105,6 +105,7 @@ export default function SignIn() {
       
       <div className={classes.paper}>
         <Animated animationIn="bounceInDown" animationOut="fadeOut" animationInDuration={2000} isVisible={true} >
+          <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
@@ -113,7 +114,7 @@ export default function SignIn() {
         >
           Sign in
         </Typography>
-
+        </div>
         </Animated>
 
         <Grow   in={msg} style={{ transformOrigin: '0 0 0' }} {...(msg ? { timeout: 1000 } : {})} >

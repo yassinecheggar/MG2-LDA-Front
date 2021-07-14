@@ -229,6 +229,7 @@ const App = view(() => {
 
             
          <Paper className='Papercomp' style={{overflow:'auto',maxHeight:'90vh'}}>
+           <div style ={{padding:20}}>
                 <h2 style={{textAlign: 'center'}}> FeedBack </h2>
                <p style={{position:'absolute' ,top:0 ,  right:5 , margin:0 ,fontSize: 12}} >date:{selection ?selection.date : ""} </p>
                 <Divider/>
@@ -258,7 +259,7 @@ const App = view(() => {
                 </div>
             );
           })}
-            <p className='PaperText' style={{color:'chocolate'}}>Resources</p>
+            {/* <p className='PaperText' style={{color:'chocolate'}}>Resources</p> */}
                 <div style={{display:'flex'}} >
                 {appStore.resources.map(res => {
                     return (
@@ -270,6 +271,7 @@ const App = view(() => {
                 </Tooltip>
                     );
                   })}
+        </div>
         </div>
         </Paper>
         </Fade>
