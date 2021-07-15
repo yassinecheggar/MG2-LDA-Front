@@ -361,7 +361,7 @@ return (
     if(params!=''){
       if(appStore.ResId.id !=''){
       try {
-        var jsonObj = {"id":0,"reponse":params ,"date": format(new Date(), "yyyy-MM-dd"),"repsonseFeedback":{"id":appStore.ResId.id} , "userReponse":{"id":110}  }
+        var jsonObj = {"id":0,"reponse":params ,"date": format(new Date(), "yyyy-MM-dd"),"repsonseFeedback":{"id":appStore.ResId.id} , "userReponse":{"id":window.sessionStorage.getItem("user")}  }
        var x =  (await axios.post(AppConfig.API+`Reponse/Add`, jsonObj ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})).status;
         if(x == 200){
          appStore.repoonsetext= ""; 

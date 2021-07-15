@@ -131,8 +131,9 @@ const useStyles = makeStyles((theme) => ({
   async function  PostRepose(params){
 
    try {
+     
       if(params!=''){
-        var jsonObj = {"id":0,"reponse":params ,"date": format(new Date(), "yyyy-MM-dd"),"repsonseQuestion":{"id":appStore.data[0].id} , "userReponse":{"id":110}  }
+        var jsonObj = {"id":0,"reponse":params ,"date": format(new Date(), "yyyy-MM-dd"),"repsonseQuestion":{"id":appStore.data[0].id} , "userReponse":{"id":window.sessionStorage.getItem("user")}  }
         var x =  (await axios.post(AppConfig.API+`Reponse/Add`, jsonObj,{ headers: JSON.parse( window.localStorage.getItem("ldat"))})).status;
         if(x === 200){
           axios.get(AppConfig.API+`Question/SetStatus/`+appStore.data[0].id, { headers: JSON.parse( window.localStorage.getItem("ldat"))})

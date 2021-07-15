@@ -26,6 +26,7 @@ import AppConfig from '../../Global';
 import './SearchStyle.css';
 import Fab from '@material-ui/core/Fab';
 import { format } from 'date-fns';
+import {Animated} from "react-animated-css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -200,6 +201,7 @@ const App = view(()  => {
       </Grid>
 
       <Grid item xs={12} md={12} lg={12}>
+      <Animated animationIn="fadeIn"  animationInDuration={2000} isVisible={true} >
         <Paper className={fixedHeightPaper}>
          
            
@@ -233,13 +235,14 @@ const App = view(()  => {
             }}
           />
         </Paper>
+        </Animated>
       </Grid>
 
 {/**---------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
       <Grid item xs={12} md={12} lg={8}  >
            
-                
+      <Animated animationIn="slideInLeft "  animationInDuration={2000} isVisible={true} >
                 <Paper elevation={5}  className={fixedHeightPaper} style={{background:'linear-gradient(0deg, rgba(0, 147, 233,0.4), rgba(0,0,0,0.8))' , position:'relative'} }>
                 <p className='docInfoTitle'>Document Informations </p>
                 <Grid
@@ -294,13 +297,13 @@ const App = view(()  => {
                :"" :""
               }
                 </Paper>
-            
+                </Animated>
 
       </Grid>
 
 
       <Grid item xs={12} md={12} lg={4}   >
-           
+      <Animated animationIn="slideInRight"  animationInDuration={2000} isVisible={true} >
                 <Paper className={fixedHeightPaper}  style={{position:'relative'}} >
 
                 <Comment />
@@ -313,7 +316,7 @@ const App = view(()  => {
 
                 </Paper>
             
-
+                </Animated>
       </Grid>
 
       

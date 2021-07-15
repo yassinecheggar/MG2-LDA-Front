@@ -22,9 +22,10 @@ import AppConfig from "../../Global";
 import ReactTooltip from "react-tooltip";
 import MenuItem from "@material-ui/core/MenuItem";
 import { format } from 'date-fns';
-
+import {Animated} from "react-animated-css";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 import { tr } from "date-fns/locale";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -292,6 +293,7 @@ function filterByValueDocNested(array, string, col) {
 const Activite = view(() => {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  var duration=1000;
   return (
     <>
       <Grid item xs={12} md={12} lg={12}>
@@ -305,14 +307,16 @@ const Activite = view(() => {
         </div>
       </Grid>
       {appStore.hasResult
-        ? appStore.res.map((value, index) => {
+        ? appStore.res.map((value, index) => { duration+=150;
             return (
               <Grid item xs={6} md={4} lg={3}>
+                <Animated animationIn="zoomInUp"   animationInDuration={duration} isVisible={true} >
                 <Paper className={classes.cardPage3}>
                   <div className="clickable" onClick={appActions.NextStepT}>
                     <h2 style={{color:'white'}} >{value.activite}</h2>
                   </div>
                 </Paper>
+                </Animated>
               </Grid>
             );
           })
@@ -324,6 +328,7 @@ const Activite = view(() => {
 const DocType = view(() => {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  var duration=1000;
   return (
     <>
       <Grid item xs={12} md={12} lg={12} style={{ position: "relative" }}>
@@ -344,14 +349,16 @@ const DocType = view(() => {
         </div>
       </Grid>
       {appStore.TypehasResul
-        ? appStore.Typeres.map((value, index) => {
+        ? appStore.Typeres.map((value, index) => { duration+=100;
             return (
               <Grid item xs={6} md={4} lg={3}>
+                 <Animated animationIn="zoomInUp"   animationInDuration={duration} isVisible={true} >
                 <Paper className={classes.cardPage2} >
                   <div className="clickable" onClick={appActions.previousStepD}>
                     <h2 style={{color:"white"}}>{value.typedoc}</h2>
                   </div>
                 </Paper>
+                </Animated>
               </Grid>
             );
           })
@@ -373,6 +380,7 @@ const DocList = view(() => {
   const outlinedInputClasses = useOutlinedInputStyles();
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  var duration=1000;
   return (
     <>
       <Grid item xs={12} md={12} lg={12} style={{ position: "relative" }}>
@@ -434,9 +442,10 @@ const DocList = view(() => {
         </div>
       </Grid>
       {appStore.Docres
-        ? appStore.Docres.map((value, index) => {
+        ? appStore.Docres.map((value, index) => { duration+=100;
             return (
               <Grid item xs={12} md={6} lg={3} style={{ marginTop: 40 }}>
+                <Animated animationIn="zoomInDown"   animationInDuration={duration} isVisible={true} >
                 <Paper className={classes.cardPage}>
                   <div style={{ display: "flex", position: "relative" }}>
                     <IconButton onClick={()=>{openFile(AppConfig.API + value.lien ,{ headers: JSON.parse( window.localStorage.getItem("ldat"))});
@@ -527,6 +536,7 @@ const DocList = view(() => {
                   </ReactTooltip>
 
                 </Paper>
+                </Animated>
               </Grid>
             );
           })
