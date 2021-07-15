@@ -253,7 +253,7 @@ const App = view(() => {
               
               <div style={{ display:'flex' ,  flexDirection:'column' ,  marginTop:0}}>
                       <div style={{display:'flex', justifyContent:'space-around' , padding:20 , paddingTop:5}}>
-                        <div style={{marginRight:30  , width:80,  fontSize:11 }}><p style={{marginTop:15,marginBottom:0 , textAlign:'center',color:'#42a4f5'}}>{rep? (rep.userReponse? rep.userReponse.nom +" " +rep.userReponse.prenom : "" ):''}</p><p style={{marginTop:0,marginBottom:0,textAlign:'center',color:'gray'}}>2021-05-01</p></div>
+                        <div style={{marginRight:30  , width:80,  fontSize:11 }}><p style={{marginTop:15,marginBottom:0 , textAlign:'center',color:'#42a4f5'}}>{rep? (rep.userReponse? rep.userReponse.nom +" " +rep.userReponse.prenom : "" ):''}</p><p style={{marginTop:0,marginBottom:0,textAlign:'center',color:'gray'}}>{rep ? rep.date : ""}</p></div>
                         <div style={{width:'100%'}}><p>{rep.reponse}</p></div>
                     </div>
                 </div>

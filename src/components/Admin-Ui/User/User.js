@@ -71,7 +71,7 @@ const columns = [
   { field: "nom", headerName: "Name", flex: 0.2 },
   { field: "prenom", headerName: "Prenom", flex: 0.2 },
   { field: "username", headerName: "Username", flex: 0.3 },
-  { field: "roles" , headerName: "rolos", flex: 0.1  ,valueGetter : ({ value }) =>value?  value[0].name : "no  val"},
+  { field: "roles" , headerName: "roles", flex: 0.1  ,valueGetter : ({ value }) =>value[0]?  value[0].name : "no role"},
   {
     field: "color",
     headerName: "Action",
